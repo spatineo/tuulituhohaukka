@@ -56,21 +56,21 @@
     "links": [
       {
         "rel": "collection",
-        "href": "./collection.json",
+        "href": "./dataset-time.json",
         "type": "application/json",
         "title": "Simple Example Collection"
       },
       {
         "rel": "root",
-        "href": "./collection.json",
+        "href": "./root.json",
         "type": "application/json",
-        "title": "Simple Example Collection"
+        "title": "Simple Example Root"
       },
       {
         "rel": "parent",
-        "href": "./collection.json",
+        "href": "./dataset-time.json",
         "type": "application/json",
-        "title": "Simple Example Collection"
+        "title": " Example dataset-time Collection"
       },
       {
         "rel": "alternate",
