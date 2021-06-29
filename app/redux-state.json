@@ -1,0 +1,36 @@
+{
+  "global": {
+    "bbox": {},
+    "time": {}
+  }, 
+
+  "UI": {
+    "maps": [
+      {
+        "id": 0, 
+        "sources": [],
+        "channelSettings": {},
+        "timestamps": {
+          "inspection": "timestamp",
+          "comparison": "timestamp"
+        },
+        "displayWindDamageVector": true, 
+        "displaySpyglass": false,
+        "panelBarSettings": {
+          "displayDataSourceList": false,
+          "displayVisualization": false
+        },
+        "fullScreen": null,
+        "mapSize": "small / medium / large"
+      }
+    ]
+  },
+
+   "data": {
+    "sources": [], 
+    "availableTimePeriods": [],
+    "windDamages": [],
+    "amountOfWindDamages": []
+   }
+
+}
