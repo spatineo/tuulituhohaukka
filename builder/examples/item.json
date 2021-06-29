@@ -41,7 +41,7 @@
       "description": "A sample STAC Item",
       "datetime": null,
       "start_datetime": "2020-12-11T22:38:32.125Z",
-      "end_datetime": "2020-12-11T22:38:32.327Z",
+      "end_datetime": "2020-12-11T22:38:32.327Z"
     },
     "collection": "dataset-time",
     "links": [
