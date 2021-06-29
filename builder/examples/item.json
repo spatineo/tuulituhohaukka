@@ -38,45 +38,17 @@
     },
     "properties": {
       "title": "Item",
-      "description": "A sample STAC Item that includes examples of all common metadata",
+      "description": "A sample STAC Item",
       "datetime": null,
       "start_datetime": "2020-12-11T22:38:32.125Z",
       "end_datetime": "2020-12-11T22:38:32.327Z",
-      "created": "2020-12-12T01:48:13.725Z",
-      "updated": "2020-12-12T01:48:13.725Z",
-      "platform": "cool_sat1",
-      "instruments": [
-        "cool_sensor_v1"
-      ],
-      "constellation": "ion",
-      "mission": "collection 5624",
-      "gsd": 0.512
     },
-    "collection": "simple-collection",
+    "collection": "dataset-time",
     "links": [
       {
-        "rel": "collection",
-        "href": "./dataset-time.json",
-        "type": "application/json",
-        "title": "Simple Example Collection"
-      },
-      {
-        "rel": "root",
-        "href": "./root.json",
-        "type": "application/json",
-        "title": "Simple Example Root"
-      },
-      {
-        "rel": "parent",
-        "href": "./dataset-time.json",
-        "type": "application/json",
-        "title": " Example dataset-time Collection"
-      },
-      {
-        "rel": "alternate",
-        "type": "text/html",
-        "href": "http://remotedata.io/catalog/20201211_223832_CS2/index.html",
-        "title": "HTML version of this STAC Item"
+        "rel": "self",
+        "href": "exaple_url",
+        "type": "application/geo+json"
       }
     ],
     "assets": {
@@ -97,8 +69,6 @@
             "gsd": 20,
             "sar:polarizations": ["VH"]
         },
-
-        
       "analytic": {
         "href": "https://storage.googleapis.com/open-cogs/stac-examples/20201211_223832_CS2_analytic.tif",
         "type": "image/tiff; application=geotiff; profile=cloud-optimized",
