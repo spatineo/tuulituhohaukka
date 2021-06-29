@@ -2,32 +2,12 @@
     "type": "Collection",
     "stac_version": "1.0.0",
     "stac_extensions": [
-      "https://stac-extensions.github.io/eo/v1.0.0/schema.json",
-      "https://stac-extensions.github.io/projection/v1.0.0/schema.json",
-      "https://stac-extensions.github.io/view/v1.0.0/schema.json"
+
     ],
-    "id": "Prouct, Time stamp XX",
-    "title": "Product, Time stamp XX",
-    "description": " XXX ",
+    "id": "Product, Time stamp XX",
+    "title": "Product, Time stamp XX, Not required",
+    "description": " XXX , Required ",
     "license": "proprietary",
-    "keywords": [
-      "copernicus",
-      "esa",
-      "eu",
-      "msi",
-      "radiance",
-      "sentinel"
-    ],
-    "providers": [
-      {
-        "name": "European Union/ESA/Copernicus",
-        "roles": [
-          "producer",
-          "licensor"
-        ],
-        "url": "https://sentinel.esa.int/web/sentinel/user-guides/sentinel-2-msi"
-      }
-    ],
     "extent": {
       "spatial": {
         "bbox": [
@@ -64,34 +44,6 @@
         "minimum": "2015-06-23T00:00:00Z",
         "maximum": "2019-07-10T13:44:56Z"
       },
-      "platform": [
-        "sentinel-2a",
-        "sentinel-2b"
-      ],
-      "constellation": [
-        "sentinel-2"
-      ],
-      "instruments": [
-        "msi"
-      ],
-      "view:off_nadir": {
-        "minimum": 0,
-        "maximum": 100
-      },
-      "view:sun_elevation": {
-        "minimum": 6.78,
-        "maximum": 89.9
-      },
-      "gsd": [
-        10,
-        30,
-        60
-      ],
-      "proj:epsg": [
-        32601,
-        32602,
-        32603
-      ],
       "eo:bands": [
         {
           "name": "B1",
@@ -107,77 +59,27 @@
           "name": "B3",
           "common_name": "green",
           "center_wavelength": 5.6
-        },
-        {
-          "name": "B4",
-          "common_name": "red",
-          "center_wavelength": 6.645
-        },
-        {
-          "name": "B5",
-          "center_wavelength": 7.039
-        },
-        {
-          "name": "B6",
-          "center_wavelength": 7.402
-        },
-        {
-          "name": "B7",
-          "center_wavelength": 7.825
-        },
-        {
-          "name": "B8",
-          "common_name": "nir",
-          "center_wavelength": 8.351
-        },
-        {
-          "name": "B8A",
-          "center_wavelength": 8.648
-        },
-        {
-          "name": "B9",
-          "center_wavelength": 9.45
-        },
-        {
-          "name": "B10",
-          "center_wavelength": 1.3735
-        },
-        {
-          "name": "B11",
-          "common_name": "swir16",
-          "center_wavelength": 1.6137
-        },
-        {
-          "name": "B12",
-          "common_name": "swir22",
-          "center_wavelength": 2.2024
         }
       ]
     },
     "links": [
       {
         "rel": "parent",
-        "href": "../catalog.json",
+        "href": "./dataset.json",
         "type": "application/json",
-        "title": "Example Catalog"
+        "title": "sentinel-2"
       },
       {
         "rel": "root",
-        "href": "../catalog.json",
+        "href": "./root.json",
         "type": "application/json",
-        "title": "Example Catalog"
+        "title": "Root"
       },
       {
         "rel": "child",
         "href": "../catalog.json",
-        "type": "application/json",
-        "title": "Example Dataset-time catalog"
-      },
-      {
-        "rel": "child",
-        "href": "../catalog.json",
-        "type": "application/json",
-        "title": "Example Dataset-time catalog 2"
+        "type": "application/geo+json",
+        "title": "20201211_223832_CS2"
       },
       {
         "rel": "license",
