@@ -1,1 +1,47 @@
+{
+    "type": "Collection",
+    "stac_version": "1.0.0",
+    "stac_extensions": [],
+    "id": "sentinel-2",
+    "description": "XX Required",
+    "extent": {
+      "spatial": {
+        "bbox": [
+          [
+            -180,
+            -56,
+            180,
+            83
+          ]
+        ]
+      },
+      "temporal": {
+        "interval": [
+          [
+            "2015-06-23T00:00:00Z",
+            null
+          ]
+        ]
+      }
+    },
+    "links": [
+      {
+        "rel": "root",
+        "href": "./root.json"
+      },
+      {
+        "rel": "child",
+        "href": "./dataset-time.json",
+        "dimension": [
+          [
+            "axis": "time",
+            "value": "2018-02-11"
+          ]
+        ]
+      {
+        "rel": "self",
+        "href": "https://raw.githubusercontent.com/radiantearth/stac-spec/v1.0.0/examples/collection.json"
+      }
+    ]
+  }
 
