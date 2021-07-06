@@ -22,7 +22,7 @@ const configureStore = () => {
 
 const store = configureStore()
 
-function App() {
+const App = (): JSX.Element => {
   return (
     <Provider store={store}>
       <MainView />
@@ -31,3 +31,6 @@ function App() {
 }
 
 export default App;
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
