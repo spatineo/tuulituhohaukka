@@ -1,10 +1,10 @@
 import {LOAD_DATA, SET_DATA} from '../Actions/data'
 
 const initialState = {
-  jsonFile: null
+  jsonFile: undefined
 }
 
-const dataReducer = (state = initialState, action: any) => {
+const dataReducer = (state = initialState, action: any): any => {
   switch (action.type) {
     case LOAD_DATA: 
       return {
