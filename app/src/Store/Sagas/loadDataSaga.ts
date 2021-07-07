@@ -2,11 +2,12 @@ import { takeLatest, call, put } from "@redux-saga/core/effects"
 import { LOAD_DATA } from "../Actions/data"
 import {setData} from '../Actions/data'
 
-import jsonFile from '../../redux-state.json'
+import jsonFile from '../../TestData/redux-state.json'
+import dummyData from '../../TestData/dummy-data.json'
 
 const getData = async() => {
   // return fetch('url').then(res => res.json())
-  return jsonFile
+  return dummyData
 }
 
 export function* loadDataWatcher(): any {
