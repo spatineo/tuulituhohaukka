@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 
 const MainView = () => {
   const dispatch = useDispatch()
-  const data = useSelector((state: any) => state.data.jsonFile)
+  const data = useSelector((state: any) => state.data)
   console.log(JSON.stringify(data))
 
   const getDataFromRedux = () => {
