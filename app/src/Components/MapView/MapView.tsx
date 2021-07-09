@@ -49,7 +49,6 @@ const MapView: React.FC = () => {
           </Grid>
         </Grid>
       </div>
-
     </div>
   )
 }
@@ -62,12 +61,12 @@ const useStyles = makeStyles(() =>
     },
     buttonContainer: {
       height: '100%',
+      aspectRatio: '1/1',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'flex-start',
       border: 'solid red 1px',
-      padding: '1rem',
     },
     mapsContainer: {
       width: '100%',
