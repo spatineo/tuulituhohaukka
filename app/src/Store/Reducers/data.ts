@@ -30,6 +30,9 @@ const dataReducer = createReducer(initialState, {
     state.data.global.fullScreen = action.payload.data.global.fullScreen
     state.data.global.mapSize = action.payload.data.global.mapSize
     state.data.maps = action.payload.maps
+    state.cache.catalogue = action.payload.cache.catalogue.id
+    state.cache.sources = action.payload.cache.sources
+    state.cache.windDamages = action.payload.cache.windDamages
   }
 })
 
