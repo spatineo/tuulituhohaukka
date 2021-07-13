@@ -35,18 +35,6 @@ const MapView: React.FC = () => {
           <Grid container direction='column' item xs={4} alignItems='center'>
             <MapComponent />
           </Grid>
-          <Grid container direction='column' item xs={4} alignItems='center'>
-            <MapComponent />
-          </Grid>
-          <Grid container direction='column' item xs={4} alignItems='center'>
-            <MapComponent />
-          </Grid>
-          <Grid container direction='column' item xs={4} alignItems='center'>
-            <MapComponent />
-          </Grid>
-          <Grid container direction='column' item xs={4} alignItems='center'>
-            <MapComponent />
-          </Grid>
         </Grid>
       </div>
     </div>
