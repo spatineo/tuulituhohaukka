@@ -2,7 +2,9 @@
 import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { ExpandMore } from '@material-ui/icons/'
+import { Accordion, AccordionSummary } from '@material-ui/core'
 
+import CustomAccordion from './CustomAccordion'
 
 // interface interfaceName {
 //   value: string
@@ -20,13 +22,16 @@ const MapComponent: React.FC = () => {
           <div>button</div>
         </div>
         <div className={classes.menuContainer}>
-          <div className={classes.dataSources}>
-            Aineistot
-            <ExpandMore />
+
+          <div className={classes.dropDown}>
+            <CustomAccordion />
           </div>
-          <div className={classes.visualization}>
-            Visualisointi
-            <ExpandMore />
+
+
+
+
+          <div className={classes.dropDown}>
+            <CustomAccordion />
           </div>
         </div>
       </div>
@@ -67,31 +72,11 @@ const useStyles = makeStyles(() =>
       width: '100%',
       justifyContent: 'center',
       alignItems: 'center',
-      borderBottom: 'solid black 1px',
-      borderLeft: 'solid black 1px',
-      borderRight: 'solid black 1px',
-      borderBottomLeftRadius: '5px',
-      borderBottomRightRadius: '5px',
     },
-    dataSources: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
+    dropDown: {
       width: '100%',
       height: '100%',
-      paddingLeft: '30px',
-      paddingRight: '10px',
-      borderRight: 'solid black 1px'
     },
-    visualization: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      width: '100%',
-      height: '100%',
-      paddingLeft: '30px',
-      paddingRight: '10px',
-    }
   }))
 
 export default MapComponent
