@@ -1,10 +1,7 @@
 
 import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
-import { ExpandMore } from '@material-ui/icons/'
-import { Accordion, AccordionSummary } from '@material-ui/core'
-
-import CustomAccordion from './CustomAccordion'
+import SourcesAccordion from './SourcesAccordion'
 
 // interface interfaceName {
 //   value: string
@@ -15,7 +12,10 @@ const MapComponent: React.FC = () => {
   return (
     <div>
       <div className={classes.mapContainer}>
-        <div className={classes.mapBox}>map box</div>
+        <div className={classes.mapBox}>
+          map box
+
+        </div>
         <div className={classes.footer}>
           <div>2021-08</div>
           <div>tuulituhotunnistus</div>
@@ -24,19 +24,14 @@ const MapComponent: React.FC = () => {
         <div className={classes.menuContainer}>
 
           <div className={classes.dropDown}>
-            <CustomAccordion />
+            <SourcesAccordion />
           </div>
-
-
-
-
           <div className={classes.dropDown}>
-            <CustomAccordion />
+
           </div>
         </div>
       </div>
     </div>
-
   )
 }
 
@@ -47,7 +42,7 @@ const useStyles = makeStyles(() =>
       flexDirection: 'column',
       justifyContent: 'flex-start',
       alignItems: 'center',
-      height: '300px',
+      height: '350px',
       aspectRatio: '4/3',
     },
     mapBox: {
