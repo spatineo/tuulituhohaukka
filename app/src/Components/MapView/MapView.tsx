@@ -67,11 +67,13 @@ const useStyles = makeStyles(() =>
       alignItems: 'center',
       justifyContent: 'flex-start',
       border: 'solid red 1px',
+      marginLeft: '20px',
+      marginRight: '20px',
     },
     mapsContainer: {
       width: '100%',
       height: '100%',
-      border: 'solid blue 1px'
+      // border: 'solid blue 1px'
     }
   }))
 
