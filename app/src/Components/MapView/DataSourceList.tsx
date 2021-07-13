@@ -1,17 +1,18 @@
 import * as React from 'react'
-import { createStyles, makeStyles } from '@material-ui/styles'
 import { useSelector } from 'react-redux'
 
 import SourceDataListItem from './DataSourceListItem'
+import { RootState } from '../../App'
 
-// interface interfaceName {
-//   value: string
-// }
+interface Source {
+  id: string
+  name: string
+  channelSelectorType: string
+}
 
 const DataSourceList: React.FC = () => {
   const [selectedValue, setSelectedValue] = React.useState('')
-  const classes = useStyles()
-  const sources = useSelector((state: any) => state.data.cache.sources)
+  const sources = useSelector((state: RootState) => state.data.cache.sources)
   console.log('Source from redux are: ', sources)
 
   const handleChange = (value: string) => {
@@ -20,8 +21,9 @@ const DataSourceList: React.FC = () => {
 
   return (
     <div>
-      {sources.map((source: any) =>
+      {sources.map((source: Source) =>
         <SourceDataListItem
+          id={source.id}
           selectedValue={selectedValue}
           name={source.name}
           onChange={handleChange}
@@ -29,10 +31,5 @@ const DataSourceList: React.FC = () => {
     </div>
   )
 }
-
-const useStyles = makeStyles(() =>
-  createStyles({
-
-  }))
 
 export default DataSourceList
