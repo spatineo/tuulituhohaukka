@@ -54,7 +54,6 @@ const useStyles = makeStyles(() =>
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'flex-start',
-      border: 'solid red 1px',
       marginLeft: '20px',
       marginRight: '20px',
     },
