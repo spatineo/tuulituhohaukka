@@ -5,9 +5,11 @@ import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 
+import DataSourceList from './DataSourceList'
+
 const Accordion = withStyles({
   root: {
-
+    boxSizing: 'border-box',
     border: '1px solid rgba(0, 0, 0, .125)',
     boxShadow: 'none',
     '&:not(:last-child)': {
@@ -63,11 +65,7 @@ export default function CustomizedAccordions() {
           <Typography>Aineistot</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-            sit amet blandit leo lobortis eget. Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
+          <DataSourceList />
         </AccordionDetails>
       </Accordion>
     </div>
