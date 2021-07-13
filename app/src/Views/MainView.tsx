@@ -14,7 +14,7 @@ const MainView = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const data = useSelector((state: any) => state.data)
-  console.log(JSON.stringify(data))
+  console.log(data)
 
   const getDataFromRedux = () => {
     dispatch(loadData())
@@ -23,7 +23,9 @@ const MainView = () => {
   return (
     <div className="App">
       <h1>Tuulituhohaukka 🌪 💥 🦅 </h1>
-      <button onClick={() => getDataFromRedux()}>
+      <button
+        className={classes.reduxLoadButton}
+        onClick={() => getDataFromRedux()}>
         Load data and get it from Redux
       </button>
 
@@ -43,6 +45,9 @@ const MainView = () => {
 
 const useStyles = makeStyles(() =>
   createStyles({
+    reduxLoadButton: {
+      margin: '50px',
+    },
     root: {
       flexGrow: 1,
       height: '1000px',
