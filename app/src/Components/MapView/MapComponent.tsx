@@ -2,6 +2,8 @@
 import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import SourcesAccordion from './SourcesAccordion'
+import Map from './Map'
+
 
 // interface interfaceName {
 //   value: string
@@ -13,7 +15,7 @@ const MapComponent: React.FC = () => {
     <div>
       <div className={classes.mapContainer}>
         <div className={classes.mapBox}>
-          map box
+          <Map />
 
         </div>
         <div className={classes.footer}>
