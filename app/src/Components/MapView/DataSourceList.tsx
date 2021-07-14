@@ -23,7 +23,7 @@ const DataSourceList: React.FC = () => {
     <div>
       {sources.map((source: Source) =>
         <SourceDataListItem
-          id={source.id}
+          key={source.id}
           selectedValue={selectedValue}
           name={source.name}
           onChange={handleChange}
