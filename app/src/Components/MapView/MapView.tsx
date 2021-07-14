@@ -31,8 +31,14 @@ const MapView: React.FC = () => {
         </ThemeProvider>
       </div>
       <div className={classes.mapsContainer}>
-        <Grid container justify='flex-start' spacing={10}>
-          <Grid container direction='column' item xs={4} alignItems='center'>
+        <Grid container justify='flex-start' spacing={6} style={{ width: '100%' }}>
+          <Grid container direction='column' item xs={12} md={6} lg={4} alignItems='center'>
+            <MapComponent />
+          </Grid>
+          <Grid container direction='column' item xs={12} md={6} lg={4} alignItems='center'>
+            <MapComponent />
+          </Grid>
+          <Grid container direction='column' item xs={12} md={6} lg={4} alignItems='center'>
             <MapComponent />
           </Grid>
         </Grid>
@@ -54,12 +60,12 @@ const useStyles = makeStyles(() =>
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'flex-start',
-      marginLeft: '20px',
-      marginRight: '20px',
+      marginLeft: '10px',
+      marginRight: '10px',
     },
     mapsContainer: {
-      width: '100%',
       height: '100%',
+      width: window.innerWidth,
       // border: 'solid blue 1px'
     }
   }))
