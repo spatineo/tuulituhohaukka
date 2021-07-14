@@ -43,7 +43,7 @@ const useStyles = makeStyles(() =>
       flexDirection: 'column',
       justifyContent: 'flex-start',
       alignItems: 'center',
-      height: '250px',
+      height: '350px',
       aspectRatio: '4/3',
     },
     mapBox: {
@@ -72,6 +72,7 @@ const useStyles = makeStyles(() =>
     dropDown: {
       width: '100%',
       height: '100%',
+      zIndex: 10,
     },
   }))
 
