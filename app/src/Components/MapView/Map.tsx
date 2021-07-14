@@ -6,7 +6,7 @@ import * as layer from 'ol/layer'
 import * as source from 'ol/source'
 import * as style from 'ol/style'
 import * as extent from 'ol/extent'
-import { useCallback } from 'react'
+import 'ol/ol.css'
 
 interface State {
   showLens: boolean
@@ -23,7 +23,7 @@ const Map: React.FC = () => {
   const [state, setState] = React.useState<State>(initialState)
   const mapRef = React.useRef()
 
-  const initiaizeOL = useCallback(() => {
+  const initiaizeOL = React.useCallback(() => {
     const map = new ol.Map({
       target: mapRef.current,
       layers: [
