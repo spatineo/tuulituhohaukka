@@ -16,7 +16,6 @@ const MapComponent: React.FC = () => {
       <div className={classes.mapContainer}>
         <div className={classes.mapBox}>
           <Map />
-
         </div>
         <div className={classes.footer}>
           <div>2021-08</div>
@@ -44,7 +43,7 @@ const useStyles = makeStyles(() =>
       flexDirection: 'column',
       justifyContent: 'flex-start',
       alignItems: 'center',
-      height: '350px',
+      height: '250px',
       aspectRatio: '4/3',
     },
     mapBox: {
