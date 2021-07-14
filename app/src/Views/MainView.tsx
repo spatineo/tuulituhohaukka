@@ -31,10 +31,10 @@ const MainView = () => {
 
       <div className={classes.root}>
         <Grid container className={classes.container}>
-          <Grid item xs={2} className={classes.border}>
+          <Grid item xs={4} md={3} lg={2} className={classes.border}>
             <SidePanel />
           </Grid>
-          <Grid item xs={10} className={classes.border}>
+          <Grid item xs={8} md={9} lg={10} className={classes.border}>
             <MapView />
           </Grid>
         </Grid>
