@@ -4,7 +4,7 @@ import { green } from '@material-ui/core/colors';
 import { Radio, RadioProps } from '@material-ui/core'
 
 interface Props {
-  id: string
+  key: string
   name: string
   onChange: (value: string) => void
   selectedValue: string
