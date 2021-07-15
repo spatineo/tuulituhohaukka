@@ -1,9 +1,11 @@
 
 import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
-import SourcesAccordion from './SourcesAccordion'
+import SlimAccordion from './SlimAccordion'
 import Map from './Map'
 
+import DataSourceList from './SourceList/DataSourceList'
+import NormalVisualization from './Visualization/NormalVisualization'
 
 // interface interfaceName {
 //   value: string
@@ -23,12 +25,15 @@ const MapComponent: React.FC = () => {
           <div>button</div>
         </div>
         <div className={classes.menuContainer}>
-
           <div className={classes.dropDown}>
-            <SourcesAccordion />
+            <SlimAccordion name={'Aineistot'}>
+              <DataSourceList />
+            </SlimAccordion>
           </div>
           <div className={classes.dropDown}>
-
+            <SlimAccordion name={'Visualisointi'}>
+              <NormalVisualization />
+            </SlimAccordion>
           </div>
         </div>
       </div>
