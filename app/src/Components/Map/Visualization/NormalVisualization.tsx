@@ -2,7 +2,6 @@ import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { Grid } from '@material-ui/core'
 
-import Circle from './Circle'
 import ChannelColorTile from './ChannelColorTile'
 
 // interface interfaceName {
