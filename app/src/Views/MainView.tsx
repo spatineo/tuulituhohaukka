@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { Grid } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
-import MapView from '../Components/MapView/MapView'
+import MapView from './MapView'
 import SidePanel from '../Components/SidePanel/SidePanel'
 
 
