@@ -4,8 +4,7 @@ import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
-
-import DataSourceList from './DataSourceList'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 const Accordion = withStyles({
   root: {
@@ -51,7 +50,12 @@ const AccordionDetails = withStyles((theme) => ({
   },
 }))(MuiAccordionDetails);
 
-export default function CustomizedAccordions() {
+interface Props {
+  children: React.ReactNode
+  name: string
+}
+
+const SlimAccordion: React.FC<Props> = ({ children, name }) => {
   const [expanded, setExpanded] = React.useState<string | false>('panel1');
 
   const handleChange = (panel: string) => (event: React.ChangeEvent<Record<string, unknown>>, newExpanded: boolean) => {
@@ -61,13 +65,15 @@ export default function CustomizedAccordions() {
   return (
     <div>
       <Accordion square expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <Typography>Aineistot</Typography>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header" >
+          <Typography>{name}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <DataSourceList />
+          {children}
         </AccordionDetails>
       </Accordion>
     </div>
   );
 }
+
+export default SlimAccordion
