@@ -3,7 +3,7 @@ import { createStyles, makeStyles, ThemeProvider, createMuiTheme } from '@materi
 import { green } from '@material-ui/core/colors'
 import { Button, Grid } from '@material-ui/core'
 
-import MapComponent from './MapComponent'
+import MapComponent from '../Components/Map/MapComponent'
 
 // interface interfaceName {
 //   value: string
