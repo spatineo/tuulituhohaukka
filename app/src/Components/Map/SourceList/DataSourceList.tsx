@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useSelector } from 'react-redux'
 
 import SourceDataListItem from './DataSourceListItem'
-import { RootState } from '../../App'
+import { RootState } from '../../../App'
 
 interface Source {
   id: string
