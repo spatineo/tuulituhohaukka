@@ -2,13 +2,15 @@ import * as React from 'react'
 import { createStyles, makeStyles, withStyles } from '@material-ui/styles'
 import { green } from '@material-ui/core/colors';
 import { Radio, RadioProps } from '@material-ui/core'
+import { ListChildComponentProps } from 'react-window'
+import { isNamedExports } from 'typescript';
 
-interface Props {
-  key: string
-  name: string
-  onChange: (value: string) => void
-  selectedValue: string
-}
+// interface Props {
+//   key: string
+//   name: string
+//   onChange: (value: string) => void
+//   selectedValue: string
+// }
 
 const GreenRadio = withStyles({
   root: {
@@ -20,14 +22,16 @@ const GreenRadio = withStyles({
   checked: {},
 })((props: RadioProps) => <Radio color="default" {...props} />);
 
-const DataSourceListItem: React.FC<Props> = ({ name, onChange, selectedValue }) => {
+const DataSourceListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
+  const name = data.sources[index].name
+  const selectedValue = data.selectedValue
   const classes = useStyles()
   return (
-    <div className={classes.listItemContainer}>
+    <div className={classes.listItemContainer} style={style}>
       <GreenRadio
         checked={selectedValue === name}
-        onChange={() => onChange(name)}
-        value={name}
+        onChange={() => data.onChange(name)}
+        value={isNamedExports}
       />
       {name}
     </div>
