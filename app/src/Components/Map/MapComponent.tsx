@@ -1,5 +1,7 @@
 
 import * as React from 'react'
+import { useSelector } from 'react-redux'
+import { ReduxState, Source } from '../../types'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import SlimAccordion from './SlimAccordion'
 import Map from './Map'
@@ -12,6 +14,8 @@ import NormalVisualization from './Visualization/NormalVisualization'
 // }
 
 const MapComponent: React.FC = () => {
+  const sources = useSelector((state: ReduxState): Array<Source> => state.data.cache.sources)
+
   const classes = useStyles()
   return (
     <div>
@@ -27,7 +31,7 @@ const MapComponent: React.FC = () => {
         <div className={classes.menuContainer}>
           <div className={classes.dropDown}>
             <SlimAccordion name={'Aineistot'}>
-              <DataSourceList />
+              <DataSourceList sources={sources} />
             </SlimAccordion>
           </div>
           <div className={classes.dropDown}>
