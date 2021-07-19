@@ -67,9 +67,9 @@ export interface Catalogue {
 }
 
 export interface Source {
-  id: string
+  id?: string
   name: string
-  channelSelectorType: string
+  channelSelectorType?: string
 }
 
 export interface WindDamages {
