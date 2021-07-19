@@ -30,7 +30,7 @@
           },
           "mapLayers": [
             [
-              {
+               {
                 "linkToMapImage": "https://vemaps.com/uploads/img/fi-05.png",
                 "srs": "EPSG:3067"
               }
@@ -77,6 +77,36 @@
       "id": "1"
     },
     "sources": [
+      {
+        "id": "S1M",
+        "name": "S1M (sentinel 1 mosaic)",
+        "channelSelectorType": "sentinel"
+      }, 
+      {
+        "id": "S2M",
+        "name": "S2M (sentinel 2 mosaic)",
+        "channelSelectorType": "sentinel"
+      },
+      {
+        "id": "Metsä1",
+        "name": "Metsä1 (Metsävara 1 mosaic)",
+        "channelSelectorType": "metsävara"
+      },
+      {
+        "id": "S1M",
+        "name": "S1M (sentinel 1 mosaic)",
+        "channelSelectorType": "sentinel"
+      }, 
+      {
+        "id": "S2M",
+        "name": "S2M (sentinel 2 mosaic)",
+        "channelSelectorType": "sentinel"
+      },
+      {
+        "id": "Metsä1",
+        "name": "Metsä1 (Metsävara 1 mosaic)",
+        "channelSelectorType": "metsävara"
+      },
       {
         "id": "S1M",
         "name": "S1M (sentinel 1 mosaic)",
