@@ -7,8 +7,12 @@ import SearchIcon from '@material-ui/icons/Search'
 
 import DataSourceListItem from './DataSourceListItem'
 
-const DataSourceList: React.FC = () => {
-  const sources = useSelector((state: ReduxState): Array<Source> => state.data.cache.sources)
+interface Props {
+  sources: Source[]
+}
+
+const DataSourceList: React.FC<Props> = ({ sources }) => {
+
   console.log('Source from redux are: ', sources)
   const [selectedValue, setSelectedValue] = React.useState('')
   const [searchText, setSearchText] = React.useState('')
