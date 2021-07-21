@@ -11,6 +11,16 @@ import DataSourceList from '../SourceList/DataSourceList'
 // }
 
 const NormalVisualization: React.FC = () => {
+  // Get State from Redux
+  // const sources = useSelector((state: ReduxState): Array<Source> => state.data.cache.sources)
+
+
+  const [clickedColorTile, setClickedColorTile] = React.useState('')
+  const [redCircleValue, setRedCircleValue] = React.useState('')
+  const [greenCircleValue, setGreenCircleValue] = React.useState('')
+  const [blueCircleValue, setBlueCircleValue] = React.useState('')
+
+
   const classes = useStyles()
 
   const sources = [
@@ -22,29 +32,77 @@ const NormalVisualization: React.FC = () => {
     }
   ]
 
+  const setClicked = (value: string) => {
+    setClickedColorTile(value)
+  }
+
+  const switchListColor = (clickedColorTile: string) => {
+    switch (clickedColorTile) {
+      case 'R': {
+        return (
+          <Grid item xs={10} >
+            <SlimAccordion name={'list'}>
+              <DataSourceList sources={sources} color={'R'} setColorValue={setRedCircleValue} />
+            </SlimAccordion>
+          </Grid>
+        )
+      }
+      case 'G': {
+        return (
+          <Grid item xs={10} >
+            <SlimAccordion name={'list'}>
+              <DataSourceList sources={sources} color={'G'} setColorValue={setGreenCircleValue} />
+            </SlimAccordion>
+          </Grid>
+        )
+      }
+      case 'B': {
+        return (
+          <Grid item xs={10} >
+            <SlimAccordion name={'list'}>
+              <DataSourceList sources={sources} color={'B'} setColorValue={setBlueCircleValue} />
+            </SlimAccordion>
+          </Grid>
+        )
+      }
+      default: {
+        return (
+          <Grid item xs={10} >
+            <SlimAccordion name={'list'}>
+
+              <DataSourceList sources={sources} color={'R'} />
+            </SlimAccordion>
+          </Grid>
+        )
+
+      }
+    }
+
+  }
+
+
   return (
-    <div style={{ paddingTop: '10px', paddingBottom: '10px' }}>
+    <div style={{ width: '100%', paddingTop: '10px', paddingBottom: '10px' }}>
       <Grid container direction='column' spacing={2}>
-        <Grid container item direction='row' spacing={1}>
-          <Grid item xs={4}>
-            <ChannelColorTile text={'VV'} letter={'R'} color={'red'} />
+
+        <Grid container item direction='row' justify='center'>
+          <Grid item xs={3}>
+            <ChannelColorTile text={redCircleValue} letter={'R'} color={'red'} setClicked={setClicked} />
           </Grid>
-          <Grid item xs={4}>
-            <ChannelColorTile text={'VV'} letter={'G'} color={'rgb(70,198,25)'} />
+          <Grid item xs={3}>
+            <ChannelColorTile text={greenCircleValue} letter={'G'} color={'rgb(70,198,25)'} setClicked={setClicked} />
           </Grid>
-          <Grid item xs={4}>
-            <ChannelColorTile text={'VV'} letter={'B'} color={'rgb(0,143,225)'} />
+          <Grid item xs={3}>
+            <ChannelColorTile text={blueCircleValue} letter={'B'} color={'rgb(0,143,225)'} setClicked={setClicked} />
           </Grid>
         </Grid>
 
-        <Grid container item justify='center' >
-          <SlimAccordion name={'list'}>
-            <DataSourceList sources={sources} />
-          </SlimAccordion>
+        <Grid container item direction='row' justify='center' >
+          {switchListColor(clickedColorTile)}
         </Grid>
       </Grid>
 
-    </div>
+    </div >
   )
 }
 
