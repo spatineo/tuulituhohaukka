@@ -14,14 +14,12 @@ const MainView = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const data = useSelector((state: any): Data => state.dataReducer.data)
-  console.log('All data from Redux: ', data)
 
   const getDataFromRedux = () => {
     dispatch(loadData())
   }
 
   React.useEffect(() => {
-    console.log('Action dispatched for fetching data')
     getDataFromRedux()
   }, [])
 
