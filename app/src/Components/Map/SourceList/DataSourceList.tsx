@@ -6,19 +6,24 @@ import { Grid, Input, InputAdornment } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 
 import DataSourceListItem from './DataSourceListItem'
+import { useEffect } from 'react'
 
 interface Props {
-  sources: Source[]
+  sources: Source[],
+  color?: string
+  setColorValue?: (string: string) => void
 }
 
-const DataSourceList: React.FC<Props> = ({ sources }) => {
-
+const DataSourceList: React.FC<Props> = ({ sources, color, setColorValue }) => {
   console.log('Source from redux are: ', sources)
   const [selectedValue, setSelectedValue] = React.useState('')
   const [searchText, setSearchText] = React.useState('')
 
   const handleChange = (value: string) => {
     setSelectedValue(value)
+    if (setColorValue) {
+      setColorValue(value)
+    }
   }
 
   const searchAndFilter = (input: string) => {
@@ -33,7 +38,7 @@ const DataSourceList: React.FC<Props> = ({ sources }) => {
   const filteredSources = searchAndFilter(searchText)
 
   return (
-    <div>
+    <div style={{ width: '100%' }}>
       <Grid container direction='column' spacing={2}>
         <Grid container item direction='row' xs={12} justify='center'>
           <Input
@@ -52,7 +57,7 @@ const DataSourceList: React.FC<Props> = ({ sources }) => {
               width={200}
               itemSize={30}
               itemCount={filteredSources.length}
-              itemData={{ sources: filteredSources, selectedValue: selectedValue, onChange: handleChange }}>
+              itemData={{ sources: filteredSources, selectedValue: selectedValue, onChange: handleChange, color: color }}>
               {DataSourceListItem}
             </FixedSizeList>
           </Grid>
