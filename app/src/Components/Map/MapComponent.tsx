@@ -11,14 +11,12 @@ import DataSourceList from './SourceList/DataSourceList'
 import NormalVisualization from './Visualization/NormalVisualization'
 
 interface Props {
-  data: Map
+  data: Map,
+  mapComponentIndex: number
 }
 
-const MapComponent: React.FC<Props> = () => {
+const MapComponent: React.FC<Props> = ({ data, mapComponentIndex }) => {
   const sources = useSelector((state: any): Array<Source> => state.dataReducer.cache.sources)
-  console.log('sources form Redux: ', sources)
-
-  // 1. Fetch channel settings data from redux
 
   const classes = useStyles()
   return (
@@ -35,13 +33,12 @@ const MapComponent: React.FC<Props> = () => {
         <div className={classes.menuContainer}>
           <div className={classes.dropDown}>
             <SlimAccordion name={'Aineistot'}>
-              <DataSourceList sources={sources} />
+              <DataSourceList sources={sources} mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
           </div>
           <div className={classes.dropDown}>
-            {/* 2. pass Channel settings data to NormalVisualization component */}
             <SlimAccordion name={'Visualisointi'}>
-              <NormalVisualization />
+              <NormalVisualization channelSettings={data.channelSettings} mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
           </div>
         </div>
