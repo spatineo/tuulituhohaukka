@@ -11,9 +11,9 @@
         "id": 0,
         "selectedSource": null,
         "channelSettings": {
-          "R": null,
-          "G": null,
-          "B": null
+          "R": "",
+          "G": "",
+          "B": ""
         },
         "displayWindDamageVector": true,
         "displaySpyglass": false,
