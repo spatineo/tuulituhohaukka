@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { createStyles, makeStyles, withStyles } from '@material-ui/styles'
-import { green } from '@material-ui/core/colors';
+import { green, red, blue } from '@material-ui/core/colors';
 import { Radio, RadioProps } from '@material-ui/core'
 import { ListChildComponentProps } from 'react-window'
 import { isNamedExports } from 'typescript';
@@ -22,20 +22,86 @@ const GreenRadio = withStyles({
   checked: {},
 })((props: RadioProps) => <Radio color="default" {...props} />);
 
+const RedRadio = withStyles({
+  root: {
+    color: red[400],
+    '&$checked': {
+      color: red[600],
+    },
+  },
+  checked: {},
+})((props: RadioProps) => <Radio color="default" {...props} />);
+
+const BlueRadio = withStyles({
+  root: {
+    color: blue[400],
+    '&$checked': {
+      color: blue[600],
+    },
+  },
+  checked: {},
+})((props: RadioProps) => <Radio color="default" {...props} />);
+
+
+
 const DataSourceListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
   const name = data.sources[index].name
   const selectedValue = data.selectedValue
+  const color = data.color
   const classes = useStyles()
-  return (
-    <div className={classes.listItemContainer} style={style}>
-      <GreenRadio
-        checked={selectedValue === name}
-        onChange={() => data.onChange(name)}
-        value={isNamedExports}
-      />
-      {name}
-    </div>
-  )
+
+  switch (color) {
+    case 'R': {
+      return (
+        <div className={classes.listItemContainer} style={style}>
+          <RedRadio
+            checked={selectedValue === name}
+            onChange={() => data.onChange(name)}
+            value={isNamedExports}
+          />
+          {name}
+        </div>
+      )
+    }
+    case 'G': {
+      return (
+        <div className={classes.listItemContainer} style={style}>
+          <GreenRadio
+            checked={selectedValue === name}
+            onChange={() => data.onChange(name)}
+            value={isNamedExports}
+          />
+          {name}
+        </div>
+      )
+    }
+    case 'B': {
+      return (
+        <div className={classes.listItemContainer} style={style}>
+          <BlueRadio
+            checked={selectedValue === name}
+            onChange={() => data.onChange(name)}
+            value={isNamedExports}
+          />
+          {name}
+        </div>
+      )
+    }
+    default: {
+      return (
+        <div className={classes.listItemContainer} style={style}>
+          <GreenRadio
+            checked={selectedValue === name}
+            onChange={() => data.onChange(name)}
+            value={isNamedExports}
+          />
+          {name}
+        </div>
+      )
+    }
+  }
+
+
 }
 
 const useStyles = makeStyles(() =>
