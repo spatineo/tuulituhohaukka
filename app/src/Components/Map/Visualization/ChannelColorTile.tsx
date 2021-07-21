@@ -8,9 +8,10 @@ interface Props {
   text: string
   letter: string
   color: string
+  setClicked: any
 }
 
-const ChannelColorTile: React.FC<Props> = ({ text, letter, color }) => {
+const ChannelColorTile: React.FC<Props> = ({ text, letter, color, setClicked }) => {
   const classes = useStyles()
   return (
     <div>
@@ -20,7 +21,10 @@ const ChannelColorTile: React.FC<Props> = ({ text, letter, color }) => {
             <div className={classes.letterContainer}>{letter}: </div>
           </Grid>
           <Grid item xs={7}>
-            <div className={classes.ballContainer}>
+            <div
+              className={classes.ballContainer}
+              onClick={() => setClicked(letter)}
+            >
               <Circle text={text} color={color} borderWidth={'1'} />
             </div>
           </Grid>
@@ -34,14 +38,14 @@ const useStyles = makeStyles(() =>
   createStyles({
     letterContainer: {
       display: 'flex',
-      height: '40px',
+      height: '35px',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItem: 'center',
     },
     ballContainer: {
       display: 'flex',
-      height: '40px',
+      height: '35px',
       paddingLeft: '5px',
       aspectRatio: '1/1',
       flexDirection: 'column',
