@@ -2,9 +2,9 @@ import React from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { loadData } from '../Store/Actions/data'
-import { useEffect } from 'react';
 import { Grid } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { ReduxState, Data } from '../types'
 
 import MapView from './MapView'
 import SidePanel from '../Components/SidePanel/SidePanel'
@@ -13,12 +13,17 @@ import SidePanel from '../Components/SidePanel/SidePanel'
 const MainView = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const data = useSelector((state: any) => state.data)
-  console.log(data)
+  const data = useSelector((state: any): Data => state.dataReducer.data)
+  console.log('All data from Redux: ', data)
 
   const getDataFromRedux = () => {
     dispatch(loadData())
   }
+
+  React.useEffect(() => {
+    console.log('Action dispatched for fetching data')
+    getDataFromRedux()
+  }, [])
 
   return (
     <div className="App">
