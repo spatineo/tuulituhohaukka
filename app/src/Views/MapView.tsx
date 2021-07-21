@@ -2,6 +2,8 @@ import * as React from 'react'
 import { createStyles, makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import { green } from '@material-ui/core/colors'
 import { Button, Grid } from '@material-ui/core'
+import { useSelector } from 'react-redux'
+import { ReduxState, Map } from '../types'
 
 import MapComponent from '../Components/Map/MapComponent'
 
@@ -16,6 +18,9 @@ const greenTheme = createMuiTheme({
 })
 
 const MapView: React.FC = () => {
+  const mapData = useSelector((state: any): Array<Map> => state.dataReducer.data.maps)
+  console.log('Map data from Redux:', mapData)
+
   const classes = useStyles()
   return (
     <div className={classes.container}>
@@ -32,15 +37,13 @@ const MapView: React.FC = () => {
       </div>
       <div className={classes.mapsContainer}>
         <Grid container justify='flex-start' spacing={6} style={{ width: '100%' }}>
-          <Grid container direction='column' item xs={12} lg={6} xl={4} alignItems='center'>
-            <MapComponent />
-          </Grid>
-          <Grid container direction='column' item xs={12} lg={6} xl={4} alignItems='center'>
-            <MapComponent />
-          </Grid>
-          <Grid container direction='column' item xs={12} lg={6} xl={4} alignItems='center'>
-            <MapComponent />
-          </Grid>
+
+          {mapData.map(mapObject => {
+            return (
+              <Grid container direction='column' item xs={12} lg={6} xl={4} alignItems='center'>
+                <MapComponent data={mapObject} />
+              </Grid>)
+          })}
         </Grid>
       </div>
     </div>
