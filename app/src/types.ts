@@ -4,6 +4,7 @@ export interface ReduxState {
 
 export interface Data {
   global: Global
+  maps: Map[]
   cache: Cache
 }
 
@@ -22,7 +23,7 @@ export interface Cache {
 
 
 
-export interface Maps {
+export interface Map {
   id: number
   selectedSource: string | null
   channelSettings: ChannelSettings
