@@ -1,11 +1,11 @@
 export interface ReduxState {
   data: Data
+  cache: Cache
 }
 
 export interface Data {
   global: Global
   maps: Map[]
-  cache: Cache
 }
 
 export interface Global {
@@ -58,13 +58,13 @@ export interface PanelBarSettings {
 }
 
 export interface ChannelSettings {
-  R: number | null
-  G: number | null
-  B: number | null
+  R: string
+  G: string
+  B: string
 }
 
 export interface Catalogue {
-  id: number
+  id?: number
 }
 
 export interface Source {
