@@ -1,5 +1,5 @@
-import {createReducer} from '@reduxjs/toolkit'
-import {LOAD_DATA, SET_DATA} from '../Actions/data'
+import { createReducer } from '@reduxjs/toolkit'
+import { LOAD_DATA, SET_DATA } from '../Actions/data'
 
 // const initialState = {
 //   jsonFile: undefined
@@ -8,16 +8,16 @@ import {LOAD_DATA, SET_DATA} from '../Actions/data'
 const initialState = {
   data: {
     global: {
-      bbox: [], 
+      bbox: [],
       selectedTime: "",
-      fullScreen: "", 
+      fullScreen: "",
       mapSize: ""
-    }, 
+    },
     maps: []
-  }, 
+  },
   cache: {
-    catalogue: {}, 
-    sources: [], 
+    catalogue: {},
+    sources: [],
     windDamages: []
   }
 }
@@ -29,7 +29,7 @@ const dataReducer = createReducer(initialState, {
     state.data.global.selectedTime = action.payload.data.global.selectedTime
     state.data.global.fullScreen = action.payload.data.global.fullScreen
     state.data.global.mapSize = action.payload.data.global.mapSize
-    state.data.maps = action.payload.maps
+    state.data.maps = action.payload.data.maps
     state.cache.catalogue = action.payload.cache.catalogue.id
     state.cache.sources = action.payload.cache.sources
     state.cache.windDamages = action.payload.cache.windDamages
