@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { LOAD_DATA, SET_DATA } from '../Actions/data'
+import { LOAD_DATA, SET_DATA, SET_RED_CHANNEL, SET_GREEN_CHANNEL, SET_BLUE_CHANNEL } from '../Actions/data'
+import { ReduxState } from '../../types'
 
 // const initialState = {
 //   jsonFile: undefined
@@ -23,6 +24,21 @@ const initialState = {
 }
 
 const dataReducer = createReducer(initialState, {
+  SET_RED_CHANNEL: (state: any, action) => {
+    console.log('Setting red channel value in redux')
+    console.log('action payload for set red channel: ', action.payload)
+    state.data.maps[action.payload.mapComponentIndex].channelSettings.R = action.payload.redChannelValue
+  },
+  SET_GREEN_CHANNEL: (state: any, action) => {
+    console.log('Setting red channel value in redux')
+    console.log('action payload for set red channel: ', action.payload)
+    state.data.maps[action.payload.mapComponentIndex].channelSettings.G = action.payload.greenChannelValue
+  },
+  SET_BLUE_CHANNEL: (state: any, action) => {
+    console.log('Setting red channel value in redux')
+    console.log('action payload for set red channel: ', action.payload)
+    state.data.maps[action.payload.mapComponentIndex].channelSettings.B = action.payload.blueChannelValue
+  },
   SET_DATA: (state, action) => {
     console.log('Actions pay load in reducer: ', action.payload)
     state.data.global.bbox = action.payload.data.global.bbox
@@ -33,7 +49,8 @@ const dataReducer = createReducer(initialState, {
     state.cache.catalogue = action.payload.cache.catalogue.id
     state.cache.sources = action.payload.cache.sources
     state.cache.windDamages = action.payload.cache.windDamages
-  }
+  },
+
 })
 
 
