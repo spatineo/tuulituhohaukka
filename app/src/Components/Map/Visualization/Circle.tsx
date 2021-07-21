@@ -12,7 +12,9 @@ const Circle: React.FC<Props> = ({ text, color, borderWidth }) => {
   return (
     <div
       className={classes.circle}
-      style={{ borderColor: `${color}`, borderWidth: `${borderWidth}` }}>
+      style={{ borderColor: `${color}`, borderWidth: `${borderWidth}` }}
+    >
+
       {text}
     </div>
   )
@@ -29,6 +31,10 @@ const useStyles = makeStyles<Props>(() =>
       border: 'solid',
       borderRadius: '50%',
       background: 'rgb(247, 247, 247)',
+      '&:hover': {
+        background: 'rgb(230, 230, 230)',
+        cursor: 'pointer'
+      }
     },
   }))
 
