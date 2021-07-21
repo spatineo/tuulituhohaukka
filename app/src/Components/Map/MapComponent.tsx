@@ -4,24 +4,28 @@ import { useSelector } from 'react-redux'
 import { ReduxState, Source } from '../../types'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import SlimAccordion from './SlimAccordion'
-import Map from './Map'
+import OpenLayersMap from './OpenLayersMap'
+import { Map } from '../../types'
 
 import DataSourceList from './SourceList/DataSourceList'
 import NormalVisualization from './Visualization/NormalVisualization'
 
-// interface interfaceName {
-//   value: string
-// }
+interface Props {
+  data: Map
+}
 
-const MapComponent: React.FC = () => {
-  const sources = useSelector((state: ReduxState): Array<Source> => state.data.cache.sources)
+const MapComponent: React.FC<Props> = () => {
+  const sources = useSelector((state: any): Array<Source> => state.dataReducer.cache.sources)
+  console.log('sources form Redux: ', sources)
+
+  // 1. Fetch channel settings data from redux
 
   const classes = useStyles()
   return (
     <div>
       <div className={classes.mapContainer}>
         <div className={classes.mapBox}>
-          <Map />
+          <OpenLayersMap />
         </div>
         <div className={classes.footer}>
           <div>2021-08</div>
@@ -35,6 +39,7 @@ const MapComponent: React.FC = () => {
             </SlimAccordion>
           </div>
           <div className={classes.dropDown}>
+            {/* 2. pass Channel settings data to NormalVisualization component */}
             <SlimAccordion name={'Visualisointi'}>
               <NormalVisualization />
             </SlimAccordion>
