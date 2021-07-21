@@ -12,7 +12,7 @@
         "selectedSource": "id of the source",
         "channelSettings": {
           "R": "VV",
-          "G": null,
+          "G": "",
           "B": "VH"
         },
         "displayWindDamageVector": true,
