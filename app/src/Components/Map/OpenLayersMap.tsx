@@ -13,7 +13,7 @@ interface State {
   map: any
 }
 
-const Map: React.FC = () => {
+const OpenLayersMap: React.FC = () => {
 
   const initialState = {
     showLens: false,
@@ -64,4 +64,4 @@ const useStyles = makeStyles(() =>
     }
   }))
 
-export default Map
+export default OpenLayersMap
