@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { LOAD_DATA, SET_DATA, SET_RED_CHANNEL, SET_GREEN_CHANNEL, SET_BLUE_CHANNEL } from '../Actions/data'
+import { LOAD_DATA, SET_DATA, SET_RED_CHANNEL, SET_GREEN_CHANNEL, SET_BLUE_CHANNEL, SET_INSPECTION_DATE } from '../Actions/data'
 import { ReduxState } from '../../types'
 
 // const initialState = {
@@ -50,6 +50,11 @@ const dataReducer = createReducer(initialState, {
     state.cache.sources = action.payload.cache.sources
     state.cache.windDamages = action.payload.cache.windDamages
   },
+  SET_INSPECTION_DATE: (state, action) => {
+    console.log('Setting inspection date in reducer')
+    console.log('Action payload: ', action.payload)
+    state.data.global.selectedTime = action.payload.selectedDate
+  }
 
 })
 
