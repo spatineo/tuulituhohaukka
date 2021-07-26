@@ -1,8 +1,11 @@
+import dataReducer from "../Reducers/data"
+
 export const LOAD_DATA = 'LOAD_DATA'
 export const SET_DATA = 'SET_DATA'
 export const SET_RED_CHANNEL = 'SET_RED_CHANNEL'
 export const SET_GREEN_CHANNEL = 'SET_GREEN_CHANNEL'
 export const SET_BLUE_CHANNEL = 'SET_BLUE_CHANNEL'
+export const SET_INSPECTION_DATE = 'SET_INSPECTION_DATE'
 
 interface LoadDataAction {
   type: string
@@ -38,5 +41,10 @@ export const setGreenChannel = (data: any): SetColorChannelAction => ({
 
 export const setBlueChannel = (data: any): SetColorChannelAction => ({
   type: SET_BLUE_CHANNEL,
+  payload: data
+})
+
+export const setInspectionDate = (data: any): SetDataAction => ({
+  type: SET_INSPECTION_DATE,
   payload: data
 })
