@@ -43,8 +43,6 @@ const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentInd
               <DataSourceList
                 sources={sources}
                 color={'red'}
-
-
                 mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
           </Grid>
@@ -57,8 +55,6 @@ const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentInd
               <DataSourceList
                 sources={sources}
                 color={'green'}
-
-
                 mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
           </Grid>
@@ -95,7 +91,6 @@ const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentInd
   return (
     <div style={{ width: '100%', paddingTop: '10px', paddingBottom: '10px' }}>
       <Grid container direction='column' spacing={2}>
-
         <Grid container item direction='row' justify='center'>
           <Grid item xs={3}>
             <ChannelColorTile text={colorData.R} letter={'R'} color={'red'} setClicked={setClicked} />
@@ -107,12 +102,10 @@ const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentInd
             <ChannelColorTile text={colorData.B} letter={'B'} color={'rgb(0,143,225)'} setClicked={setClicked} />
           </Grid>
         </Grid>
-
         <Grid container item direction='row' justify='center' >
           {switchListColor(clickedColorTile)}
         </Grid>
       </Grid>
-
     </div >
   )
 }
