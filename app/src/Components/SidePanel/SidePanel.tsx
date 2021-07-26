@@ -7,7 +7,7 @@ import { Grid, Card } from '@material-ui/core'
 
 // }
 
-import SelectMonth from './SelectMonth'
+import SelectTime from './SelectTime'
 
 const SidePanel: React.FC = () => {
   const classes = useStyles()
@@ -20,48 +20,20 @@ const SidePanel: React.FC = () => {
         alignItems="center"
         spacing={2}
       >
-        <Grid item style={{ width: '80%' }}>
-          <Card className={classes.monthPicker}>
-            <div>
-              This is the month selector
-            </div>
+        <Grid item style={{ width: '90%' }}>
+          <Card style={{ paddingTop: '10px', paddingBottom: '10px' }}>
+            <SelectTime />
           </Card>
         </Grid>
-
-        <Grid item style={{ width: '80%' }}>
-          <Card className={classes.dayPicker}>
-            <div>
-              This is the day selector
-            </div>
-          </Card>
-        </Grid>
-
       </Grid>
-    </div>
+    </div >
+
   )
 }
 
 const useStyles = makeStyles(() =>
   createStyles({
-    monthPicker: {
-      display: 'flex',
-      aspectRatio: '4/2',
-      width: '100%',
-      marginTop: '10px',
-      border: 'solid black 1px',
-      justifyContent: 'center',
-      alignItems: 'center'
 
-    },
-    dayPicker: {
-      display: 'flex',
-      width: '100%',
-      marginBottom: '10px',
-      aspectRatio: '100/110',
-      border: 'solid black 1px',
-      justifyContent: 'center',
-      alignItems: 'center'
-    }
   })
 )
 
