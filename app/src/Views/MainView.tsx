@@ -2,37 +2,42 @@ import React from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { loadData } from '../Store/Actions/data'
-import { useEffect } from 'react';
 import { Grid } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { ReduxState, Data } from '../types'
 
-import MapView from '../Components/MapView/MapView'
+import MapView from './MapView'
 import SidePanel from '../Components/SidePanel/SidePanel'
 
 
 const MainView = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const data = useSelector((state: any) => state.data)
-  console.log(JSON.stringify(data))
+  const data = useSelector((state: any): Data => state.dataReducer.data)
 
   const getDataFromRedux = () => {
     dispatch(loadData())
   }
 
+  React.useEffect(() => {
+    getDataFromRedux()
+  }, [])
+
   return (
     <div className="App">
       <h1>Tuulituhohaukka 🌪 💥 🦅 </h1>
-      <button onClick={() => getDataFromRedux()}>
+      <button
+        className={classes.reduxLoadButton}
+        onClick={() => getDataFromRedux()}>
         Load data and get it from Redux
       </button>
 
       <div className={classes.root}>
         <Grid container className={classes.container}>
-          <Grid item xs={2} className={classes.border}>
+          <Grid item xs={4} lg={3} xl={2} className={classes.border}>
             <SidePanel />
           </Grid>
-          <Grid item xs={10} className={classes.border}>
+          <Grid item xs={8} lg={9} xl={10} className={classes.border}>
             <MapView />
           </Grid>
         </Grid>
@@ -43,6 +48,9 @@ const MainView = () => {
 
 const useStyles = makeStyles(() =>
   createStyles({
+    reduxLoadButton: {
+      margin: '50px',
+    },
     root: {
       flexGrow: 1,
       height: '1000px',

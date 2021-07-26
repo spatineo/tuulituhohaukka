@@ -11,9 +11,9 @@
         "id": 0,
         "selectedSource": null,
         "channelSettings": {
-          "R": null,
-          "G": null,
-          "B": null
+          "R": "",
+          "G": "",
+          "B": ""
         },
         "displayWindDamageVector": true,
         "displaySpyglass": false,
@@ -30,7 +30,7 @@
           },
           "mapLayers": [
             [
-              {
+               {
                 "linkToMapImage": "https://vemaps.com/uploads/img/fi-05.png",
                 "srs": "EPSG:3067"
               }
@@ -38,6 +38,7 @@
           ]
         }
       },
+      
       {
         "id": 1,
         "selectedSource": null,
@@ -73,7 +74,9 @@
   },
 
   "cache": {
-    "catalogue": {},
+    "catalogue": {
+      "id": "1"
+    },
     "sources": [
       {
         "id": "S1M",

@@ -10,7 +10,7 @@ import MainView from './Views/MainView'
 import dataReducer from './Store/Reducers/data';
 
 const rootReducer = combineReducers({
-  data: dataReducer
+  dataReducer: dataReducer
 })
 
 const configureStore = () => {
