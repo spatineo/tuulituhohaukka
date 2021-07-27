@@ -1,30 +1,24 @@
 import * as React from 'react'
-import { useSelector } from 'react-redux'
-import { makeStyles, createStyles } from '@material-ui/styles'
-import 'date-fns'
+import { useSelector, useDispatch } from 'react-redux'
 import { Grid, Paper } from '@material-ui/core'
-import DateFnsUtils from '@date-io/date-fns'
+import { makeStyles, createStyles } from '@material-ui/styles'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline'
 import { createMuiTheme } from '@material-ui/core/styles'
-import { green, indigo, blueGrey, cyan, blue, grey } from '@material-ui/core/colors'
+import { grey } from '@material-ui/core/colors'
 import { MuiThemeProvider } from '@material-ui/core'
-
+import 'date-fns'
+import DateFnsUtils from '@date-io/date-fns'
 import { setInspectionDate } from '../../Store/Actions/data'
 
-
-// interface SelectMonthProps {
-
-// }
-
 const SelectTime: React.FC = () => {
-  // Getting data from redux
-  const dataFromRedux = useSelector((state: any) => state.dataReducer.data.global.selectedTime)
-
-  const [selectedDate, setSelectedDate] = React.useState<Date | null>(new Date())
+  const dateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.selectedTime)
+  const dateObject = new Date(dateFromRedux)
   const windDamages = [1, 6, 10, 24, 15]
   const today = new Date()
+
   const classes = useStyles()
+  const dispatch = useDispatch()
 
   const customTheme = createMuiTheme({
     palette: {
@@ -35,13 +29,11 @@ const SelectTime: React.FC = () => {
   })
 
   const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date)
+    const payload = {
+      selectedDate: date?.toISOString()
+    }
+    dispatch(setInspectionDate(payload))
   }
-
-  const payload = {
-    selectedDate: selectedDate
-  }
-
 
   const getDayElement = (day: any, selectedDate: any, isInCurrentMonth: any, dayComponent: any) => {
     //generate boolean 
@@ -89,7 +81,7 @@ const SelectTime: React.FC = () => {
               margin='normal'
               id='date-picker'
               label='Date Picker'
-              value={selectedDate}
+              value={dateObject}
               onChange={handleDateChange}
               renderDay={(day, selectedDate, isInCurrentMonth, dayComponent) => getDayElement(day, selectedDate, isInCurrentMonth, dayComponent)}
               KeyboardButtonProps={{
