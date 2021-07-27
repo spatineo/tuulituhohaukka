@@ -1,8 +1,9 @@
 
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { ReduxState, Source } from '../../types'
+import { Source } from '../../types'
 import { createStyles, makeStyles } from '@material-ui/styles'
+import { Card, Grid } from '@material-ui/core'
 import SlimAccordion from './SlimAccordion'
 import OpenLayersMap from './OpenLayersMap'
 import { Map } from '../../types'
@@ -17,7 +18,8 @@ interface Props {
 
 const MapComponent: React.FC<Props> = ({ data, mapComponentIndex }) => {
   const sources = useSelector((state: any): Array<Source> => state.dataReducer.cache.sources)
-
+  const dateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.selectedTime)
+  const editedDate = new Date(dateFromRedux).toISOString().split("T")[0]
   const classes = useStyles()
   return (
     <div>
@@ -26,9 +28,22 @@ const MapComponent: React.FC<Props> = ({ data, mapComponentIndex }) => {
           <OpenLayersMap />
         </div>
         <div className={classes.footer}>
-          <div>2021-08</div>
-          <div>tuulituhotunnistus</div>
-          <div>button</div>
+          <Grid container>
+            <Grid container item xs={4} justify='center' alignItems='center' spacing={1}>
+              <Grid item >
+                <div style={{ color: '#00a9f7', fontSize: '11px' }}>{editedDate} </div>
+              </Grid>
+              <Grid item>
+                <div style={{ color: '#ff0000', fontSize: '11px' }}>2021-08-30</div>
+              </Grid>
+            </Grid>
+            <Grid container item xs={4} justify='center' alignItems='center'>
+              <div style={{ fontSize: '14px' }}>Tuulituhotunnistus</div>
+            </Grid>
+            <Grid container item xs={4} justify='center'>
+              <div style={{ fontSize: '14px', border: 'solid black 1px', borderRadius: ' 5px', padding: '6px' }}>button</div>
+            </Grid>
+          </Grid>
         </div>
         <div className={classes.menuContainer}>
           <div className={classes.dropDown}>
