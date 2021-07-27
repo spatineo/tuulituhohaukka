@@ -18,7 +18,7 @@ const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentInd
   // const sources = useSelector((state: ReduxState): Array<Source> => state.data.cache.sources)
   const colorData = useSelector((state: any): ChannelSettings => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
   const [clickedColorTile, setClickedColorTile] = React.useState('')
-  console.log('Channel Settings for Visualization component: ', mapComponentIndex, ' : ', channelSettings)
+
   const classes = useStyles()
 
   const sources = [
