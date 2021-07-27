@@ -31,10 +31,10 @@ const MapComponent: React.FC<Props> = ({ data, mapComponentIndex }) => {
           <Grid container>
             <Grid container item xs={4} justify='center' alignItems='center' spacing={1}>
               <Grid item >
-                <div style={{ color: '#00a9f7', fontSize: '11px' }}>{editedDate} </div>
+                <div style={{ color: '#00a9f7', fontSize: '11px' }}>another date </div>
               </Grid>
               <Grid item>
-                <div style={{ color: '#ff0000', fontSize: '11px' }}>2021-08-30</div>
+                <div style={{ color: '#ff0000', fontSize: '11px' }}>{editedDate}</div>
               </Grid>
             </Grid>
             <Grid container item xs={4} justify='center' alignItems='center'>
