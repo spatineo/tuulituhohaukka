@@ -19,8 +19,6 @@ interface Props {
 
 const DataSourceList: React.FC<Props> = ({ sources, color, mapComponentIndex }) => {
   const colorData = useSelector((state: any): ChannelSettings => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
-  console.log('Channel colors from Redux are: ', colorData)
-
   const [searchText, setSearchText] = React.useState('')
 
   const searchAndFilter = (input: string) => {

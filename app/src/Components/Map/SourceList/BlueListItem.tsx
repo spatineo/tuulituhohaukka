@@ -42,8 +42,6 @@ const BlueListItem: React.FC<ListChildComponentProps> = ({ data, index, style })
       <BlueRadio
         checked={selectedValue === name}
         onChange={() => {
-          console.log('Currently selected for BLUE is :', name)
-          console.log('Dispatching setBlueChannel action!')
           dispatch(setBlueChannel(payload))
         }}
         value={isNamedExports}

@@ -45,8 +45,6 @@ const RedListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) 
       <RedRadio
         checked={selectedValue === name}
         onChange={() => {
-          console.log('Currently selected for RED is :', name)
-          console.log('Dispatching setRedChannel action!')
           dispatch(setRedChannel(payload))
         }}
         value={isNamedExports}
