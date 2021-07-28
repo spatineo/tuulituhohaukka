@@ -12,7 +12,7 @@ import DateFnsUtils from '@date-io/date-fns'
 import { setInspectionDate } from '../../Store/Actions/data'
 
 const SelectTime: React.FC = () => {
-  const dateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.selectedTime)
+  const dateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.inspectionDate)
   const dateObject = new Date(dateFromRedux)
   const windDamages = [1, 6, 10, 24, 15]
   const today = new Date()
@@ -30,7 +30,7 @@ const SelectTime: React.FC = () => {
 
   const handleDateChange = (date: Date | null) => {
     const payload = {
-      selectedDate: date?.toISOString()
+      inspectionDate: date?.toISOString()
     }
     dispatch(setInspectionDate(payload))
   }
