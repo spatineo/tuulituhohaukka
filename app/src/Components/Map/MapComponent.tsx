@@ -3,7 +3,7 @@ import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { Source } from '../../types'
 import { createStyles, makeStyles } from '@material-ui/styles'
-import { Card, Grid } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import SlimAccordion from './SlimAccordion'
 import OpenLayersMap from './OpenLayersMap'
 import { Map } from '../../types'
@@ -18,7 +18,8 @@ interface Props {
 
 const MapComponent: React.FC<Props> = ({ data, mapComponentIndex }) => {
   const sources = useSelector((state: any): Array<Source> => state.dataReducer.cache.sources)
-  const dateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.selectedTime)
+  const dateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.inspectionDate)
+  console.log('Map component: date from redux:', dateFromRedux)
   const editedDate = new Date(dateFromRedux).toISOString().split("T")[0]
   const classes = useStyles()
   return (
