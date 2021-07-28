@@ -14,7 +14,7 @@ const SidePanel: React.FC = () => {
   return (
     <div >
       <Grid container direction="column" justify="center" alignItems="center" spacing={2} >
-        <Grid item >
+        <Grid item style={{ width: '90%', padding: '10px' }}>
           <SelectMonth />
         </Grid>
         <Grid item style={{ width: '90%' }} >
