@@ -69,8 +69,7 @@ const SelectMonth: React.FC = () => {
 
   return (
     <>
-      <CssBaseline />
-      <Card style={{ width: '400px', padding: '10px' }}>
+      <Card >
         <Bar
           data={chartData}
           options={chartOptions}
