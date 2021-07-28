@@ -1,5 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { LOAD_DATA, SET_DATA, SET_RED_CHANNEL, SET_GREEN_CHANNEL, SET_BLUE_CHANNEL, SET_INSPECTION_DATE } from '../Actions/data'
+import {
+  LOAD_DATA,
+  SET_DATA,
+  SET_RED_CHANNEL,
+  SET_GREEN_CHANNEL,
+  SET_BLUE_CHANNEL,
+  SET_INSPECTION_DATE,
+  SET_INSPECTION_MONTH
+} from '../Actions/data'
 import { ReduxState } from '../../types'
 
 // const initialState = {
@@ -10,7 +18,7 @@ const initialState = {
   data: {
     global: {
       bbox: [],
-      selectedTime: "",
+      inspectionDate: "",
       fullScreen: "",
       mapSize: ""
     },
@@ -42,7 +50,7 @@ const dataReducer = createReducer(initialState, {
   SET_DATA: (state, action) => {
     console.log('Actions pay load in reducer: ', action.payload)
     state.data.global.bbox = action.payload.data.global.bbox
-    state.data.global.selectedTime = action.payload.data.global.selectedTime
+    state.data.global.inspectionDate = action.payload.data.global.inspectionDate
     state.data.global.fullScreen = action.payload.data.global.fullScreen
     state.data.global.mapSize = action.payload.data.global.mapSize
     state.data.maps = action.payload.data.maps
@@ -53,9 +61,8 @@ const dataReducer = createReducer(initialState, {
   SET_INSPECTION_DATE: (state, action) => {
     console.log('Setting inspection date in reducer')
     console.log('Action payload: ', action.payload)
-    state.data.global.selectedTime = action.payload.selectedDate
-  }
-
+    state.data.global.inspectionDate = action.payload.inspectionDate
+  },
 })
 
 
