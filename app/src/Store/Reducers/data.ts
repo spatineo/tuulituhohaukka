@@ -6,7 +6,6 @@ import {
   SET_GREEN_CHANNEL,
   SET_BLUE_CHANNEL,
   SET_INSPECTION_DATE,
-  SET_INSPECTION_MONTH
 } from '../Actions/data'
 import { ReduxState } from '../../types'
 
