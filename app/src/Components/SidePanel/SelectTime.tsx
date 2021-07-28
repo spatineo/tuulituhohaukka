@@ -75,7 +75,7 @@ const SelectTime: React.FC = () => {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Grid container justify='space-around'>
             <KeyboardDatePicker
-              // disableToolbar
+              disableToolbar
               variant='static'
               format='MM/dd/yyyy'
               margin='normal'
