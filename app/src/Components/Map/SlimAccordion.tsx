@@ -56,7 +56,7 @@ interface Props {
 }
 
 const SlimAccordion: React.FC<Props> = ({ children, name }) => {
-  const [expanded, setExpanded] = React.useState<string | false>('panel1');
+  const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const handleChange = (panel: string) => (event: React.ChangeEvent<Record<string, unknown>>, newExpanded: boolean) => {
     setExpanded(newExpanded ? panel : false);
