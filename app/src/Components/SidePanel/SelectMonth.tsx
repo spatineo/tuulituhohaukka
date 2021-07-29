@@ -39,6 +39,7 @@ const SelectMonth: React.FC = () => {
   }
 
   const chartOptions = {
+    animation: false,
     responsive: true,
     plugins: {
       legend: {
