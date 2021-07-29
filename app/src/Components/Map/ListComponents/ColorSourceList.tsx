@@ -5,10 +5,10 @@ import { Source, ChannelSettings } from '../../../types'
 import { Grid, Input, InputAdornment } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 
-import DataSourceListItem from './DataSourceListItem'
-import RedListItem from './RedListItem'
-import GreenListItem from './GreenListItem'
-import BlueListItem from './BlueListItem'
+import DataSourceListItem from './ListItems/DataSourceListItem'
+import RedListItem from './ListItems/RedListItem'
+import GreenListItem from './ListItems/GreenListItem'
+import BlueListItem from './ListItems/BlueListItem'
 
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
   mapComponentIndex: number
 }
 
-const DataSourceList: React.FC<Props> = ({ sources, color, mapComponentIndex }) => {
+const ColorSourceList: React.FC<Props> = ({ sources, color, mapComponentIndex }) => {
   const colorData = useSelector((state: any): ChannelSettings => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
   const [searchText, setSearchText] = React.useState('')
 
@@ -112,4 +112,4 @@ const DataSourceList: React.FC<Props> = ({ sources, color, mapComponentIndex }) 
   )
 }
 
-export default DataSourceList
+export default ColorSourceList
