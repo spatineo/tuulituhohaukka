@@ -4,6 +4,8 @@ import { createStyles, makeStyles } from '@material-ui/styles'
 import { ButtonBase, Typography } from '@material-ui/core'
 import { setInspectionDate } from '../../Store/Actions/data'
 
+import { setComparisonDate } from '../../Store/Actions/data'
+
 interface Props {
   month: string
   selectedType: string
@@ -11,11 +13,22 @@ interface Props {
 }
 
 const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
-  const dateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.inspectionDate)
-  const date = new Date(dateFromRedux)
-  const monthNumber = date.getMonth()
+  const inspectionDateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.inspectionDate)
+  const comparisonDateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.comparisonDate)
   const classes = useStyles()
   const dispatch = useDispatch()
+
+  let date: Date
+  let monthNumber: number
+
+
+  if (selectedType === 'inspection') {
+    date = new Date(inspectionDateFromRedux)
+    monthNumber = date.getMonth()
+  } else {
+    date = new Date(comparisonDateFromRedux)
+    monthNumber = date.getMonth()
+  }
 
   const setMonth = (index: number) => {
     if (selectedType === 'inspection') {
@@ -25,12 +38,26 @@ const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
       }
       dispatch(setInspectionDate(payload))
     } else if (selectedType === 'comparison') {
-      console.log('This should dispatch action to set the blue color')
+      const payload = {
+        comparisonDate: new Date()
+      }
+
+      if (comparisonDateFromRedux === '') {
+        const date = new Date()
+        const editedDate = new Date(date.setMonth(index))
+        payload.comparisonDate = editedDate
+      } else {
+        const editedDate = new Date(date.setMonth(index))
+        payload.comparisonDate = editedDate
+      }
+
+      dispatch(setComparisonDate(payload))
+      console.log('edited date for blue: ', payload.comparisonDate)
       // send action to redux
     }
   }
 
-  if (monthNumber === index) {
+  if (monthNumber === index && selectedType === 'inspection') {
     return (
       <div className={classes.redStyle}>
         <ButtonBase onClick={() => setMonth(index)}>
@@ -38,7 +65,7 @@ const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
         </ButtonBase>
       </div>
     )
-  } else if (selectedType === 'comparison') {
+  } else if (monthNumber === index && selectedType === 'comparison') {
     return (
       <div className={classes.blueStyle}>
         <ButtonBase onClick={() => console.log('I was clicked!')} >
