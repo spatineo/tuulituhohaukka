@@ -37,16 +37,17 @@ const dataReducer = createReducer(initialState, {
     state.data.maps[action.payload.mapComponentIndex].channelSettings.R = action.payload.redChannelValue
   },
   SET_GREEN_CHANNEL: (state: any, action) => {
-    console.log('Setting red channel value in redux')
-    console.log('action payload for set red channel: ', action.payload)
+    console.log('Setting green channel value in redux')
+    console.log('action payload for set green channel: ', action.payload)
     state.data.maps[action.payload.mapComponentIndex].channelSettings.G = action.payload.greenChannelValue
   },
   SET_BLUE_CHANNEL: (state: any, action) => {
-    console.log('Setting red channel value in redux')
-    console.log('action payload for set red channel: ', action.payload)
+    console.log('Setting blue channel value in redux')
+    console.log('action payload for set blue channel: ', action.payload)
     state.data.maps[action.payload.mapComponentIndex].channelSettings.B = action.payload.blueChannelValue
   },
   SET_DATA: (state, action) => {
+    console.log('Loading data from JSON file and setting state in Redux')
     console.log('Actions pay load in reducer: ', action.payload)
     state.data.global.bbox = action.payload.data.global.bbox
     state.data.global.inspectionDate = action.payload.data.global.inspectionDate

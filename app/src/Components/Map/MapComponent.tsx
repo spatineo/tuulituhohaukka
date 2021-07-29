@@ -20,8 +20,6 @@ interface Props {
 const MapComponent: React.FC<Props> = ({ data, mapComponentIndex }) => {
   const sources = useSelector((state: any): Array<Source> => state.dataReducer.cache.sources)
   const dateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.inspectionDate)
-  console.log('Map component: date from redux:', dateFromRedux)
-  console.log('Sources for Map component: ', sources)
   const editedDate = new Date(dateFromRedux).toISOString().split("T")[0]
   const classes = useStyles()
   return (

@@ -24,9 +24,6 @@ const DefaultListItem: React.FC<ListChildComponentProps> = ({ data, index, style
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  console.log('name in DefaultListItem: ', DefaultListItem)
-  console.log('selectedValue in DefaultListItem ', selectedSource)
-
   const payload = {
     mapComponentIndex: mapComponentIndex,
     selectedSource: name

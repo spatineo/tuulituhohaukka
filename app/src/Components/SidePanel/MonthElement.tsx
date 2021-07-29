@@ -19,13 +19,10 @@ const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
 
   const setMonth = (index: number) => {
     if (selectedType === 'inspection') {
-      // send action to redux
       const editedDate = new Date(date.setMonth(index))
-
       const payload = {
         inspectionDate: editedDate
       }
-
       dispatch(setInspectionDate(payload))
     } else if (selectedType === 'comparison') {
       console.log('This should dispatch action to set the blue color')

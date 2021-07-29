@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
-import { Typography, Card, Grid, CssBaseline, Button } from '@material-ui/core'
+import { Typography, Card, Grid, Button } from '@material-ui/core'
 import { Bar } from 'react-chartjs-2'
 import MonthElement from './MonthElement'
 
