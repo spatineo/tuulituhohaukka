@@ -8,7 +8,8 @@ import SlimAccordion from './SlimAccordion'
 import OpenLayersMap from './OpenLayersMap'
 import { Map } from '../../types'
 
-import DataSourceList from './SourceList/DataSourceList'
+
+import SourceList from './ListComponents/SourceList'
 import NormalVisualization from './Visualization/NormalVisualization'
 
 interface Props {
@@ -20,6 +21,7 @@ const MapComponent: React.FC<Props> = ({ data, mapComponentIndex }) => {
   const sources = useSelector((state: any): Array<Source> => state.dataReducer.cache.sources)
   const dateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.inspectionDate)
   console.log('Map component: date from redux:', dateFromRedux)
+  console.log('Sources for Map component: ', sources)
   const editedDate = new Date(dateFromRedux).toISOString().split("T")[0]
   const classes = useStyles()
   return (
@@ -49,7 +51,7 @@ const MapComponent: React.FC<Props> = ({ data, mapComponentIndex }) => {
         <div className={classes.menuContainer}>
           <div className={classes.dropDown}>
             <SlimAccordion name={'Aineistot'}>
-              <DataSourceList sources={sources} mapComponentIndex={mapComponentIndex} />
+              <SourceList sources={sources} mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
           </div>
           <div className={classes.dropDown}>
