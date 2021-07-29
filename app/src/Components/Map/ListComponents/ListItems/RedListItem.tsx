@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { useDispatch } from 'react-redux';
-import { setGreenChannel } from '../../../Store/Actions/data'
+import { setRedChannel } from '../../../../Store/Actions/data'
 
 import { createStyles, makeStyles, withStyles } from '@material-ui/styles'
-import { green } from '@material-ui/core/colors';
+import { red } from '@material-ui/core/colors';
 import { Radio, RadioProps } from '@material-ui/core'
 import { ListChildComponentProps } from 'react-window'
 import { isNamedExports } from 'typescript';
@@ -15,34 +15,37 @@ import { isNamedExports } from 'typescript';
 //   selectedValue: string
 // }
 
-const GreenRadio = withStyles({
+const RedRadio = withStyles({
   root: {
-    color: green[400],
+    color: red[400],
     '&$checked': {
-      color: green[600],
+      color: red[600],
     },
   },
   checked: {},
 })((props: RadioProps) => <Radio color="default" {...props} />);
 
-const GreenListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
-  const name = data.sources[index].name
-  const selectedValue = data.selectedValue
-  const mapComponentIndex = data.mapComponentIndex
+const RedListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
 
+  const name = data.sources[index].name
+  const selectedValue = data.selectedValue
+  const mapComponentIndex = data.mapComponentIndex
+
+
+
   const payload = {
     mapComponentIndex: mapComponentIndex,
-    greenChannelValue: name
+    redChannelValue: name
   }
 
   return (
     <div className={classes.listItemContainer} style={style}>
-      <GreenRadio
+      <RedRadio
         checked={selectedValue === name}
         onChange={() => {
-          dispatch(setGreenChannel(payload))
+          dispatch(setRedChannel(payload))
         }}
         value={isNamedExports}
       />
@@ -61,4 +64,4 @@ const useStyles = makeStyles(() =>
     }
   }))
 
-export default GreenListItem
+export default RedListItem
