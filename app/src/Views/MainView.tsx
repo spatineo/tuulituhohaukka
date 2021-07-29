@@ -8,7 +8,7 @@ import { Data } from '../types'
 import { Typography, AppBar } from '@material-ui/core';
 
 import MapView from './MapView'
-import SidePanel from '../Components/SidePanel/SidePanel'
+import SidePanel from './SidePanel'
 
 
 const MainView = () => {
@@ -26,7 +26,7 @@ const MainView = () => {
 
   return (
     <div className="App">
-      <Typography variant='h3'>Tuulituhohaukka 🌪 💥 🦅 </Typography>
+      <Typography variant='h4'>Tuulituhohaukka 🌪 💥 🦅 </Typography>
       <h1></h1>
       <Divider />
       <div className={classes.root}>
