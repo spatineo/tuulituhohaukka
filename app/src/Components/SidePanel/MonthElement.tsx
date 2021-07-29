@@ -13,9 +13,6 @@ interface Props {
 const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
   const dateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.inspectionDate)
   const date = new Date(dateFromRedux)
-
-  console.log('Date inside Month Element: ', date)
-
   const monthNumber = date.getMonth()
   const classes = useStyles()
   const dispatch = useDispatch()
@@ -24,7 +21,6 @@ const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
     if (selectedType === 'inspection') {
       // send action to redux
       const editedDate = new Date(date.setMonth(index))
-      console.log('edited date is: ', editedDate)
 
       const payload = {
         inspectionDate: editedDate
