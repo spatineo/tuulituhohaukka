@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { loadData } from '../Store/Actions/data'
 import { Divider, Grid } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { ReduxState, Data } from '../types'
+import { Data } from '../types'
+import { Typography, AppBar } from '@material-ui/core';
 
 import MapView from './MapView'
 import SidePanel from '../Components/SidePanel/SidePanel'
@@ -25,12 +26,8 @@ const MainView = () => {
 
   return (
     <div className="App">
-      <h1>Tuulituhohaukka 🌪 💥 🦅 </h1>
-      <button
-        className={classes.reduxLoadButton}
-        onClick={() => getDataFromRedux()}>
-        Load data and get it from Redux
-      </button>
+      <Typography variant='h3'>Tuulituhohaukka 🌪 💥 🦅 </Typography>
+      <h1></h1>
       <Divider />
       <div className={classes.root}>
         <Grid container className={classes.container}>
