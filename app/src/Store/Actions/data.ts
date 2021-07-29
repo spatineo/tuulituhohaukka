@@ -6,6 +6,7 @@ export const SET_RED_CHANNEL = 'SET_RED_CHANNEL'
 export const SET_GREEN_CHANNEL = 'SET_GREEN_CHANNEL'
 export const SET_BLUE_CHANNEL = 'SET_BLUE_CHANNEL'
 export const SET_INSPECTION_DATE = 'SET_INSPECTION_DATE'
+export const SET_DATA_SOURCE = 'SET_DATA_SOURCE'
 
 interface LoadDataAction {
   type: string
@@ -46,5 +47,10 @@ export const setBlueChannel = (data: any): SetColorChannelAction => ({
 
 export const setInspectionDate = (data: any): SetDataAction => ({
   type: SET_INSPECTION_DATE,
+  payload: data
+})
+
+export const setDataSource = (data: any): SetDataAction => ({
+  type: SET_DATA_SOURCE,
   payload: data
 })
