@@ -9,12 +9,6 @@ import MonthElement from './MonthElement'
 // }
 
 const SelectMonth: React.FC = () => {
-
-  // 1. Get inspectionDate from Redux
-  // 2. Display month from inspection date as redMonth
-  // 3.1 onClick -> Edit inspectionDate based on the month clicked
-  // 3.2 Send action to set inspectionDate to Redux
-
   const [chartData, setChartData] = React.useState({})
   const [selectedType, setSelectedType] = React.useState('inspection')
   const classes = useStyles()
@@ -84,7 +78,7 @@ const SelectMonth: React.FC = () => {
           <Grid container item justify='space-around'>
             <Grid item xs={6}>
               <Button
-                color='default'
+                style={{ color: '#00a9f7' }}
                 onClick={() => setSelectedType('comparison')}
               >
                 <Typography>Set comparison</Typography>
