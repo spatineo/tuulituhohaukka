@@ -11,7 +11,7 @@ import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
 import { setInspectionDate } from '../../Store/Actions/data'
 
-const SelectTime: React.FC = () => {
+const SelectDay: React.FC = () => {
   const dateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.inspectionDate)
   const dateObject = new Date(dateFromRedux)
   const windDamages = [1, 6, 10, 24, 15]
@@ -143,6 +143,6 @@ const useStyles = makeStyles(() =>
   })
 )
 
-export default SelectTime
+export default SelectDay
 
 
