@@ -2,12 +2,11 @@ import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { Grid, Card } from '@material-ui/core'
 
-import SelectMonth from './SelectMonth'
+import SelectMonth from '../Components/SidePanel/SelectMonth'
+import SelectDay from '../Components/SidePanel/SelectDay'
 // interface SidePanelProps {
 
 // }
-
-import SelectTime from './SelectTime'
 
 const SidePanel: React.FC = () => {
   const classes = useStyles()
@@ -19,7 +18,7 @@ const SidePanel: React.FC = () => {
         </Grid>
         <Grid item style={{ width: '90%' }} >
           <Card style={{ paddingTop: '10px', paddingBottom: '10px' }}>
-            <SelectTime />
+            <SelectDay />
           </Card>
         </Grid>
       </Grid>
