@@ -62,6 +62,11 @@ const dataReducer = createReducer(initialState, {
     console.log('Action payload: ', action.payload)
     state.data.global.inspectionDate = action.payload.inspectionDate
   },
+  SET_DATA_SOURCE: (state: any, action) => {
+    console.log('Setting data source or map in reducer')
+    console.log('Action payload: ', action.payload)
+    state.data.maps[action.payload.mapComponentIndex].selectedSource = action.payload.selectedSource
+  }
 })
 
 
