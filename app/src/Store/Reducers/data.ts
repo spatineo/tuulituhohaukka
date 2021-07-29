@@ -18,6 +18,7 @@ const initialState = {
     global: {
       bbox: [],
       inspectionDate: "",
+      comparisonDate: "",
       fullScreen: "",
       mapSize: ""
     },
@@ -62,6 +63,11 @@ const dataReducer = createReducer(initialState, {
     console.log('Setting inspection date in reducer')
     console.log('Action payload: ', action.payload)
     state.data.global.inspectionDate = action.payload.inspectionDate
+  },
+  SET_COMPARISON_DATE: (state, action) => {
+    console.log('Setting comparison date in reducer')
+    console.log('Action payload: ', action.payload)
+    state.data.global.comparisonDate = action.payload.comparisonDate
   },
   SET_DATA_SOURCE: (state: any, action) => {
     console.log('Setting data source or map in reducer')
