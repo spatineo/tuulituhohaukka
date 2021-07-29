@@ -5,6 +5,7 @@ import { Source } from '../../../types'
 import { Grid, Input, InputAdornment } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 
+
 import DefaultListItem from './ListItems/DefaultListItem'
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const DataSourceList: React.FC<Props> = ({ sources, mapComponentIndex }) => {
+  const selectedSource = useSelector((state: any): string => state.dataReducer.data.maps[mapComponentIndex].selectedSource)
   const [searchText, setSearchText] = React.useState('')
 
   const searchAndFilter = (input: string) => {
@@ -47,7 +49,8 @@ const DataSourceList: React.FC<Props> = ({ sources, mapComponentIndex }) => {
               itemCount={filteredSources.length}
               itemData={{
                 sources: filteredSources,
-                mapComponentIndex: mapComponentIndex
+                mapComponentIndex: mapComponentIndex,
+                selectedSource: selectedSource
               }}>
               {DefaultListItem}
             </FixedSizeList>
