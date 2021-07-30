@@ -1,13 +1,15 @@
 
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { ReduxState, Source } from '../../types'
+import { Source } from '../../types'
 import { createStyles, makeStyles } from '@material-ui/styles'
+import { Grid } from '@material-ui/core'
 import SlimAccordion from './SlimAccordion'
 import OpenLayersMap from './OpenLayersMap'
 import { Map } from '../../types'
 
-import DataSourceList from './SourceList/DataSourceList'
+
+import SourceList from './ListComponents/SourceList'
 import NormalVisualization from './Visualization/NormalVisualization'
 
 interface Props {
@@ -17,7 +19,8 @@ interface Props {
 
 const MapComponent: React.FC<Props> = ({ data, mapComponentIndex }) => {
   const sources = useSelector((state: any): Array<Source> => state.dataReducer.cache.sources)
-
+  const dateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.inspectionDate)
+  const editedDate = new Date(dateFromRedux).toISOString().split("T")[0]
   const classes = useStyles()
   return (
     <div>
@@ -26,14 +29,27 @@ const MapComponent: React.FC<Props> = ({ data, mapComponentIndex }) => {
           <OpenLayersMap />
         </div>
         <div className={classes.footer}>
-          <div>2021-08</div>
-          <div>tuulituhotunnistus</div>
-          <div>button</div>
+          <Grid container>
+            <Grid container item xs={4} justify='center' alignItems='center' spacing={1}>
+              <Grid item >
+                <div style={{ color: '#00a9f7', fontSize: '11px' }}>another date </div>
+              </Grid>
+              <Grid item>
+                <div style={{ color: '#ff0000', fontSize: '11px' }}>{editedDate}</div>
+              </Grid>
+            </Grid>
+            <Grid container item xs={4} justify='center' alignItems='center'>
+              <div style={{ fontSize: '14px' }}>Tuulituhotunnistus</div>
+            </Grid>
+            <Grid container item xs={4} justify='center'>
+              <div style={{ fontSize: '14px', border: 'solid black 1px', borderRadius: ' 5px', padding: '6px' }}>button</div>
+            </Grid>
+          </Grid>
         </div>
         <div className={classes.menuContainer}>
           <div className={classes.dropDown}>
             <SlimAccordion name={'Aineistot'}>
-              <DataSourceList sources={sources} mapComponentIndex={mapComponentIndex} />
+              <SourceList sources={sources} mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
           </div>
           <div className={classes.dropDown}>

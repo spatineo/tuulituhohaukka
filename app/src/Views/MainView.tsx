@@ -2,12 +2,13 @@ import React from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { loadData } from '../Store/Actions/data'
-import { Grid } from '@material-ui/core'
+import { Divider, Grid } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { ReduxState, Data } from '../types'
+import { Data } from '../types'
+import { Typography, AppBar } from '@material-ui/core';
 
 import MapView from './MapView'
-import SidePanel from '../Components/SidePanel/SidePanel'
+import SidePanel from './SidePanel'
 
 
 const MainView = () => {
@@ -25,19 +26,15 @@ const MainView = () => {
 
   return (
     <div className="App">
-      <h1>Tuulituhohaukka 🌪 💥 🦅 </h1>
-      <button
-        className={classes.reduxLoadButton}
-        onClick={() => getDataFromRedux()}>
-        Load data and get it from Redux
-      </button>
-
+      <Typography variant='h4'>Tuulituhohaukka 🌪 💥 🦅 </Typography>
+      <h1></h1>
+      <Divider />
       <div className={classes.root}>
         <Grid container className={classes.container}>
           <Grid item xs={4} lg={3} xl={2} className={classes.border}>
             <SidePanel />
           </Grid>
-          <Grid item xs={8} lg={9} xl={10} className={classes.border}>
+          <Grid item xs={8} lg={9} xl={10} >
             <MapView />
           </Grid>
         </Grid>
@@ -56,7 +53,8 @@ const useStyles = makeStyles(() =>
       height: '1000px',
     },
     border: {
-      border: 'solid black 1px'
+      border: 'solid black 1px',
+      borderRadius: '10px'
     },
     container: {
       height: '100%'

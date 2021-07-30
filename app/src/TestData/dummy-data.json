@@ -2,7 +2,7 @@
   "data": {
     "global": {
       "bbox": [-100.0, -90.0, 100.0, 90.0],
-      "selectedTime": "2021-07-07T06:34:24+0000",
+      "inspectionDate": "2021-07-07T06:34:24+0000",
       "fullScreen": null,
       "mapSize": "small"
     },

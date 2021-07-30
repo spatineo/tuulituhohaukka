@@ -1,19 +1,11 @@
 import * as React from 'react'
 import { useDispatch } from 'react-redux';
-import { setGreenChannel } from '../../../Store/Actions/data'
 
 import { createStyles, makeStyles, withStyles } from '@material-ui/styles'
 import { green } from '@material-ui/core/colors';
 import { Radio, RadioProps } from '@material-ui/core'
 import { ListChildComponentProps } from 'react-window'
-import { isNamedExports } from 'typescript';
-
-// interface Props {
-//   key: string
-//   name: string
-//   onChange: (value: string) => void
-//   selectedValue: string
-// }
+import { setDataSource } from '../../../../Store/Actions/data'
 
 const GreenRadio = withStyles({
   root: {
@@ -25,28 +17,26 @@ const GreenRadio = withStyles({
   checked: {},
 })((props: RadioProps) => <Radio color="default" {...props} />);
 
-const GreenListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
+const DefaultListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
   const name = data.sources[index].name
-  const selectedValue = data.selectedValue
+  const selectedSource = data.selectedSource
   const mapComponentIndex = data.mapComponentIndex
   const classes = useStyles()
   const dispatch = useDispatch()
 
   const payload = {
     mapComponentIndex: mapComponentIndex,
-    greenChannelValue: name
+    selectedSource: name
   }
 
   return (
     <div className={classes.listItemContainer} style={style}>
       <GreenRadio
-        checked={selectedValue === name}
+        checked={selectedSource === name}
         onChange={() => {
-          console.log('Currently selected for GREEN is :', name)
-          console.log('Dispatching setGreenChannel action!')
-          dispatch(setGreenChannel(payload))
+          dispatch(setDataSource(payload))
         }}
-        value={isNamedExports}
+        value={name}
       />
       {name}
     </div>
@@ -63,4 +53,4 @@ const useStyles = makeStyles(() =>
     }
   }))
 
-export default GreenListItem
+export default DefaultListItem

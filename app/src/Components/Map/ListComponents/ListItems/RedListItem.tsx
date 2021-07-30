@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { useDispatch } from 'react-redux';
-import { setBlueChannel } from '../../../Store/Actions/data'
+import { setRedChannel } from '../../../../Store/Actions/data'
 
 import { createStyles, makeStyles, withStyles } from '@material-ui/styles'
-import { blue } from '@material-ui/core/colors';
+import { red } from '@material-ui/core/colors';
 import { Radio, RadioProps } from '@material-ui/core'
 import { ListChildComponentProps } from 'react-window'
 import { isNamedExports } from 'typescript';
@@ -15,36 +15,37 @@ import { isNamedExports } from 'typescript';
 //   selectedValue: string
 // }
 
-const BlueRadio = withStyles({
+const RedRadio = withStyles({
   root: {
-    color: blue[400],
+    color: red[400],
     '&$checked': {
-      color: blue[600],
+      color: red[600],
     },
   },
   checked: {},
 })((props: RadioProps) => <Radio color="default" {...props} />);
 
-const BlueListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
-  const name = data.sources[index].name
-  const selectedValue = data.selectedValue
-  const mapComponentIndex = data.mapComponentIndex
+const RedListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
 
+  const name = data.sources[index].name
+  const selectedValue = data.selectedValue
+  const mapComponentIndex = data.mapComponentIndex
+
+
+
   const payload = {
     mapComponentIndex: mapComponentIndex,
-    blueChannelValue: name
+    redChannelValue: name
   }
 
   return (
     <div className={classes.listItemContainer} style={style}>
-      <BlueRadio
+      <RedRadio
         checked={selectedValue === name}
         onChange={() => {
-          console.log('Currently selected for BLUE is :', name)
-          console.log('Dispatching setBlueChannel action!')
-          dispatch(setBlueChannel(payload))
+          dispatch(setRedChannel(payload))
         }}
         value={isNamedExports}
       />
@@ -63,4 +64,4 @@ const useStyles = makeStyles(() =>
     }
   }))
 
-export default BlueListItem
+export default RedListItem

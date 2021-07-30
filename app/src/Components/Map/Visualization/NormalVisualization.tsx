@@ -5,7 +5,8 @@ import { Grid } from '@material-ui/core'
 
 import ChannelColorTile from './ChannelColorTile'
 import SlimAccordion from '../SlimAccordion'
-import DataSourceList from '../SourceList/DataSourceList'
+import ColorSourceList from '../ListComponents/ColorSourceList'
+
 
 import { ChannelSettings } from '../../../types'
 
@@ -18,7 +19,7 @@ const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentInd
   // const sources = useSelector((state: ReduxState): Array<Source> => state.data.cache.sources)
   const colorData = useSelector((state: any): ChannelSettings => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
   const [clickedColorTile, setClickedColorTile] = React.useState('')
-  console.log('Channel Settings for Visualization component: ', mapComponentIndex, ' : ', channelSettings)
+
   const classes = useStyles()
 
   const sources = [
@@ -40,7 +41,7 @@ const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentInd
         return (
           <Grid item xs={10} >
             <SlimAccordion name={'list'}>
-              <DataSourceList
+              <ColorSourceList
                 sources={sources}
                 color={'red'}
                 mapComponentIndex={mapComponentIndex} />
@@ -52,7 +53,7 @@ const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentInd
         return (
           <Grid item xs={10} >
             <SlimAccordion name={'list'}>
-              <DataSourceList
+              <ColorSourceList
                 sources={sources}
                 color={'green'}
                 mapComponentIndex={mapComponentIndex} />
@@ -64,7 +65,7 @@ const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentInd
         return (
           <Grid item xs={10} >
             <SlimAccordion name={'list'}>
-              <DataSourceList
+              <ColorSourceList
                 sources={sources}
                 color={'blue'}
                 mapComponentIndex={mapComponentIndex} />
@@ -76,7 +77,7 @@ const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentInd
         return (
           <Grid item xs={10} >
             <SlimAccordion name={'list'}>
-              <DataSourceList
+              <ColorSourceList
                 sources={sources}
                 color={'red'}
                 mapComponentIndex={mapComponentIndex} />

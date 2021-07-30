@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { useDispatch } from 'react-redux';
-import { setRedChannel } from './../../../Store/Actions/data'
+import { setGreenChannel } from '../../../../Store/Actions/data'
 
 import { createStyles, makeStyles, withStyles } from '@material-ui/styles'
-import { red } from '@material-ui/core/colors';
+import { green } from '@material-ui/core/colors';
 import { Radio, RadioProps } from '@material-ui/core'
 import { ListChildComponentProps } from 'react-window'
 import { isNamedExports } from 'typescript';
@@ -15,39 +15,34 @@ import { isNamedExports } from 'typescript';
 //   selectedValue: string
 // }
 
-const RedRadio = withStyles({
+const GreenRadio = withStyles({
   root: {
-    color: red[400],
+    color: green[400],
     '&$checked': {
-      color: red[600],
+      color: green[600],
     },
   },
   checked: {},
 })((props: RadioProps) => <Radio color="default" {...props} />);
 
-const RedListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
-  const classes = useStyles()
-  const dispatch = useDispatch()
-
+const GreenListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
   const name = data.sources[index].name
   const selectedValue = data.selectedValue
   const mapComponentIndex = data.mapComponentIndex
-
-
+  const classes = useStyles()
+  const dispatch = useDispatch()
 
   const payload = {
     mapComponentIndex: mapComponentIndex,
-    redChannelValue: name
+    greenChannelValue: name
   }
 
   return (
     <div className={classes.listItemContainer} style={style}>
-      <RedRadio
+      <GreenRadio
         checked={selectedValue === name}
         onChange={() => {
-          console.log('Currently selected for RED is :', name)
-          console.log('Dispatching setRedChannel action!')
-          dispatch(setRedChannel(payload))
+          dispatch(setGreenChannel(payload))
         }}
         value={isNamedExports}
       />
@@ -66,4 +61,4 @@ const useStyles = makeStyles(() =>
     }
   }))
 
-export default RedListItem
+export default GreenListItem
