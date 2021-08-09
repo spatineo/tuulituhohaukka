@@ -73,7 +73,18 @@ const dataReducer = createReducer(initialState, {
     console.log('Setting data source or map in reducer')
     console.log('Action payload: ', action.payload)
     state.data.maps[action.payload.mapComponentIndex].selectedSource = action.payload.selectedSource
+  },
+  REMOVE_MAP: (state: any, action) => {
+    console.log('Removing map in reducer')
+    console.log('Action payload: ', action.payload)
+    state.data.maps = state.data.maps.filter((map: any) => map.id !== action.payload.id)
+  },
+  ADD_MAP: (state: any, action) => {
+    console.log('Adding a map in reducer')
+    console.log('Action payload: ', action.payload)
+    state.data.maps.push(action.payload.mapObject)
   }
+
 })
 
 
