@@ -8,6 +8,8 @@ export const SET_BLUE_CHANNEL = 'SET_BLUE_CHANNEL'
 export const SET_INSPECTION_DATE = 'SET_INSPECTION_DATE'
 export const SET_COMPARISON_DATE = 'SET_COMPARISON_DATE'
 export const SET_DATA_SOURCE = 'SET_DATA_SOURCE'
+export const REMOVE_MAP = 'REMOVE_MAP'
+export const ADD_MAP = 'ADD_MAP'
 
 interface LoadDataAction {
   type: string
@@ -59,4 +61,14 @@ export const setComparisonDate = (data: any): SetDataAction => ({
 export const setDataSource = (data: any): SetDataAction => ({
   type: SET_DATA_SOURCE,
   payload: data
+})
+
+export const removeMap = (data: any): SetDataAction => ({
+  type: REMOVE_MAP,
+  payload: data
+})
+
+export const addMap = (data: any): SetDataAction => ({
+  type: ADD_MAP,
+  payload: data,
 })
