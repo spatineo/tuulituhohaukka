@@ -11,6 +11,7 @@ export const SET_DATA_SOURCE = 'SET_DATA_SOURCE'
 export const REMOVE_MAP = 'REMOVE_MAP'
 export const ADD_MAP = 'ADD_MAP'
 
+
 interface LoadDataAction {
   type: string
 }
