@@ -1,31 +1,46 @@
 
 import * as React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Source } from '../../types'
 import { createStyles, makeStyles } from '@material-ui/styles'
-import { Grid } from '@material-ui/core'
+import { Grid, Button } from '@material-ui/core'
 import SlimAccordion from './SlimAccordion'
 import OpenLayersMap from './OpenLayersMap'
 import { Map } from '../../types'
 
+import { removeMap } from '../../Store/Actions/data'
 
 import SourceList from './ListComponents/SourceList'
 import NormalVisualization from './Visualization/NormalVisualization'
 
 interface Props {
-  data: Map,
+  mapObject: Map,
   mapComponentIndex: number
 }
 
-const MapComponent: React.FC<Props> = ({ data, mapComponentIndex }) => {
+const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
   const sources = useSelector((state: any): Array<Source> => state.dataReducer.cache.sources)
   const dateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.inspectionDate)
   const editedDate = new Date(dateFromRedux).toISOString().split("T")[0]
   const classes = useStyles()
+  const dispatch = useDispatch()
+
+  console.log('Map component id:', mapObject.id)
+
+  const payload = {
+    id: mapObject.id
+  }
+
   return (
     <div>
       <div className={classes.mapContainer}>
         <div className={classes.mapBox}>
+          <Button
+            style={{ position: 'absolute', zIndex: 2, maxWidth: '40px', minWidth: '40px', aspectRatio: '1/1', right: '0px' }} size='small' variant="contained" color="secondary"
+            onClick={() => dispatch(removeMap(payload))}
+          >
+            -
+          </Button>
           <OpenLayersMap />
         </div>
         <div className={classes.footer}>
@@ -54,7 +69,7 @@ const MapComponent: React.FC<Props> = ({ data, mapComponentIndex }) => {
           </div>
           <div className={classes.dropDown}>
             <SlimAccordion name={'Visualisointi'}>
-              <NormalVisualization channelSettings={data.channelSettings} mapComponentIndex={mapComponentIndex} />
+              <NormalVisualization channelSettings={mapObject.channelSettings} mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
           </div>
         </div>
@@ -78,6 +93,7 @@ const useStyles = makeStyles(() =>
       border: 'solid black 1px',
       height: '75%',
       width: '100%',
+      position: 'relative',
     },
     footer: {
       display: 'flex',
