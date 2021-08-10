@@ -25,13 +25,31 @@ const initialState = {
     maps: []
   },
   cache: {
-    catalogue: {},
+    catalog: {},
+    fetchInProgress: {},
     sources: [],
     windDamages: []
   }
 }
 
 const dataReducer = createReducer(initialState, {
+  SET_ROOT_CATALOG: (state, action) => {
+    console.log('Loading rootCatalog from JSON file and setting state in Redux')
+    console.log('Action payload in reducer: ', action.payload)
+    state.cache.catalog = action.payload.rootCatalog
+  },
+  SET_DATA: (state, action) => {
+    console.log('Loading data from JSON file and setting state in Redux')
+    console.log('Actions pay load in reducer: ', action.payload)
+    state.data.global.bbox = action.payload.data.global.bbox
+    state.data.global.inspectionDate = action.payload.data.global.inspectionDate
+    state.data.global.fullScreen = action.payload.data.global.fullScreen
+    state.data.global.mapSize = action.payload.data.global.mapSize
+    state.data.maps = action.payload.data.maps
+    state.cache.catalog = action.payload.cache.catalog.id
+    state.cache.sources = action.payload.cache.sources
+    state.cache.windDamages = action.payload.cache.windDamages
+  },
   SET_RED_CHANNEL: (state: any, action) => {
     console.log('Setting red channel value in redux')
     console.log('action payload for set red channel: ', action.payload)
@@ -46,18 +64,6 @@ const dataReducer = createReducer(initialState, {
     console.log('Setting blue channel value in redux')
     console.log('action payload for set blue channel: ', action.payload)
     state.data.maps[action.payload.mapComponentIndex].channelSettings.B = action.payload.blueChannelValue
-  },
-  SET_DATA: (state, action) => {
-    console.log('Loading data from JSON file and setting state in Redux')
-    console.log('Actions pay load in reducer: ', action.payload)
-    state.data.global.bbox = action.payload.data.global.bbox
-    state.data.global.inspectionDate = action.payload.data.global.inspectionDate
-    state.data.global.fullScreen = action.payload.data.global.fullScreen
-    state.data.global.mapSize = action.payload.data.global.mapSize
-    state.data.maps = action.payload.data.maps
-    state.cache.catalogue = action.payload.cache.catalogue.id
-    state.cache.sources = action.payload.cache.sources
-    state.cache.windDamages = action.payload.cache.windDamages
   },
   SET_INSPECTION_DATE: (state, action) => {
     console.log('Setting inspection date in reducer')
