@@ -1,7 +1,6 @@
 import React from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
-import { loadData } from '../Store/Actions/data'
+import { loadRootCatalog, loadData } from '../Store/Actions/data'
 import { Divider, Grid } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { Data } from '../types'
@@ -14,14 +13,18 @@ import SidePanel from './SidePanel'
 const MainView = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
+
   const data = useSelector((state: any): Data => state.dataReducer.data)
+  const rootCatalog = useSelector((state: any): any => state.dataReducer.cache.catalog)
 
   const getDataFromRedux = () => {
     dispatch(loadData())
+    dispatch(loadRootCatalog())
   }
 
   React.useEffect(() => {
     getDataFromRedux()
+    console.log('rootCatalog: ', rootCatalog)
   }, [])
 
   return (
