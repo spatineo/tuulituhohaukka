@@ -22,6 +22,12 @@ export const ADD_MAP = 'ADD_MAP'
 interface LoadDataAction {
   type: string
 }
+
+interface LoadDataActionWithParam {
+  type: string,
+  payload: string
+}
+
 interface SetDataAction {
   type: string
   payload: JSON
@@ -33,8 +39,9 @@ interface SetColorChannelAction {
 }
 
 // _____ Catalog
-export const loadRootCatalog = (): LoadDataAction => ({
-  type: LOAD_ROOT_CATALOG
+export const loadRootCatalog = (url: string): LoadDataActionWithParam => ({
+  type: LOAD_ROOT_CATALOG,
+  payload: url
 })
 
 export const setRootCatalog = (data: JSON): SetDataAction => ({
