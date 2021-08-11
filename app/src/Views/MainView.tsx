@@ -1,14 +1,13 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, batch } from 'react-redux';
 import { loadRootCatalog, loadData } from '../Store/Actions/data'
 import { Divider, Grid } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { Data } from '../types'
-import { Typography, AppBar } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 
 import MapView from './MapView'
 import SidePanel from './SidePanel'
-
 
 const MainView = () => {
   const classes = useStyles()
@@ -18,8 +17,11 @@ const MainView = () => {
   const rootCatalog = useSelector((state: any): any => state.dataReducer.cache.catalog)
 
   const getDataFromRedux = () => {
-    dispatch(loadData())
-    dispatch(loadRootCatalog())
+    batch(() => {
+      // dispatch(loadRootCatalog('/Testdata/root.json'))
+      dispatch(loadData())
+    })
+
   }
 
   React.useEffect(() => {
