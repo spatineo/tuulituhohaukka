@@ -33,7 +33,7 @@ const initialState = {
 }
 
 const dataReducer = createReducer(initialState, {
-  SET_ROOT_CATALOG: (state, action) => {
+  CATALOG_FETCH_FINISHED: (state, action) => {
     console.log('Loading rootCatalog from JSON file and setting state in Redux')
     console.log('Action payload in reducer: ', action.payload)
     state.cache.catalog = action.payload.rootCatalog
