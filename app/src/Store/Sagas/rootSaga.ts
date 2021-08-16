@@ -1,8 +1,12 @@
-import { fork } from 'redux-saga/effects'
+import { fork, all } from 'redux-saga/effects'
 import { loadDummyDataWatcher } from './loadDummyDataSaga'
 import { loadCatalogWatcher } from './loadCatalogSaga'
 
 export function* rootSaga() {
-  yield fork(loadDummyDataWatcher)
-  yield fork(loadCatalogWatcher)
+  yield all(
+    [
+      fork(loadDummyDataWatcher),
+      fork(loadCatalogWatcher)
+    ]
+  )
 }
