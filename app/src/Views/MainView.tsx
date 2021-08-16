@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch, batch } from 'react-redux';
 import { loadRootCatalog, loadData } from '../Store/Actions/data'
-import { Divider, Grid } from '@material-ui/core'
+import { Button, Divider, Grid } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { Data } from '../types'
 import { Typography } from '@material-ui/core';
@@ -18,21 +18,28 @@ const MainView = () => {
 
   const getDataFromRedux = () => {
     batch(() => {
-      // dispatch(loadRootCatalog('/Testdata/root.json'))
-      dispatch(loadData())
+      dispatch(loadRootCatalog('/Testdata/root.json'))
+      // dispatch(loadData())
     })
 
   }
 
   React.useEffect(() => {
     getDataFromRedux()
-    console.log('rootCatalog: ', rootCatalog)
   }, [])
+
+  console.log('rootCatalog: ', rootCatalog)
 
   return (
     <div className="App">
       <Typography variant='h4'>Tuulituhohaukka 🌪 💥 🦅 </Typography>
       <h1></h1>
+      <Button variant='contained' onClick={() => {
+        console.log('Dispatching action loadRootCatalog action again!')
+        dispatch(loadRootCatalog('/Testdata/root.json'))
+      }}>
+        fetch catalog!
+      </Button>
       <Divider />
       <div className={classes.root}>
         <Grid container className={classes.container}>
