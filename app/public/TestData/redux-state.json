@@ -42,7 +42,7 @@
   },
 
   "cache": {
-    "catalogue": {},
+    "catalog": {},
     "sources": [
       {
         "id": "S1M",
