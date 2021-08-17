@@ -31,6 +31,7 @@ const App = (): JSX.Element => {
 }
 
 export default App;
+export { store }
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
