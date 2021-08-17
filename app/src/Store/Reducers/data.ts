@@ -1,17 +1,14 @@
 import { createReducer } from '@reduxjs/toolkit'
-import {
-  LOAD_DATA,
-  SET_DATA,
-  SET_RED_CHANNEL,
-  SET_GREEN_CHANNEL,
-  SET_BLUE_CHANNEL,
-  SET_INSPECTION_DATE,
-} from '../Actions/data'
-import { ReduxState } from '../../types'
 
-// const initialState = {
-//   jsonFile: undefined
-// }
+// --> Create interface for initialState
+
+interface FetchInProgress {
+  [key: string]: boolean
+}
+
+interface FetchError {
+  [key: string]: string
+}
 
 const initialState = {
   data: {
@@ -26,17 +23,34 @@ const initialState = {
   },
   cache: {
     catalog: {},
-    fetchInProgress: {},
+    fetchInProgress: {} as FetchInProgress,
+    fetchErrors: {} as FetchError,
     sources: [],
     windDamages: []
   }
 }
 
 const dataReducer = createReducer(initialState, {
-  CATALOG_FETCH_FINISHED: (state, action) => {
-    console.log('Loading rootCatalog from JSON file and setting state in Redux')
+  SET_ROOT_CATALOG: (state, action) => {
+    console.log('Catalog')
     console.log('Action payload in reducer: ', action.payload)
     state.cache.catalog = action.payload.rootCatalog
+  },
+  CATALOG_FETCH_START: (state, action) => {
+    console.log('Catalog download started')
+    console.log('Action payload in reducer: ', action.payload)
+    state.cache.fetchInProgress[action.url] = action.payload.inProgress
+  },
+  CATALOG_FETCH_FINISHED: (state, action) => {
+    console.log('Loading rootCatalog finished! Setting state in Redux')
+    console.log('Action payload in reducer: ', action.payload)
+    state.cache.fetchInProgress[action.url] = action.payload.inProgress
+    state.cache.catalog = action.payload.fetchedCatalog
+  },
+  CATALOG_FETCH_FAILED: (state, action) => {
+    console.log('Error while loading rootCatalog!')
+    console.log('Action payload in reducer: ', action.payload)
+    state.cache.fetchErrors[action.url] = action.error
   },
   SET_DATA: (state, action) => {
     console.log('Loading data from JSON file and setting state in Redux')
