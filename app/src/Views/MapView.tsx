@@ -9,6 +9,7 @@ import { Map } from '../types'
 import { addMap } from '../Store/Actions/data'
 
 import MapComponent from '../Components/Map/MapComponent'
+import TestCache from '../Components/TestCache'
 
 // interface interfaceName {
 //   value: string
@@ -89,6 +90,9 @@ const MapView: React.FC = () => {
           })}
         </Grid>
       </div>
+
+      <TestCache />
+
     </div>
   )
 }
