@@ -1,5 +1,8 @@
 import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { updateMapExtent } from '../../Store/Actions/data'
 
 import * as ol from 'ol'
 import * as layer from 'ol/layer'
@@ -7,6 +10,7 @@ import * as source from 'ol/source'
 import * as style from 'ol/style'
 import * as extent from 'ol/extent'
 import 'ol/ol.css'
+import { toLonLat } from 'ol/proj'
 
 interface State {
   showLens: boolean
@@ -14,6 +18,8 @@ interface State {
 }
 
 const OpenLayersMap: React.FC = () => {
+  const mapViewState = useSelector((state: any) => state.dataReducer.data.global.mapView)
+  const dispatch = useDispatch()
 
   const initialState = {
     showLens: false,
@@ -21,7 +27,8 @@ const OpenLayersMap: React.FC = () => {
   }
 
   const [state, setState] = React.useState<State>(initialState)
-  const mapRef = React.useRef()
+  const [map, setMap] = React.useState<any>()
+  const mapRef = React.useRef<HTMLElement>()
 
   const initiaizeOL = React.useCallback(() => {
     const map = new ol.Map({
@@ -41,12 +48,36 @@ const OpenLayersMap: React.FC = () => {
       showLens: false,
       map
     })
+    return map
   }, [mapRef])
 
+  const onMoveEnd = (evt: any) => {
+    const map = evt.map;
+    const center = map.getView().getCenter()
+    const resolution = map.getView().getResolution()
+    const rotation = map.getView().getRotation()
+    const payload = {
+      center: center,
+      resolution: resolution,
+      rotation: rotation,
+    }
+    console.log('Map moved. Dispatching action to set new extent!')
+    dispatch(updateMapExtent(payload))
+  }
 
   React.useEffect(() => {
-    initiaizeOL()
+    setMap(initiaizeOL())
   }, [])
+
+  React.useEffect(() => {
+    map?.on('moveend', onMoveEnd)
+  }, [map])
+
+  React.useEffect(() => {
+    map?.getView().setCenter(mapViewState.center)
+    map?.getView().setResolution(mapViewState.resolution)
+    map?.getView().setRotation(mapViewState.rotation)
+  }, [mapViewState])
 
   const classes = useStyles()
   return (
