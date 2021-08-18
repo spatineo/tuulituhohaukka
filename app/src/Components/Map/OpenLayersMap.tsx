@@ -10,7 +10,6 @@ import * as source from 'ol/source'
 import * as style from 'ol/style'
 import * as extent from 'ol/extent'
 import 'ol/ol.css'
-import { toLonLat } from 'ol/proj'
 
 interface State {
   showLens: boolean
@@ -51,7 +50,7 @@ const OpenLayersMap: React.FC = () => {
     return map
   }, [mapRef])
 
-  const onMoveEnd = (evt: any) => {
+  const sendUpdateExtentAction = (evt: any) => {
     const map = evt.map;
     const center = map.getView().getCenter()
     const resolution = map.getView().getResolution()
@@ -70,7 +69,7 @@ const OpenLayersMap: React.FC = () => {
   }, [])
 
   React.useEffect(() => {
-    map?.on('moveend', onMoveEnd)
+    map?.on('postrender', sendUpdateExtentAction)
   }, [map])
 
   React.useEffect(() => {
