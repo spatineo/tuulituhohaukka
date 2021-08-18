@@ -18,7 +18,7 @@ interface State {
 }
 
 const OpenLayersMap: React.FC = () => {
-  const mapViewState = useSelector((state: any) => state.dataReducer.data.global.mapView)
+  const mapExtent = useSelector((state: any) => state.dataReducer.data.global.mapExtent)
   const dispatch = useDispatch()
 
   const initialState = {
@@ -74,10 +74,10 @@ const OpenLayersMap: React.FC = () => {
   }, [map])
 
   React.useEffect(() => {
-    map?.getView().setCenter(mapViewState.center)
-    map?.getView().setResolution(mapViewState.resolution)
-    map?.getView().setRotation(mapViewState.rotation)
-  }, [mapViewState])
+    map?.getView().setCenter(mapExtent.center)
+    map?.getView().setResolution(mapExtent.resolution)
+    map?.getView().setRotation(mapExtent.rotation)
+  }, [mapExtent])
 
   const classes = useStyles()
   return (
