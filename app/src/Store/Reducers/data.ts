@@ -13,7 +13,11 @@ interface FetchError {
 const initialState = {
   data: {
     global: {
-      bbox: [],
+      mapExtent: {
+        center: '',
+        resolution: '',
+        rotation: ''
+      },
       inspectionDate: "",
       comparisonDate: "",
       fullScreen: "",
@@ -55,7 +59,7 @@ const dataReducer = createReducer(initialState, {
   SET_DATA: (state, action) => {
     console.log('Loading data from JSON file and setting state in Redux')
     console.log('Actions pay load in reducer: ', action.payload)
-    state.data.global.bbox = action.payload.data.global.bbox
+    // state.data.global.bbox = action.payload.data.global.bbox
     state.data.global.inspectionDate = action.payload.data.global.inspectionDate
     state.data.global.fullScreen = action.payload.data.global.fullScreen
     state.data.global.mapSize = action.payload.data.global.mapSize
@@ -103,6 +107,13 @@ const dataReducer = createReducer(initialState, {
     console.log('Adding a map in reducer')
     console.log('Action payload: ', action.payload)
     state.data.maps.push(action.payload.mapObject)
+  },
+  UPDATE_MAP_EXTENT: (state: any, action) => {
+    console.log('Updating map')
+    console.log('Action payload: ', action.payload)
+    state.data.global.mapExtent.center = action.payload.center
+    state.data.global.mapExtent.resolution = action.payload.resolution
+    state.data.global.mapExtent.rotation = action.payload.rotation
   }
 })
 
