@@ -10,6 +10,7 @@ export const SET_COMPARISON_DATE = 'SET_COMPARISON_DATE'
 export const SET_DATA_SOURCE = 'SET_DATA_SOURCE'
 export const REMOVE_MAP = 'REMOVE_MAP'
 export const ADD_MAP = 'ADD_MAP'
+export const UPDATE_MAP_EXTENT = 'UPDATE_MAP_EXTENT'
 
 interface LoadDataAction {
   type: string
@@ -71,4 +72,9 @@ export const removeMap = (data: any): SetDataAction => ({
 export const addMap = (data: any): SetDataAction => ({
   type: ADD_MAP,
   payload: data,
+})
+
+export const updateMapExtent = (data: any): SetDataAction => ({
+  type: UPDATE_MAP_EXTENT,
+  payload: data
 })
