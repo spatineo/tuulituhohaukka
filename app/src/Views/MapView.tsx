@@ -90,9 +90,6 @@ const MapView: React.FC = () => {
           })}
         </Grid>
       </div>
-
-      <TestCache />
-
     </div>
   )
 }
