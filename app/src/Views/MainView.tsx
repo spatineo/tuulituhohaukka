@@ -12,14 +12,12 @@ import SidePanel from './SidePanel'
 const MainView = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-
-  const data = useSelector((state: any): Data => state.dataReducer.data)
   const rootCatalog = useSelector((state: any): any => state.dataReducer.cache.catalog)
 
   const getDataFromRedux = () => {
     batch(() => {
       dispatch(loadRootCatalog('/Testdata/root.json'))
-      // dispatch(loadData())
+      dispatch(loadData())
     })
 
   }
