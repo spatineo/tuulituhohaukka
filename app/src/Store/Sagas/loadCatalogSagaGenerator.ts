@@ -11,7 +11,7 @@ interface LoadDataActionWithParam {
 // ______ Saga watcher _____
 
 // Once LOAD_ROOT_CATALOG action is detected, loadCatalogWorker is called
-export function* loadCatalogWatcherGenerator(): any {
+export function* loadCatalogWatcher(): any {
   console.log('loadCatalogWatcher called!')
   yield takeLatest(LOAD_ROOT_CATALOG, loadCatalogWorker)
 }
