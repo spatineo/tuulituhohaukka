@@ -104,39 +104,6 @@ const dataReducer = createReducer(initialState, {
     console.log('Action payload: ', action.payload)
     state.data.maps.push(action.payload.mapObject)
   }
-
 })
-
-
-
-
-
-
-
-// const dataReducer = (state = initialState, action: any): any => {
-//   switch (action.type) {
-//     case LOAD_DATA: 
-//       return {
-//         state
-//       }
-//     case SET_DATA:
-//       console.log('Set data in reducer called!')
-//       return {
-//         ...state, 
-//         data: {
-//           ...state.data, 
-//           global: {
-//             ...state.data.global, 
-//             bbox: action.payload.data.global.bbox
-//           }
-//         }
-//       }
-//     default: {
-//       return {
-//         state
-//       }
-//     }
-//   }
-// }
 
 export default dataReducer
