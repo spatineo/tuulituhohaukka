@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateMapExtent } from '../../Store/Actions/data'
 
 import * as ol from 'ol'
+import {MouseWheelZoom, defaults} from 'ol/interaction';
 import * as layer from 'ol/layer'
 import * as source from 'ol/source'
 import * as style from 'ol/style'
@@ -15,6 +16,8 @@ interface State {
   showLens: boolean
   map: any
 }
+
+const mouseWheelZoomAnimationTime = 75;
 
 const OpenLayersMap: React.FC = () => {
   const mapExtent = useSelector((state: any) => state.dataReducer.data.global.mapExtent)
@@ -31,6 +34,10 @@ const OpenLayersMap: React.FC = () => {
 
   const initiaizeOL = React.useCallback(() => {
     const map = new ol.Map({
+      interactions: defaults({mouseWheelZoom: false}).extend([
+        new MouseWheelZoom({
+          duration: mouseWheelZoomAnimationTime,
+        })]),
       target: mapRef.current,
       layers: [
         new layer.Tile({
@@ -73,9 +80,11 @@ const OpenLayersMap: React.FC = () => {
   }, [map])
 
   React.useEffect(() => {
-    map?.getView().setCenter(mapExtent.center)
-    map?.getView().setResolution(mapExtent.resolution)
-    map?.getView().setRotation(mapExtent.rotation)
+    if (!map?.getView().getInteracting()) {
+      map?.getView().setCenter(mapExtent.center)
+      map?.getView().setResolution(mapExtent.resolution)
+      map?.getView().setRotation(mapExtent.rotation)
+    }
   }, [mapExtent])
 
   const classes = useStyles()
