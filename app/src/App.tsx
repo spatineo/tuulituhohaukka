@@ -22,7 +22,6 @@ const configureStore = () => {
   sagaMiddleware.run(rootSaga)
   return store
 }
-
 const store = configureStore()
 
 const App = (): JSX.Element => {
