@@ -1,6 +1,6 @@
 import dataReducer from "../Reducers/data"
 
-export const LOAD_ROOT_CATALOG = 'LOAD_ROOT_CATALOG'
+export const LOAD_CATALOG = 'LOAD_ROOT_CATALOG'
 export const SET_ROOT_CATALOG = 'SET_ROOT_CATALOG'
 export const CATALOG_FETCH_START = 'CATALOG_FETCH_START'
 export const CATALOG_FETCH_FINISHED = 'CATALOG_FETCH_FINISHED'
@@ -40,9 +40,9 @@ interface SetColorChannelAction {
 }
 
 // _____ Catalog
-export const loadRootCatalog = (url: string): LoadDataActionWithParam => ({
-  type: LOAD_ROOT_CATALOG,
-  payload: url
+export const loadCatalog = (data: any): LoadDataActionWithParam => ({
+  type: LOAD_CATALOG,
+  payload: data
 })
 
 export const setRootCatalog = (data: JSON): SetDataAction => ({
