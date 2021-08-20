@@ -10,6 +10,10 @@ interface FetchError {
   [key: string]: string
 }
 
+interface Catalog {
+  [key: string]: any
+}
+
 const initialState = {
   data: {
     global: {
@@ -26,7 +30,7 @@ const initialState = {
     maps: []
   },
   cache: {
-    catalog: {},
+    catalog: {} as Catalog,
     fetchInProgress: {} as FetchInProgress,
     fetchErrors: {} as FetchError,
     sources: [],
@@ -35,26 +39,26 @@ const initialState = {
 }
 
 const dataReducer = createReducer(initialState, {
-  SET_ROOT_CATALOG: (state, action) => {
-    console.log('Catalog')
-    console.log('Action payload in reducer: ', action.payload)
-    state.cache.catalog = action.payload.rootCatalog
-  },
+  // SET_ROOT_CATALOG: (state, action) => {
+  //   console.log('Catalog')
+  //   console.log('Action payload in reducer: ', action.payload)
+  //   state.cache.catalog = action.payload.rootCatalog
+  // },
   CATALOG_FETCH_START: (state, action) => {
     console.log('Catalog download started')
     console.log('Action payload in reducer: ', action.payload)
-    state.cache.fetchInProgress[action.url] = action.payload.inProgress
+    state.cache.fetchInProgress[action.payload.url] = action.payload.inProgress
   },
   CATALOG_FETCH_FINISHED: (state, action) => {
-    console.log('Loading rootCatalog finished! Setting state in Redux')
+    console.log('Loading Catalog finished! Setting state in Redux')
     console.log('Action payload in reducer: ', action.payload)
-    state.cache.fetchInProgress[action.url] = action.payload.inProgress
-    state.cache.catalog = action.payload.fetchedCatalog
+    state.cache.fetchInProgress[action.payload.url] = action.payload.inProgress
+    state.cache.catalog[action.payload.url] = action.payload.fetchedCatalog
   },
   CATALOG_FETCH_FAILED: (state, action) => {
-    console.log('Error while loading rootCatalog!')
+    console.log('Saving error to reducer!')
     console.log('Action payload in reducer: ', action.payload)
-    state.cache.fetchErrors[action.url] = action.error
+    state.cache.fetchErrors[action.payload.url] = action.payload.error
   },
   SET_DATA: (state, action) => {
     console.log('Loading data from JSON file and setting state in Redux')
@@ -64,7 +68,7 @@ const dataReducer = createReducer(initialState, {
     state.data.global.fullScreen = action.payload.data.global.fullScreen
     state.data.global.mapSize = action.payload.data.global.mapSize
     state.data.maps = action.payload.data.maps
-    state.cache.catalog = action.payload.cache.catalog.id
+    // state.cache.catalog = action.payload.cache.catalog.id
     state.cache.sources = action.payload.cache.sources
     state.cache.windDamages = action.payload.cache.windDamages
   },
@@ -109,8 +113,8 @@ const dataReducer = createReducer(initialState, {
     state.data.maps.push(action.payload.mapObject)
   },
   UPDATE_MAP_EXTENT: (state: any, action) => {
-    console.log('Updating map')
-    console.log('Action payload: ', action.payload)
+    // console.log('Updating map')
+    // console.log('Action payload: ', action.payload)
     state.data.global.mapExtent.center = action.payload.center
     state.data.global.mapExtent.resolution = action.payload.resolution
     state.data.global.mapExtent.rotation = action.payload.rotation
