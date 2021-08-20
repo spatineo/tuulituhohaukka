@@ -11,14 +11,6 @@
         {
             "rel": "child",
             "href": "/TestData/dataset-S1M.json"
-        }, 
-        {
-            "rel": "child",
-            "href": "testlink2"
-        }, 
-        {
-            "rel": "child",
-            "href": "testlink3"
         }
     ]
 }
