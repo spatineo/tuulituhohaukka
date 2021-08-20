@@ -25,7 +25,7 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  console.log('Map component id:', mapObject.id)
+  // console.log('Map component id:', mapObject.id)
 
   const payload = {
     id: mapObject.id
