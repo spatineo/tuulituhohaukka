@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateMapExtent } from '../../Store/Actions/data'
 
 import * as ol from 'ol'
-import {MouseWheelZoom, defaults} from 'ol/interaction';
+import { MouseWheelZoom, defaults } from 'ol/interaction';
 import * as layer from 'ol/layer'
 import * as source from 'ol/source'
 import * as style from 'ol/style'
@@ -34,7 +34,7 @@ const OpenLayersMap: React.FC = () => {
 
   const initiaizeOL = React.useCallback(() => {
     const map = new ol.Map({
-      interactions: defaults({mouseWheelZoom: false}).extend([
+      interactions: defaults({ mouseWheelZoom: false }).extend([
         new MouseWheelZoom({
           duration: mouseWheelZoomAnimationTime,
         })]),
@@ -67,7 +67,7 @@ const OpenLayersMap: React.FC = () => {
       resolution: resolution,
       rotation: rotation,
     }
-    console.log('Map moved. Dispatching action to set new extent!')
+    // console.log('Map moved. Dispatching action to set new extent!')
     dispatch(updateMapExtent(payload))
   }
 

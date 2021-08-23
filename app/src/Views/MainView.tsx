@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch, batch } from 'react-redux';
-import { loadRootCatalog, loadData } from '../Store/Actions/data'
+import { loadCatalog, loadData } from '../Store/Actions/data'
 import { Button, Divider, Grid } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { Data } from '../types'
@@ -9,34 +9,37 @@ import { Typography } from '@material-ui/core';
 import MapView from './MapView'
 import SidePanel from './SidePanel'
 
+import { getAllDatasets } from '../API/Api';
+
 const MainView = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const rootCatalog = useSelector((state: any): any => state.dataReducer.cache.catalog)
+
+  const [datasets, setDatasets] = React.useState<Array<any>>()
 
   const getDataFromRedux = () => {
     batch(() => {
-      dispatch(loadRootCatalog('/Testdata/root.json'))
+      dispatch(loadCatalog({ url: '/Testdata/root.json' }))
       dispatch(loadData())
     })
-
   }
 
   React.useEffect(() => {
+    console.log('Inializing app. Dispatching actions to fetch data')
     getDataFromRedux()
   }, [])
 
-  console.log('rootCatalog: ', rootCatalog)
+
+  console.log('datasets from catalog: ', datasets)
 
   return (
     <div className="App">
       <Typography variant='h4'>Tuulituhohaukka 🌪 💥 🦅 </Typography>
       <h1></h1>
       <Button variant='contained' onClick={() => {
-        console.log('Dispatching action loadRootCatalog action again!')
-        dispatch(loadRootCatalog('/Testdata/root.json'))
+        setDatasets(getAllDatasets())
       }}>
-        fetch catalog!
+        fetch datasets!
       </Button>
       <Divider />
       <div className={classes.root}>
@@ -50,7 +53,7 @@ const MainView = () => {
         </Grid>
       </div>
     </div>
-  );
+  )
 }
 
 const useStyles = makeStyles(() =>
@@ -71,6 +74,5 @@ const useStyles = makeStyles(() =>
     }
   })
 )
-
 
 export default MainView;

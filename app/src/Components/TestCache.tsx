@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { useSelector, useDispatch } from 'react-redux'
-import { loadRootCatalog } from '../Store/Actions/data'
 import { getAllDatasets } from '../API/Api'
 
 const TestCache: React.FC = () => {
