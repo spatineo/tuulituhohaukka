@@ -44,7 +44,7 @@ const BlueRadio = withStyles({
 
 
 
-const DataSourceListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
+const BandListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
   const name = data.sources[index].name
   const selectedValue = data.selectedValue
   const color = data.color
@@ -100,8 +100,6 @@ const DataSourceListItem: React.FC<ListChildComponentProps> = ({ data, index, st
       )
     }
   }
-
-
 }
 
 const useStyles = makeStyles(() =>
@@ -114,4 +112,4 @@ const useStyles = makeStyles(() =>
     }
   }))
 
-export default DataSourceListItem
+export default BandListItem
