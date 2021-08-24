@@ -23,7 +23,7 @@
         },
 
         "derivedData": {
-          "sources": [],
+          "bands": [],
           "timeValues": {
             "inspection": "2021-06-29T10:07:49Z",
             "comparison": "2022-08-30T10:07:49Z"
@@ -43,7 +43,7 @@
 
   "cache": {
     "catalog": {},
-    "sources": [
+    "datasets": [
       {
         "id": "S1M",
         "name": "S1M (sentinel 1 mosaic)",
