@@ -11,7 +11,7 @@ interface LoadDataActionWithParam {
 // Once LOAD_ROOT_CATALOG action is detected, loadCatalogWorker is called
 export function* loadCatalogWatcher(): any {
   console.log('loadCatalogWatcher called!')
-  yield takeEvery(LOAD_CATALOG, loadCatalogWorker)
+  yield takeLatest(LOAD_CATALOG, loadCatalogWorker)
 }
 
 // Function will download the catalog if it is not found already from cache
