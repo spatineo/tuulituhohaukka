@@ -7,12 +7,9 @@ import { Grid, Button } from '@material-ui/core'
 import SlimAccordion from './SlimAccordion'
 import OpenLayersMap from './OpenLayersMap'
 import { Map } from '../../types'
-
 import { removeMap } from '../../Store/Actions/data'
-
 import SourceList from './ListComponents/SourceList'
 import NormalVisualization from './Visualization/NormalVisualization'
-
 import { getAllDatasets } from '../../API/Api'
 
 interface Props {
