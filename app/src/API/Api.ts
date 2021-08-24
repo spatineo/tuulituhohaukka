@@ -39,8 +39,6 @@ export const getAllDatasets = (): any[] | undefined => {
   }
   // 2. get all datasets catalog
   else {
-    console.log('Root Catalog found! Starting to filter links ')
-    console.log('Rootcatalog in api function: ', rootCatalog)
     if (rootCatalog.links) {
       // 3. read id and title from each dataset catalog and return as an array of objects {datasets: [{id: 'foo', title: 'bar'}, {...}]}
       const dataSets = rootCatalog.links.filter((link: any) => link.rel === 'child').map((link: any) => {
