@@ -1,11 +1,13 @@
 import * as React from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, batch } from 'react-redux';
 
 import { createStyles, makeStyles, withStyles } from '@material-ui/styles'
 import { green } from '@material-ui/core/colors';
 import { Radio, RadioProps } from '@material-ui/core'
 import { ListChildComponentProps } from 'react-window'
-import { setDataSource } from '../../../../Store/Actions/data'
+
+import { setDataSource, setBands } from '../../../../Store/Actions/data'
+import { getBandsForDataset } from '../../../../API/Api';
 
 const GreenRadio = withStyles({
   root: {
@@ -17,24 +19,26 @@ const GreenRadio = withStyles({
   checked: {},
 })((props: RadioProps) => <Radio color="default" {...props} />);
 
-const DefaultListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
-  const name = data.sources[index].name
+const SourceListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
+  const name = data.sources[index].title
   const selectedSource = data.selectedSource
+  const sourceId = data.sources[index].id
   const mapComponentIndex = data.mapComponentIndex
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  const payload = {
-    mapComponentIndex: mapComponentIndex,
-    selectedSource: name
-  }
+  console.log('Selected source in sourceList is:', selectedSource)
 
   return (
     <div className={classes.listItemContainer} style={style}>
       <GreenRadio
         checked={selectedSource === name}
         onChange={() => {
-          dispatch(setDataSource(payload))
+          batch(() => {
+            dispatch(setDataSource({ mapComponentIndex: mapComponentIndex, selectedSource: name }))
+            dispatch(setBands({ bands: getBandsForDataset(sourceId) }))
+          }
+          )
         }}
         value={name}
       />
@@ -53,4 +57,4 @@ const useStyles = makeStyles(() =>
     }
   }))
 
-export default DefaultListItem
+export default SourceListItem
