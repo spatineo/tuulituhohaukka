@@ -24,10 +24,10 @@ const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentInd
 
   const sources = [
     {
-      name: 'VV'
+      title: 'VV'
     },
     {
-      name: 'VH'
+      title: 'VH'
     }
   ]
 
