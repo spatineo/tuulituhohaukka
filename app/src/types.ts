@@ -69,7 +69,7 @@ export interface Catalogue {
 
 export interface Source {
   id?: string
-  name: string
+  title: string
   channelSelectorType?: string
 }
 
