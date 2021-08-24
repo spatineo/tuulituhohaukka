@@ -20,29 +20,32 @@ const GreenRadio = withStyles({
 })((props: RadioProps) => <Radio color="default" {...props} />);
 
 const SourceListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
-  const name = data.sources[index].title
+  const title = data.sources[index].title
   const selectedSource = data.selectedSource
   const sourceId = data.sources[index].id
   const mapComponentIndex = data.mapComponentIndex
   const classes = useStyles()
   const dispatch = useDispatch()
 
+
+
   console.log('Selected source in sourceList is:', selectedSource)
 
   return (
     <div className={classes.listItemContainer} style={style}>
       <GreenRadio
-        checked={selectedSource === name}
+        checked={selectedSource === sourceId}
         onChange={() => {
+          console.log('Sending action from component number: ', index)
           batch(() => {
-            dispatch(setDataSource({ mapComponentIndex: mapComponentIndex, selectedSource: name }))
-            dispatch(setBands({ bands: getBandsForDataset(sourceId) }))
+            dispatch(setDataSource({ mapComponentIndex: mapComponentIndex, selectedSource: sourceId }))
+            dispatch(setBands({ bands: getBandsForDataset(sourceId), mapComponentIndex: mapComponentIndex }))
           }
           )
         }}
-        value={name}
+        value={title}
       />
-      {name}
+      {title}
     </div>
   )
 }
