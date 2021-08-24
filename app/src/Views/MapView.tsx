@@ -1,20 +1,16 @@
 import * as React from 'react'
 import { useDispatch } from 'react-redux'
+import { addMap } from '../Store/Actions/data'
 import { createStyles, makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import { green } from '@material-ui/core/colors'
 import { Button, Grid } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import { Map } from '../types'
-
-import { addMap } from '../Store/Actions/data'
-
 import MapComponent from '../Components/Map/MapComponent'
-import TestCache from '../Components/TestCache'
 
 // interface interfaceName {
 //   value: string
 // }
-
 
 const greenTheme = createMuiTheme({
   palette: {
@@ -23,9 +19,9 @@ const greenTheme = createMuiTheme({
 })
 
 const MapView: React.FC = () => {
-  const mapData = useSelector((state: any): Array<Map> => state.dataReducer.data.maps)
   const classes = useStyles()
   const dispatch = useDispatch()
+  const mapData = useSelector((state: any): Array<Map> => state.dataReducer.data.maps)
 
   const latestMapIndex = mapData.length - 1
 
