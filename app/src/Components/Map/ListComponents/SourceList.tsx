@@ -5,8 +5,7 @@ import { Source } from '../../../types'
 import { Grid, Input, InputAdornment } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 
-
-import DefaultListItem from './ListItems/DefaultListItem'
+import SourceListItem from './ListItems/SourceListItem'
 
 interface Props {
   sources: Source[],
@@ -19,7 +18,7 @@ const DataSourceList: React.FC<Props> = ({ sources, mapComponentIndex }) => {
 
   const searchAndFilter = (input: string) => {
     const filteredSources = sources.filter((source: Source) => {
-      const sourceData = source.name.toUpperCase()
+      const sourceData = source.title.toUpperCase()
       const searchText = input.toUpperCase()
       return sourceData.includes(searchText)
     }).sort()
@@ -52,7 +51,7 @@ const DataSourceList: React.FC<Props> = ({ sources, mapComponentIndex }) => {
                 mapComponentIndex: mapComponentIndex,
                 selectedSource: selectedSource
               }}>
-              {DefaultListItem}
+              {SourceListItem}
             </FixedSizeList>
           </Grid>
         </Grid>
