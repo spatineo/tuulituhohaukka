@@ -5,7 +5,7 @@ import { Source, ChannelSettings } from '../../../types'
 import { Grid, Input, InputAdornment } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 
-import DataSourceListItem from './ListItems/DataSourceListItem'
+import BandListItem from './ListItems/BandListItem'
 import RedListItem from './ListItems/RedListItem'
 import GreenListItem from './ListItems/GreenListItem'
 import BlueListItem from './ListItems/BlueListItem'
@@ -23,7 +23,7 @@ const ColorSourceList: React.FC<Props> = ({ sources, color, mapComponentIndex })
 
   const searchAndFilter = (input: string) => {
     const filteredSources = sources.filter((source: Source) => {
-      const sourceData = source.name.toUpperCase()
+      const sourceData = source.title.toUpperCase()
       const searchText = input.toUpperCase()
       return sourceData.includes(searchText)
     }).sort()
