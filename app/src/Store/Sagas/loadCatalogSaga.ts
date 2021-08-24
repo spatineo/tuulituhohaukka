@@ -1,4 +1,4 @@
-import { takeLatest, put, call, select } from '@redux-saga/core/effects'
+import { takeLatest, put, call, select, takeEvery } from '@redux-saga/core/effects'
 import axios from 'axios'
 import { LOAD_CATALOG } from '../Actions/data'
 import { catalogFetchStart, catalogFetchFailed, catalogFetchFinished } from '../Actions/data'
@@ -11,7 +11,7 @@ interface LoadDataActionWithParam {
 // Once LOAD_ROOT_CATALOG action is detected, loadCatalogWorker is called
 export function* loadCatalogWatcher(): any {
   console.log('loadCatalogWatcher called!')
-  yield takeLatest(LOAD_CATALOG, loadCatalogWorker)
+  yield takeEvery(LOAD_CATALOG, loadCatalogWorker)
 }
 
 // Function will download the catalog if it is not found already from cache
