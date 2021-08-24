@@ -1,45 +1,40 @@
 import React from 'react';
-import { useSelector, useDispatch, batch } from 'react-redux';
-import { loadCatalog, loadData } from '../Store/Actions/data'
+import { useDispatch, batch, useSelector } from 'react-redux';
+import { loadCatalog, loadInitialSetup, setAllDatasets, setBands } from '../Store/Actions/data'
 import { Button, Divider, Grid } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { Data } from '../types'
 import { Typography } from '@material-ui/core';
 
 import MapView from './MapView'
 import SidePanel from './SidePanel'
 
-import { getAllDatasets } from '../API/Api';
+import { getAllDatasets, getBandsForDataset } from '../API/Api';
 
 const MainView = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  const [datasets, setDatasets] = React.useState<Array<any>>()
-
-  const getDataFromRedux = () => {
-    batch(() => {
-      dispatch(loadCatalog({ url: '/Testdata/root.json' }))
-      dispatch(loadData())
-    })
-  }
-
   React.useEffect(() => {
     console.log('Inializing app. Dispatching actions to fetch data')
-    getDataFromRedux()
+    dispatch(loadInitialSetup())
+    // const datasets = getAllDatasets()
+    // console.log('All datasets: ', datasets)
+    // dispatch(setAllDatasets({ datasets: datasets }))
   }, [])
-
-
-  console.log('datasets from catalog: ', datasets)
 
   return (
     <div className="App">
       <Typography variant='h4'>Tuulituhohaukka 🌪 💥 🦅 </Typography>
       <h1></h1>
       <Button variant='contained' onClick={() => {
-        setDatasets(getAllDatasets())
+        dispatch(setAllDatasets(getAllDatasets()))
       }}>
         fetch datasets!
+      </Button>
+      <Button variant='contained' onClick={() => {
+        dispatch(setBands(getBandsForDataset('dataset-S1M')))
+      }}>
+        fetch bands for dataset!
       </Button>
       <Divider />
       <div className={classes.root}>
