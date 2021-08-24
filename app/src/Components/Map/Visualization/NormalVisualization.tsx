@@ -2,13 +2,11 @@ import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { Grid } from '@material-ui/core'
-
 import ChannelColorTile from './ChannelColorTile'
 import SlimAccordion from '../SlimAccordion'
 import ColorSourceList from '../ListComponents/ColorSourceList'
-
-
 import { ChannelSettings } from '../../../types'
+import { getBandsForDataset } from '../../../API/Api'
 
 interface Props {
   channelSettings: ChannelSettings
@@ -16,11 +14,16 @@ interface Props {
 }
 
 const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentIndex }) => {
-  // const sources = useSelector((state: ReduxState): Array<Source> => state.data.cache.sources)
+  const selectedSource = useSelector((state: any) => state.dataReducer.data.maps[mapComponentIndex].selectedSource)
+  const classes = useStyles()
   const colorData = useSelector((state: any): ChannelSettings => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
   const [clickedColorTile, setClickedColorTile] = React.useState('')
 
-  const classes = useStyles()
+  const mapState = useSelector((state: any) => state.dataReducer.data.maps[mapComponentIndex])
+
+  // React.useEffect(() => {
+  //   getBandsForDataset(selectedSource)
+  // }, [mapState])
 
   const sources = [
     {
