@@ -29,7 +29,7 @@ const RedListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) 
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  const name = data.sources[index].name
+  const title = data.sources[index].title
   const selectedValue = data.selectedValue
   const mapComponentIndex = data.mapComponentIndex
 
@@ -37,19 +37,19 @@ const RedListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) 
 
   const payload = {
     mapComponentIndex: mapComponentIndex,
-    redChannelValue: name
+    redChannelValue: title
   }
 
   return (
     <div className={classes.listItemContainer} style={style}>
       <RedRadio
-        checked={selectedValue === name}
+        checked={selectedValue === title}
         onChange={() => {
           dispatch(setRedChannel(payload))
         }}
         value={isNamedExports}
       />
-      {name}
+      {title}
     </div>
   )
 }

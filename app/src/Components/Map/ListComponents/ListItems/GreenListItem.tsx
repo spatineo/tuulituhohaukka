@@ -26,7 +26,7 @@ const GreenRadio = withStyles({
 })((props: RadioProps) => <Radio color="default" {...props} />);
 
 const GreenListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
-  const name = data.sources[index].name
+  const title = data.sources[index].title
   const selectedValue = data.selectedValue
   const mapComponentIndex = data.mapComponentIndex
   const classes = useStyles()
@@ -34,19 +34,19 @@ const GreenListItem: React.FC<ListChildComponentProps> = ({ data, index, style }
 
   const payload = {
     mapComponentIndex: mapComponentIndex,
-    greenChannelValue: name
+    greenChannelValue: title
   }
 
   return (
     <div className={classes.listItemContainer} style={style}>
       <GreenRadio
-        checked={selectedValue === name}
+        checked={selectedValue === title}
         onChange={() => {
           dispatch(setGreenChannel(payload))
         }}
         value={isNamedExports}
       />
-      {name}
+      {title}
     </div>
   )
 }

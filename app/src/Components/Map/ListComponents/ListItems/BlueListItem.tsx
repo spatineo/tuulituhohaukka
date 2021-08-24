@@ -26,7 +26,7 @@ const BlueRadio = withStyles({
 })((props: RadioProps) => <Radio color="default" {...props} />);
 
 const BlueListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
-  const name = data.sources[index].name
+  const title = data.sources[index].title
   const selectedValue = data.selectedValue
   const mapComponentIndex = data.mapComponentIndex
   const classes = useStyles()
@@ -34,19 +34,19 @@ const BlueListItem: React.FC<ListChildComponentProps> = ({ data, index, style })
 
   const payload = {
     mapComponentIndex: mapComponentIndex,
-    blueChannelValue: name
+    blueChannelValue: title
   }
 
   return (
     <div className={classes.listItemContainer} style={style}>
       <BlueRadio
-        checked={selectedValue === name}
+        checked={selectedValue === title}
         onChange={() => {
           dispatch(setBlueChannel(payload))
         }}
         value={isNamedExports}
       />
-      {name}
+      {title}
     </div>
   )
 }
