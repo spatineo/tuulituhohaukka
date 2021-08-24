@@ -13,23 +13,24 @@ import { removeMap } from '../../Store/Actions/data'
 import SourceList from './ListComponents/SourceList'
 import NormalVisualization from './Visualization/NormalVisualization'
 
+import { getAllDatasets } from '../../API/Api'
+
 interface Props {
   mapObject: Map,
   mapComponentIndex: number
 }
 
 const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
-  const sources = useSelector((state: any): Array<Source> => state.dataReducer.cache.sources)
+  const cache = useSelector((state: any): any => state.dataReducer.cache)
+  const sources = getAllDatasets() as Source[]
   const dateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.inspectionDate)
   const editedDate = new Date(dateFromRedux).toISOString().split("T")[0]
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  // console.log('Map component id:', mapObject.id)
-
-  const payload = {
-    id: mapObject.id
-  }
+  React.useEffect(() => {
+    getAllDatasets()
+  }, [cache])
 
   return (
     <div>
@@ -37,7 +38,7 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
         <div className={classes.mapBox}>
           <Button
             style={{ position: 'absolute', zIndex: 2, maxWidth: '40px', minWidth: '40px', aspectRatio: '1/1', right: '0px' }} size='small' variant="contained" color="secondary"
-            onClick={() => dispatch(removeMap(payload))}
+            onClick={() => dispatch(removeMap({ id: mapObject.id }))}
           >
             -
           </Button>
@@ -63,6 +64,7 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
         </div>
         <div className={classes.menuContainer}>
           <div className={classes.dropDown}>
+
             <SlimAccordion name={'Aineistot'}>
               <SourceList sources={sources} mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
