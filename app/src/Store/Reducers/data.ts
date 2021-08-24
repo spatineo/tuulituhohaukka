@@ -60,8 +60,8 @@ const dataReducer = createReducer(initialState, {
     console.log('Action payload in reducer: ', action.payload)
     state.cache.fetchErrors[action.payload.url] = action.payload.error
   },
-  SET_DATA: (state, action) => {
-    console.log('Loading data from JSON file and setting state in Redux')
+  SET_INITIAL_SETUP: (state, action) => {
+    console.log('Loading initial setup from JSON file and setting state in Redux')
     console.log('Actions pay load in reducer: ', action.payload)
     // state.data.global.bbox = action.payload.data.global.bbox
     state.data.global.inspectionDate = action.payload.data.global.inspectionDate
@@ -69,8 +69,8 @@ const dataReducer = createReducer(initialState, {
     state.data.global.mapSize = action.payload.data.global.mapSize
     state.data.maps = action.payload.data.maps
     // state.cache.catalog = action.payload.cache.catalog.id
-    state.cache.sources = action.payload.cache.sources
-    state.cache.windDamages = action.payload.cache.windDamages
+    state.cache.sources = action.payload.cache.datasets
+    // state.cache.windDamages = action.payload.cache.windDamages
   },
   SET_RED_CHANNEL: (state: any, action) => {
     console.log('Setting red channel value in redux')
@@ -118,6 +118,15 @@ const dataReducer = createReducer(initialState, {
     state.data.global.mapExtent.center = action.payload.center
     state.data.global.mapExtent.resolution = action.payload.resolution
     state.data.global.mapExtent.rotation = action.payload.rotation
+  },
+  SET_ALL_DATASETS: (state: any, action) => {
+    console.log('Setting all sources in Reducer')
+    console.log('Action payload: ', action.payload)
+    state.cache.sources = action.payload.datasets
+  },
+  SET_BANDS: (state: any, action) => {
+    console.log('Setting bands in Reducer')
+    console.log('Action payload: ', action.payload)
   }
 })
 
