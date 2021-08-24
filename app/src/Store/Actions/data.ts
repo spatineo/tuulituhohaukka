@@ -1,13 +1,14 @@
-import dataReducer from "../Reducers/data"
-
 export const LOAD_CATALOG = 'LOAD_ROOT_CATALOG'
 export const SET_ROOT_CATALOG = 'SET_ROOT_CATALOG'
 export const CATALOG_FETCH_START = 'CATALOG_FETCH_START'
 export const CATALOG_FETCH_FINISHED = 'CATALOG_FETCH_FINISHED'
 export const CATALOG_FETCH_FAILED = 'CATALOG_FETCH_FAILED'
 
-export const LOAD_DATA = 'LOAD_DATA'
-export const SET_DATA = 'SET_DATA'
+export const LOAD_INITIAL_SETUP = 'LOAD_INITIAL_SETUP'
+export const SET_INITIAL_SETUP = 'SET_INITIAL_SETUP'
+
+export const SET_ALL_DATASETS = 'SET_ALL_DATASETS'
+export const SET_BANDS = 'SET_BANDS'
 
 export const SET_RED_CHANNEL = 'SET_RED_CHANNEL'
 export const SET_GREEN_CHANNEL = 'SET_GREEN_CHANNEL'
@@ -39,7 +40,7 @@ interface SetColorChannelAction {
   payload: any
 }
 
-// _____ Catalog
+// _____ Catalog & Data
 export const loadCatalog = (data: any): LoadDataActionWithParam => ({
   type: LOAD_CATALOG,
   payload: data
@@ -66,15 +67,26 @@ export const catalogFetchFailed = (data: any): SetDataAction => ({
 })
 
 
+// _____ datasets && Bands
+export const setAllDatasets = (data: any): SetDataAction => ({
+  type: SET_ALL_DATASETS,
+  payload: data
+})
+
+export const setBands = (data: any): SetDataAction => ({
+  type: SET_BANDS,
+  payload: data
+})
+
 
 
 //_____ Dummy Data
-export const loadData = (): LoadDataAction => ({
-  type: LOAD_DATA
+export const loadInitialSetup = (): LoadDataAction => ({
+  type: LOAD_INITIAL_SETUP
 })
 
-export const setData = (data: JSON): SetDataAction => ({
-  type: SET_DATA,
+export const setInitialSetup = (data: JSON): SetDataAction => ({
+  type: SET_INITIAL_SETUP,
   payload: data,
 })
 
