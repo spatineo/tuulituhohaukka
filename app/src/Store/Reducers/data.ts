@@ -39,11 +39,6 @@ const initialState = {
 }
 
 const dataReducer = createReducer(initialState, {
-  // SET_ROOT_CATALOG: (state, action) => {
-  //   console.log('Catalog')
-  //   console.log('Action payload in reducer: ', action.payload)
-  //   state.cache.catalog = action.payload.rootCatalog
-  // },
   CATALOG_FETCH_START: (state, action) => {
     console.log('Catalog download started')
     console.log('Action payload in reducer: ', action.payload)
@@ -127,6 +122,7 @@ const dataReducer = createReducer(initialState, {
   SET_BANDS: (state: any, action) => {
     console.log('Setting bands in Reducer')
     console.log('Action payload: ', action.payload)
+    state.data.maps[action.payload.mapComponentIndex].derivedData.bands = action.payload.bands
   }
 })
 
