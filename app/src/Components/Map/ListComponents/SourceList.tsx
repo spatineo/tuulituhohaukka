@@ -6,6 +6,7 @@ import { Grid, Input, InputAdornment } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 
 import SourceListItem from './ListItems/SourceListItem'
+import { getBandsForDataset } from '../../../API/Api'
 
 interface Props {
   sources: Source[],
@@ -15,6 +16,7 @@ interface Props {
 const DataSourceList: React.FC<Props> = ({ sources, mapComponentIndex }) => {
   const selectedSource = useSelector((state: any): string => state.dataReducer.data.maps[mapComponentIndex].selectedSource)
   const [searchText, setSearchText] = React.useState('')
+
 
   const searchAndFilter = (input: string) => {
     const filteredSources = sources.filter((source: Source) => {
