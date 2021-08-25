@@ -20,60 +20,44 @@ export const REMOVE_MAP = 'REMOVE_MAP'
 export const ADD_MAP = 'ADD_MAP'
 export const UPDATE_MAP_EXTENT = 'UPDATE_MAP_EXTENT'
 
-
 interface LoadDataAction {
   type: string
 }
 
-interface LoadDataActionWithParam {
-  type: string,
-  payload: string
-}
-
 interface SetDataAction {
   type: string
-  payload: JSON
-}
-
-interface SetColorChannelAction {
-  type: string
-  payload: any
+  payload: Record<string, unknown>
 }
 
 // _____ Catalog & Data
-export const loadCatalog = (data: any): LoadDataActionWithParam => ({
+export const loadCatalog = (data: Record<string, unknown>): SetDataAction => ({
   type: LOAD_CATALOG,
   payload: data
 })
 
-export const setRootCatalog = (data: JSON): SetDataAction => ({
-  type: SET_ROOT_CATALOG,
-  payload: data
-})
-
-export const catalogFetchStart = (data: any): SetDataAction => ({
+export const catalogFetchStart = (data: Record<string, unknown>): SetDataAction => ({
   type: CATALOG_FETCH_START,
   payload: data
 })
 
-export const catalogFetchFinished = (data: any): SetDataAction => ({
+export const catalogFetchFinished = (data: Record<string, unknown>): SetDataAction => ({
   type: CATALOG_FETCH_FINISHED,
   payload: data
 })
 
-export const catalogFetchFailed = (data: any): SetDataAction => ({
+export const catalogFetchFailed = (data: Record<string, unknown>): SetDataAction => ({
   type: CATALOG_FETCH_FAILED,
   payload: data
 })
 
 
 // _____ datasets && Bands
-export const setAllDatasets = (data: any): SetDataAction => ({
+export const setAllDatasets = (data: Record<string, unknown>): SetDataAction => ({
   type: SET_ALL_DATASETS,
   payload: data
 })
 
-export const setBands = (data: any): SetDataAction => ({
+export const setBands = (data: Record<string, unknown>): SetDataAction => ({
   type: SET_BANDS,
   payload: data
 })
@@ -85,54 +69,54 @@ export const loadInitialSetup = (): LoadDataAction => ({
   type: LOAD_INITIAL_SETUP
 })
 
-export const setInitialSetup = (data: JSON): SetDataAction => ({
+export const setInitialSetup = (data: Record<string, unknown>): SetDataAction => ({
   type: SET_INITIAL_SETUP,
   payload: data,
 })
 
 
 //_____ Functionality ______
-export const setRedChannel = (data: any): SetColorChannelAction => ({
+export const setRedChannel = (data: Record<string, unknown>): SetDataAction => ({
   type: SET_RED_CHANNEL,
   payload: data
 })
 
-export const setGreenChannel = (data: any): SetColorChannelAction => ({
+export const setGreenChannel = (data: Record<string, unknown>): SetDataAction => ({
   type: SET_GREEN_CHANNEL,
   payload: data
 })
 
-export const setBlueChannel = (data: any): SetColorChannelAction => ({
+export const setBlueChannel = (data: Record<string, unknown>): SetDataAction => ({
   type: SET_BLUE_CHANNEL,
   payload: data
 })
 
-export const setInspectionDate = (data: any): SetDataAction => ({
+export const setInspectionDate = (data: Record<string, unknown>): SetDataAction => ({
   type: SET_INSPECTION_DATE,
   payload: data
 })
 
-export const setComparisonDate = (data: any): SetDataAction => ({
+export const setComparisonDate = (data: Record<string, unknown>): SetDataAction => ({
   type: SET_COMPARISON_DATE,
   payload: data
 })
 
-export const setSelectedDataset = (data: any): SetDataAction => ({
+export const setSelectedDataset = (data: Record<string, unknown>): SetDataAction => ({
   type: SET_SELECTED_DATASET,
   payload: data
 })
 
-export const removeMap = (data: any): SetDataAction => ({
+export const removeMap = (data: Record<string, unknown>): SetDataAction => ({
   type: REMOVE_MAP,
   payload: data
 })
 
-export const addMap = (data: any): SetDataAction => ({
+export const addMap = (data: Record<string, unknown>): SetDataAction => ({
   type: ADD_MAP,
   payload: data,
 })
 
-export const updateMapExtent = (data: any): SetDataAction => ({
+export const updateMapExtent = (data: Record<string, unknown>): SetDataAction => ({
   type: UPDATE_MAP_EXTENT,
   payload: data
 })
