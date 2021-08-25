@@ -10,9 +10,10 @@ import { MuiThemeProvider } from '@material-ui/core'
 import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
 import { setInspectionDate } from '../../Store/Actions/data'
+import { RootState } from '../../App'
 
 const SelectDay: React.FC = () => {
-  const dateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.inspectionDate)
+  const dateFromRedux = useSelector((state: RootState): string => state.dataReducer.data.global.inspectionDate)
   const dateObject = new Date(dateFromRedux)
   const windDamages = [1, 6, 10, 24, 15]
   const today = new Date()
