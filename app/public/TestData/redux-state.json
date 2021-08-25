@@ -1,7 +1,7 @@
 {
   "data": {
     "global": {
-      "bbox": [-180.0, -90.0, 180.0, 90.0],
+      "mapExtent": [],
       "selectedTime": "ISO time",
       "fullScreen": "null or id of the map",
       "mapSize": "small / medium / large"
