@@ -1,26 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit'
+import { ReduxState } from '../../types'
 
-// --> Create interface for initialState
-
-interface FetchInProgress {
-  [key: string]: boolean
-}
-
-interface FetchError {
-  [key: string]: string
-}
-
-interface Catalog {
-  [key: string]: any
-}
-
-const initialState = {
+const initialState: ReduxState = {
   data: {
     global: {
       mapExtent: {
-        center: '',
-        resolution: '',
-        rotation: ''
+        center: [],
+        resolution: 0,
+        rotation: 0
       },
       inspectionDate: "",
       comparisonDate: "",
@@ -30,9 +17,9 @@ const initialState = {
     maps: []
   },
   cache: {
-    catalog: {} as Catalog,
-    fetchInProgress: {} as FetchInProgress,
-    fetchErrors: {} as FetchError,
+    catalog: {},
+    fetchInProgress: {},
+    fetchErrors: {},
     datasets: [],
     windDamages: []
   }
@@ -67,17 +54,17 @@ const dataReducer = createReducer(initialState, {
     state.cache.datasets = action.payload.cache.datasets
     // state.cache.windDamages = action.payload.cache.windDamages
   },
-  SET_RED_CHANNEL: (state: any, action) => {
+  SET_RED_CHANNEL: (state, action) => {
     console.log('Setting red channel value in redux')
     console.log('action payload for set red channel: ', action.payload)
     state.data.maps[action.payload.mapComponentIndex].channelSettings.R = action.payload.redChannelValue
   },
-  SET_GREEN_CHANNEL: (state: any, action) => {
+  SET_GREEN_CHANNEL: (state, action) => {
     console.log('Setting green channel value in redux')
     console.log('action payload for set green channel: ', action.payload)
     state.data.maps[action.payload.mapComponentIndex].channelSettings.G = action.payload.greenChannelValue
   },
-  SET_BLUE_CHANNEL: (state: any, action) => {
+  SET_BLUE_CHANNEL: (state, action) => {
     console.log('Setting blue channel value in redux')
     console.log('action payload for set blue channel: ', action.payload)
     state.data.maps[action.payload.mapComponentIndex].channelSettings.B = action.payload.blueChannelValue
@@ -92,34 +79,34 @@ const dataReducer = createReducer(initialState, {
     console.log('Action payload: ', action.payload)
     state.data.global.comparisonDate = action.payload.comparisonDate
   },
-  SET_DATA_SOURCE: (state: any, action) => {
+  SET_SELECTED_DATASET: (state, action) => {
     console.log('Setting data source or map in reducer')
     console.log('Action payload: ', action.payload)
     state.data.maps[action.payload.mapComponentIndex].selectedDataset = action.payload.selectedDataset
   },
-  REMOVE_MAP: (state: any, action) => {
+  REMOVE_MAP: (state, action) => {
     console.log('Removing map in reducer')
     console.log('Action payload: ', action.payload)
-    state.data.maps = state.data.maps.filter((map: any) => map.id !== action.payload.id)
+    state.data.maps = state.data.maps.filter((map) => map.id !== action.payload.id)
   },
-  ADD_MAP: (state: any, action) => {
+  ADD_MAP: (state, action) => {
     console.log('Adding a map in reducer')
     console.log('Action payload: ', action.payload)
     state.data.maps.push(action.payload.mapObject)
   },
-  UPDATE_MAP_EXTENT: (state: any, action) => {
+  UPDATE_MAP_EXTENT: (state, action) => {
     // console.log('Updating map')
     // console.log('Action payload: ', action.payload)
     state.data.global.mapExtent.center = action.payload.center
     state.data.global.mapExtent.resolution = action.payload.resolution
     state.data.global.mapExtent.rotation = action.payload.rotation
   },
-  SET_ALL_DATASETS: (state: any, action) => {
+  SET_ALL_DATASETS: (state, action) => {
     console.log('Setting all sources in Reducer')
     console.log('Action payload: ', action.payload)
     state.cache.datasets = action.payload.datasets
   },
-  SET_BANDS: (state: any, action) => {
+  SET_BANDS: (state, action) => {
     console.log('Setting bands in Reducer')
     console.log('Action payload: ', action.payload)
     state.data.maps[action.payload.mapComponentIndex].derivedData.bands = action.payload.bands
