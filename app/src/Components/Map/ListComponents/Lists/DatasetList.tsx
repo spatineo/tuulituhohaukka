@@ -1,30 +1,31 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { FixedSizeList } from 'react-window'
-import { Source } from '../../../../types'
+import { Dataset } from '../../../../types'
+import { RootState } from '../../../../App'
 import { Grid, Input, InputAdornment } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import DatasetListItem from '../ListItems/DatasetListItem'
 
 interface Props {
-  sources: Source[],
+  datasets: Dataset[],
   mapComponentIndex: number
 }
 
-const DatasetList: React.FC<Props> = ({ sources, mapComponentIndex }) => {
-  const selectedDataset = useSelector((state: any): string => state.dataReducer.data.maps[mapComponentIndex].selectedDataset)
+const DatasetList: React.FC<Props> = ({ datasets, mapComponentIndex }) => {
+  const selectedDataset = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].selectedDataset)
   const [searchText, setSearchText] = React.useState('')
 
   const searchAndFilter = (input: string) => {
-    const filteredSources = sources.filter((source: Source) => {
-      const sourceData = source.title.toUpperCase()
+    const filteredDatasets = datasets?.filter((dataset: Dataset) => {
+      const sourceData = dataset.title.toUpperCase()
       const searchText = input.toUpperCase()
       return sourceData.includes(searchText)
     }).sort()
-    return filteredSources
+    return filteredDatasets
   }
 
-  const filteredSources = searchAndFilter(searchText)
+  const filteredDatasets = searchAndFilter(searchText)
 
   return (
     <div style={{ width: '100%' }}>
@@ -44,9 +45,9 @@ const DatasetList: React.FC<Props> = ({ sources, mapComponentIndex }) => {
               height={200}
               width={200}
               itemSize={30}
-              itemCount={filteredSources.length}
+              itemCount={filteredDatasets?.length}
               itemData={{
-                sources: filteredSources,
+                datasets: filteredDatasets,
                 mapComponentIndex: mapComponentIndex,
                 selectedDataset: selectedDataset
               }}>
