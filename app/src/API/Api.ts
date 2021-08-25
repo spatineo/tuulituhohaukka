@@ -1,11 +1,17 @@
 import { store } from '../App'
 import { loadCatalog } from '../Store/Actions/data'
+import { Dataset, Band } from '../types'
 
 interface RootCatalog {
   type?: string,
   stack_version?: string,
   description?: string,
-  links?: Array<any>
+  links?: []
+}
+
+interface Link {
+  rel: string
+  href: string
 }
 
 // Helper function
@@ -23,45 +29,45 @@ const getCatalogHelper = (url: string) => {
     return catalog
   }
 }
-
-export const getAllDatasets = (): any[] | undefined => {
+// 1. get root catalog
+// 2. get all datasets catalog
+// 3. read id and title from each dataset catalog and return as an array of objects {datasets: [{id: 'foo', title: 'bar'}, {...}]}
+export const getAllDatasets = (): any | undefined => {
   console.log('getAllDatasets Called')
-  // 1. get root catalog
   const ReduxState = store.getState()
   const rootCatalog: RootCatalog = ReduxState.dataReducer.cache.catalog['/Testdata/root.json']
-  console.log('Getting rootCatalog from redux: ', rootCatalog)
 
-  // Check if object is empty
   if (rootCatalog && Object.keys(rootCatalog).length === 0 || rootCatalog == undefined) {
     console.log('Root catalog not found. Dispatching action to download root catalog')
     store.dispatch(loadCatalog({ url: '/Testdata/root.json' }))
     return []
   }
-  // 2. get all datasets catalog
   else {
     if (rootCatalog.links) {
-      // 3. read id and title from each dataset catalog and return as an array of objects {datasets: [{id: 'foo', title: 'bar'}, {...}]}
-      const dataSets = rootCatalog.links.filter((link: any) => link.rel === 'child').map((link: any) => {
-        console.log('Looping to get next level inside catalog 🔁 ')
-        console.log('Current link to fetch is: ', link.href)
-        const catalog = getCatalogHelper(link.href)
-        return catalog
-      }).filter((catalog) => catalog.id !== undefined)
+      const dataSets = rootCatalog.links.filter((link: Link) => link.rel === 'child')
+        .map((link: Link) => {
+          console.log('Looping to get next level inside catalog 🔁 ')
+          console.log('Current link to fetch is: ', link.href)
+          const catalog = getCatalogHelper(link.href)
+          return catalog
+        })
+        .filter((catalog) => catalog.id !== undefined)
       // Once loop is finished, return array of dataSets
+      // Returns [{}] array of objects
       return dataSets
     }
   }
 }
 
-export const getBandsForDataset = (id: string) => {
+// 1. get all dataset catalogs
+// 2. find the dataset catalog with given id
+// 3. return bands from selecte dataset catalog contents
+export const getBandsForDataset = (id: string): any => {
   console.log('getBandsForDatasets called!')
-  // 1. get all dataset catalogs
   const dataSets = getAllDatasets()
   console.log('Datasets returned: ', dataSets)
-  // 2. find the dataset catalog with given id
-  const dataSetById = dataSets?.find(dataset => dataset.id == id)
+  const dataSetById = dataSets?.find((dataset: Dataset) => dataset.id == id)
   console.log('Dataset with given id: ', dataSetById)
-  // 3. return bands from selecte dataset catalog contents
   const bands = dataSetById.summaries.bands
   console.log('Bands to return: ', bands)
   return bands
@@ -72,7 +78,7 @@ export const getItemsForDatasetAndTime = (datasetId: string, inspectionTime: str
   // 2. get all dataset catalogs
   const dataSets = getAllDatasets()
   // 3. find the dataset catalog with given id
-  const dataSetById = dataSets?.find(dataSet => dataSet.id == datasetId)
+  const dataSetById = dataSets?.find((dataSet: any) => dataSet.id == datasetId)
   // 4. identify dataset-time catalog that overlap with "inspectionTime" and the next dataset-time catalog (in time order)
 
   // 5. get dataset-time catalogs that were identified in step 4
