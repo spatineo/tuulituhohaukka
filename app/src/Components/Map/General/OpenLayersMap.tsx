@@ -1,15 +1,11 @@
 import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
-
-import { updateMapExtent } from '../../Store/Actions/data'
-
+import { updateMapExtent } from '../../../Store/Actions/data'
 import * as ol from 'ol'
 import { MouseWheelZoom, defaults } from 'ol/interaction';
 import * as layer from 'ol/layer'
 import * as source from 'ol/source'
-import * as style from 'ol/style'
-import * as extent from 'ol/extent'
 import 'ol/ol.css'
 
 interface State {

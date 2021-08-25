@@ -1,16 +1,16 @@
 
 import * as React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Source } from '../../types'
+import { Source } from '../../../types'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { Grid, Button } from '@material-ui/core'
 import SlimAccordion from './SlimAccordion'
 import OpenLayersMap from './OpenLayersMap'
-import { Map } from '../../types'
-import { removeMap } from '../../Store/Actions/data'
-import SourceList from './ListComponents/SourceList'
-import NormalVisualization from './Visualization/NormalVisualization'
-import { getAllDatasets } from '../../API/Api'
+import { Map } from '../../../types'
+import { removeMap } from '../../../Store/Actions/data'
+import DatasetList from '../ListComponents/Lists/DatasetList'
+import NormalVisualization from '../Visualization/NormalVisualization'
+import { getAllDatasets } from '../../../API/Api'
 
 interface Props {
   mapObject: Map,
@@ -34,7 +34,7 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
       <div className={classes.mapContainer}>
         <div className={classes.mapBox}>
           <Button
-            style={{ position: 'absolute', zIndex: 2, maxWidth: '40px', minWidth: '40px', aspectRatio: '1/1', right: '0px' }} size='small' variant="contained" color="secondary"
+            style={{ position: 'absolute', zIndex: 2, maxWidth: '35px', minWidth: '35px', maxHeight: '35px', minHeight: '35px', right: '0px' }} variant="contained" color="secondary"
             onClick={() => dispatch(removeMap({ id: mapObject.id }))}
           >
             -
@@ -61,9 +61,8 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
         </div>
         <div className={classes.menuContainer}>
           <div className={classes.dropDown}>
-
             <SlimAccordion name={'Aineistot'}>
-              <SourceList sources={sources} mapComponentIndex={mapComponentIndex} />
+              <DatasetList sources={sources} mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
           </div>
           <div className={classes.dropDown}>
