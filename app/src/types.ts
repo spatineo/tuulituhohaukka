@@ -25,7 +25,7 @@ export interface Cache {
 
 export interface Map {
   id: number
-  selectedSource: string | null
+  selectedDataset: string | null
   channelSettings: ChannelSettings
   displayWindDamageVector: boolean
   displaySpyGlass: boolean
