@@ -2,8 +2,8 @@ import * as React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { ButtonBase, Typography } from '@material-ui/core'
-import { setInspectionDate } from '../../Store/Actions/data'
-import { setComparisonDate } from '../../Store/Actions/data'
+import { setInspectionDate, setComparisonDate } from '../../Store/Actions/data'
+import { RootState } from '../../App'
 
 interface Props {
   month: string
@@ -12,8 +12,8 @@ interface Props {
 }
 
 const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
-  const inspectionDateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.inspectionDate)
-  const comparisonDateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.comparisonDate)
+  const inspectionDateFromRedux = useSelector((state: RootState) => state.dataReducer.data.global.inspectionDate)
+  const comparisonDateFromRedux = useSelector((state: RootState) => state.dataReducer.data.global.comparisonDate)
   const classes = useStyles()
   const dispatch = useDispatch()
 
