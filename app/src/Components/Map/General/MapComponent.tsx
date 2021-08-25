@@ -1,7 +1,7 @@
-
 import * as React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Source } from '../../../types'
+import { Dataset } from '../../../types'
+import { RootState } from '../../../App'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { Grid, Button } from '@material-ui/core'
 import SlimAccordion from './SlimAccordion'
@@ -18,9 +18,9 @@ interface Props {
 }
 
 const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
-  const cache = useSelector((state: any): any => state.dataReducer.cache)
-  const sources = getAllDatasets() as Source[]
-  const dateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.inspectionDate)
+  const datasets = getAllDatasets() as Dataset[]
+  const cache = useSelector((state: RootState) => state.dataReducer.cache)
+  const dateFromRedux = useSelector((state: RootState): string => state.dataReducer.data.global.inspectionDate)
   const editedDate = new Date(dateFromRedux).toISOString().split("T")[0]
   const classes = useStyles()
   const dispatch = useDispatch()
@@ -62,7 +62,7 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
         <div className={classes.menuContainer}>
           <div className={classes.dropDown}>
             <SlimAccordion name={'Aineistot'}>
-              <DatasetList sources={sources} mapComponentIndex={mapComponentIndex} />
+              <DatasetList datasets={datasets} mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
           </div>
           <div className={classes.dropDown}>
