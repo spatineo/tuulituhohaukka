@@ -9,7 +9,7 @@
     "maps": [
       {
         "id": 0,
-        "selectedSource": "id of the source",
+        "selectedDataset": "id of the source",
         "channelSettings": {
           "R": "VV",
           "G": "",
