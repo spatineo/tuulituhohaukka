@@ -1,22 +1,19 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { FixedSizeList } from 'react-window'
-import { Source } from '../../../types'
+import { Source } from '../../../../types'
 import { Grid, Input, InputAdornment } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
-
-import SourceListItem from './ListItems/SourceListItem'
-import { getBandsForDataset } from '../../../API/Api'
+import DatasetListItem from '../ListItems/DatasetListItem'
 
 interface Props {
   sources: Source[],
   mapComponentIndex: number
 }
 
-const DataSourceList: React.FC<Props> = ({ sources, mapComponentIndex }) => {
-  const selectedSource = useSelector((state: any): string => state.dataReducer.data.maps[mapComponentIndex].selectedSource)
+const DatasetList: React.FC<Props> = ({ sources, mapComponentIndex }) => {
+  const selectedDataset = useSelector((state: any): string => state.dataReducer.data.maps[mapComponentIndex].selectedDataset)
   const [searchText, setSearchText] = React.useState('')
-
 
   const searchAndFilter = (input: string) => {
     const filteredSources = sources.filter((source: Source) => {
@@ -51,9 +48,9 @@ const DataSourceList: React.FC<Props> = ({ sources, mapComponentIndex }) => {
               itemData={{
                 sources: filteredSources,
                 mapComponentIndex: mapComponentIndex,
-                selectedSource: selectedSource
+                selectedDataset: selectedDataset
               }}>
-              {SourceListItem}
+              {DatasetListItem}
             </FixedSizeList>
           </Grid>
         </Grid>
@@ -62,4 +59,4 @@ const DataSourceList: React.FC<Props> = ({ sources, mapComponentIndex }) => {
   )
 }
 
-export default DataSourceList
+export default DatasetList
