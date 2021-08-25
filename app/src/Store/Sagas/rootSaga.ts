@@ -3,7 +3,7 @@ import { loadInitialSetupWatcher } from './loadInitialSetupSaga'
 
 import { loadCatalogWatcher } from './loadCatalogSaga'
 
-export function* rootSaga() {
+export function* rootSaga(): Generator {
   yield all(
     [
       fork(loadInitialSetupWatcher),
