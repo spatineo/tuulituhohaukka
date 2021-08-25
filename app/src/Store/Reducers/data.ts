@@ -33,7 +33,7 @@ const initialState = {
     catalog: {} as Catalog,
     fetchInProgress: {} as FetchInProgress,
     fetchErrors: {} as FetchError,
-    sources: [],
+    datasets: [],
     windDamages: []
   }
 }
@@ -64,7 +64,7 @@ const dataReducer = createReducer(initialState, {
     state.data.global.mapSize = action.payload.data.global.mapSize
     state.data.maps = action.payload.data.maps
     // state.cache.catalog = action.payload.cache.catalog.id
-    state.cache.sources = action.payload.cache.datasets
+    state.cache.datasets = action.payload.cache.datasets
     // state.cache.windDamages = action.payload.cache.windDamages
   },
   SET_RED_CHANNEL: (state: any, action) => {
@@ -95,7 +95,7 @@ const dataReducer = createReducer(initialState, {
   SET_DATA_SOURCE: (state: any, action) => {
     console.log('Setting data source or map in reducer')
     console.log('Action payload: ', action.payload)
-    state.data.maps[action.payload.mapComponentIndex].selectedSource = action.payload.selectedSource
+    state.data.maps[action.payload.mapComponentIndex].selectedDataset = action.payload.selectedDataset
   },
   REMOVE_MAP: (state: any, action) => {
     console.log('Removing map in reducer')
@@ -117,7 +117,7 @@ const dataReducer = createReducer(initialState, {
   SET_ALL_DATASETS: (state: any, action) => {
     console.log('Setting all sources in Reducer')
     console.log('Action payload: ', action.payload)
-    state.cache.sources = action.payload.datasets
+    state.cache.datasets = action.payload.datasets
   },
   SET_BANDS: (state: any, action) => {
     console.log('Setting bands in Reducer')
