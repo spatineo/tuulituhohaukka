@@ -23,7 +23,7 @@
         },
 
         "derivedData": {
-          "sources": [],
+          "bands": [],
           "timeValues": {
             "inspection": "2021-06-29T10:07:49Z",
             "comparison": ""
@@ -55,7 +55,7 @@
         },
 
         "derivedData": {
-          "sources": [],
+          "bands": [],
           "timeValues": {
             "inspection": "2021-06-29T10:07:49Z",
             "comparison": ""
