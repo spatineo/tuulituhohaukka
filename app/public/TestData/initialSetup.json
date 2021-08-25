@@ -9,7 +9,7 @@
     "maps": [
       {
         "id": 0,
-        "selectedSource": null,
+        "selectedDataset": null,
         "channelSettings": {
           "R": "",
           "G": "",
@@ -41,7 +41,7 @@
       
       {
         "id": 1,
-        "selectedSource": null,
+        "selectedDataset": null,
         "channelSettings": {
           "R": null,
           "G": null,
