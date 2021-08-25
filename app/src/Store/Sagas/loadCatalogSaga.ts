@@ -1,4 +1,4 @@
-import { takeLatest, put, call, select, takeEvery } from '@redux-saga/core/effects'
+import { takeLatest, put, call, select } from '@redux-saga/core/effects'
 import axios from 'axios'
 import { LOAD_CATALOG } from '../Actions/data'
 import { catalogFetchStart, catalogFetchFailed, catalogFetchFinished } from '../Actions/data'
