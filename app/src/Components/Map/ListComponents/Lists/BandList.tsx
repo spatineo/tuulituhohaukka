@@ -1,15 +1,12 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { FixedSizeList } from 'react-window'
-import { Source, ChannelSettings } from '../../../types'
+import { Source, ChannelSettings } from '../../../../types'
 import { Grid, Input, InputAdornment } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
-
-import BandListItem from './ListItems/BandListItem'
-import RedListItem from './ListItems/RedListItem'
-import GreenListItem from './ListItems/GreenListItem'
-import BlueListItem from './ListItems/BlueListItem'
-
+import RedListItem from '../ListItems/RedListItem'
+import GreenListItem from '../ListItems/GreenListItem'
+import BlueListItem from '../ListItems/BlueListItem'
 
 interface Props {
   sources: Source[],
@@ -17,7 +14,7 @@ interface Props {
   mapComponentIndex: number
 }
 
-const ColorSourceList: React.FC<Props> = ({ sources, color, mapComponentIndex }) => {
+const BandList: React.FC<Props> = ({ sources, color, mapComponentIndex }) => {
   const colorData = useSelector((state: any): ChannelSettings => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
   const [searchText, setSearchText] = React.useState('')
 
@@ -106,10 +103,9 @@ const ColorSourceList: React.FC<Props> = ({ sources, color, mapComponentIndex })
         <Grid container item direction='row'>
           {switchColorList(color)}
         </Grid>
-
       </Grid>
     </div >
   )
 }
 
-export default ColorSourceList
+export default BandList
