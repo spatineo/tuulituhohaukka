@@ -9,19 +9,34 @@ export interface Data {
 }
 
 export interface Global {
-  bbox: number[];
-  selectedTime: string;
-  fullScreen: string;
-  mapSize: string;
+  mapExtent: MapExtent
+  inspectionDate: string
+  comparisonDate: string
+  fullScreen: string
+  mapSize: string
+}
+
+export interface MapExtent {
+  center: number[]
+  resolution: number
+  rotation: number
 }
 
 export interface Cache {
-  catalogue: Catalogue;
-  sources: Source[];
-  windDamages: WindDamages[];
+  catalog: Catalog
+  fetchInProgress: FetchInProgress
+  fetchErrors: FetchError
+  datasets: Dataset[]
+  windDamages: WindDamages[]
 }
 
+interface FetchInProgress {
+  [key: string]: boolean
+}
 
+interface FetchError {
+  [key: string]: string
+}
 
 export interface Map {
   id: number
@@ -34,7 +49,7 @@ export interface Map {
 }
 
 export interface DerivedData {
-  sources: Source[]
+  bands: Band[]
   timeValues: TimeValues
   mapLayers: []
 }
@@ -63,14 +78,18 @@ export interface ChannelSettings {
   B: string
 }
 
-export interface Catalogue {
-  id?: number
+export interface Catalog {
+  [key: string]: Record<string, unknown>
 }
 
-export interface Source {
+export interface Dataset {
   id?: string
   title: string
   channelSelectorType?: string
+}
+
+export interface Band {
+  name: string
 }
 
 export interface WindDamages {
