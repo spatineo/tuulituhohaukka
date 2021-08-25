@@ -1,13 +1,11 @@
 import React from 'react';
-import { useDispatch, batch, useSelector } from 'react-redux';
-import { loadCatalog, loadInitialSetup, setAllDatasets, setBands } from '../Store/Actions/data'
+import { useDispatch } from 'react-redux';
+import { loadInitialSetup, setAllDatasets, setBands } from '../Store/Actions/data'
 import { Button, Divider, Grid } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
-
 import MapView from './MapView'
 import SidePanel from './SidePanel'
-
 import { getAllDatasets, getBandsForDataset } from '../API/Api';
 
 const MainView = () => {
@@ -15,11 +13,7 @@ const MainView = () => {
   const dispatch = useDispatch()
 
   React.useEffect(() => {
-    console.log('Inializing app. Dispatching actions to fetch data')
     dispatch(loadInitialSetup())
-    // const datasets = getAllDatasets()
-    // console.log('All datasets: ', datasets)
-    // dispatch(setAllDatasets({ datasets: datasets }))
   }, [])
 
   return (
