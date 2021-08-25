@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
+import { RootState } from '../../../App'
 import { Grid } from '@material-ui/core'
 import ChannelColorTile from './ChannelColorTile'
 import SlimAccordion from '../General/SlimAccordion'
@@ -12,15 +13,15 @@ interface Props {
 }
 
 const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
-  const colorData = useSelector((state: any): ChannelSettings => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
+  const colorData = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
   const [clickedColorTile, setClickedColorTile] = React.useState('')
 
-  const sources = [
+  const bands = [
     {
-      title: 'VV'
+      name: 'VV'
     },
     {
-      title: 'VH'
+      name: 'VH'
     }
   ]
 
@@ -35,7 +36,7 @@ const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
           <Grid item xs={10} >
             <SlimAccordion name={'list'}>
               <BandList
-                sources={sources}
+                bands={bands}
                 color={'red'}
                 mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
@@ -47,7 +48,7 @@ const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
           <Grid item xs={10} >
             <SlimAccordion name={'list'}>
               <BandList
-                sources={sources}
+                bands={bands}
                 color={'green'}
                 mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
@@ -59,7 +60,7 @@ const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
           <Grid item xs={10} >
             <SlimAccordion name={'list'}>
               <BandList
-                sources={sources}
+                bands={bands}
                 color={'blue'}
                 mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
@@ -71,7 +72,7 @@ const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
           <Grid item xs={10} >
             <SlimAccordion name={'list'}>
               <BandList
-                sources={sources}
+                bands={bands}
                 color={'red'}
                 mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
