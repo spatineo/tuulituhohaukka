@@ -15,7 +15,7 @@ export const SET_GREEN_CHANNEL = 'SET_GREEN_CHANNEL'
 export const SET_BLUE_CHANNEL = 'SET_BLUE_CHANNEL'
 export const SET_INSPECTION_DATE = 'SET_INSPECTION_DATE'
 export const SET_COMPARISON_DATE = 'SET_COMPARISON_DATE'
-export const SET_DATA_SOURCE = 'SET_DATA_SOURCE'
+export const SET_SELECTED_DATASET = 'SET_SELECTED_DATASET'
 export const REMOVE_MAP = 'REMOVE_MAP'
 export const ADD_MAP = 'ADD_MAP'
 export const UPDATE_MAP_EXTENT = 'UPDATE_MAP_EXTENT'
@@ -117,8 +117,8 @@ export const setComparisonDate = (data: any): SetDataAction => ({
   payload: data
 })
 
-export const setDataSource = (data: any): SetDataAction => ({
-  type: SET_DATA_SOURCE,
+export const setSelectedDataset = (data: any): SetDataAction => ({
+  type: SET_SELECTED_DATASET,
   payload: data
 })
 
