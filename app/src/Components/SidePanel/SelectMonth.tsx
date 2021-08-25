@@ -1,18 +1,11 @@
 import * as React from 'react'
-import { createStyles, makeStyles } from '@material-ui/styles'
 import { Typography, Card, Grid, Button } from '@material-ui/core'
 import { Bar } from 'react-chartjs-2'
 import MonthElement from './MonthElement'
 
-// interface interfaceName {
-//   value: string
-// }
-
 const SelectMonth: React.FC = () => {
   const [chartData, setChartData] = React.useState({})
   const [selectedType, setSelectedType] = React.useState('inspection')
-  const classes = useStyles()
-
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
   const chart = () => {
@@ -98,10 +91,5 @@ const SelectMonth: React.FC = () => {
     </>
   )
 }
-
-const useStyles = makeStyles(() =>
-  createStyles({
-
-  }))
 
 export default SelectMonth
