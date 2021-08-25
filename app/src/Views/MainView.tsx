@@ -8,7 +8,7 @@ import MapView from './MapView'
 import SidePanel from './SidePanel'
 import { getAllDatasets, getBandsForDataset } from '../API/Api';
 
-const MainView = () => {
+const MainView: React.FC = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
 
