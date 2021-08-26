@@ -10,6 +10,7 @@ import { Map } from '../../../types'
 import { removeMap } from '../../../Store/Actions/data'
 import DatasetList from '../ListComponents/Lists/DatasetList'
 import NormalVisualization from '../Visualization/NormalVisualization'
+import { getItemsForDatasetAndTime } from '../../../API/Api'
 
 interface Props {
   mapObject: Map,
@@ -18,13 +19,17 @@ interface Props {
 }
 
 const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets }) => {
-
-  const dateFromRedux = useSelector((state: RootState): string => state.dataReducer.data.global.inspectionDate)
-  const editedDate = new Date(dateFromRedux).toISOString().split("T")[0]
+  const inspectionDate = useSelector((state: RootState): string => state.dataReducer.data.global.inspectionDate)
+  const selectedDataset = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].selectedDataset)
+  const editedDate = new Date(inspectionDate).toISOString().split("T")[0]
   const classes = useStyles()
   const dispatch = useDispatch()
 
-
+  React.useEffect(() => {
+    if (inspectionDate && selectedDataset) {
+      getItemsForDatasetAndTime(selectedDataset, inspectionDate)
+    }
+  }, [inspectionDate, selectedDataset])
 
   return (
     <div className={classes.mapContainer}>
