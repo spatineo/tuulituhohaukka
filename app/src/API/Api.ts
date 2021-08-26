@@ -102,7 +102,10 @@ export const getItemsForDatasetAndTime = (datasetId: string, inspectionTime: str
 
   // make a list of sub catalog
   const listOfSubCatalogs = dataSetById?.links.filter((link: Link) => link.rel === 'child').map(createLinkObject)
-
+  if (!listOfSubCatalogs) {
+    return { items: [ /* items */] }
+  }
+  
   // sort list in timely order
   listOfSubCatalogs.sort(sortObjectByTime)
   console.log('API: ListOfSubCatalogs: ', listOfSubCatalogs)
@@ -147,7 +150,7 @@ export const getItemsForDatasetAndTime = (datasetId: string, inspectionTime: str
       }
       console.log('Item not found, loop will run again 🔁')
     }
-    
+
     return { items: [ /* items */] }
   }
 

@@ -20,6 +20,7 @@ const BandList: React.FC<Props> = ({ bands, color, mapComponentIndex }) => {
   const [searchText, setSearchText] = React.useState('')
 
   const searchAndFilter = (input: string) => {
+    if (!bands) return []
     const filteredBands = bands.filter((band: Band) => {
       const sourceData = band.name.toUpperCase()
       const searchText = input.toUpperCase()
