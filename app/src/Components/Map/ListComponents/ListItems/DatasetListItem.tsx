@@ -18,7 +18,6 @@ const GreenRadio = withStyles({
 })((props: RadioProps) => <Radio color="default" {...props} />);
 
 const DatasetListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
-  const title = data.datasets[index].title
   const selectedDataset = data.selectedDataset
   const datasetId = data.datasets[index].id
   const mapComponentIndex = data.mapComponentIndex
@@ -30,16 +29,15 @@ const DatasetListItem: React.FC<ListChildComponentProps> = ({ data, index, style
       <GreenRadio
         checked={selectedDataset === datasetId}
         onChange={() => {
-          console.log('Sending action from component number: ', index)
           batch(() => {
             dispatch(setSelectedDataset({ mapComponentIndex: mapComponentIndex, selectedDataset: datasetId }))
             dispatch(setBands({ bands: getBandsForDataset(datasetId), mapComponentIndex: mapComponentIndex }))
           }
           )
         }}
-        value={title}
+        value={datasetId}
       />
-      {title}
+      {datasetId}
     </div>
   )
 }
