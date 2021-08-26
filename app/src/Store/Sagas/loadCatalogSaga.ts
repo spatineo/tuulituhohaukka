@@ -5,7 +5,7 @@ import { catalogFetchStart, catalogFetchFailed, catalogFetchFinished } from '../
 
 interface LoadDataActionWithParam {
   type: string,
-  payload: any
+  payload: Record<string, string>
 }
 
 // Once LOAD_ROOT_CATALOG action is detected, loadCatalogWorker is called
@@ -20,26 +20,12 @@ function* loadCatalogWorker(action: LoadDataActionWithParam): any {
   yield call(getCatalog, action.payload.url)
 }
 
-// Function will check if catalog is in cache, if not it will be downloaded and put into cache
 function* getCatalog(url: string): any {
-  // console.log('getCatalog called in Saga')
-  // console.log('Checking if catalog exists in Redux')
-  // const catalog = yield select((state) => state.dataReducer.cache && state.dataReducer.cache.catalog[url])
-  // console.log('Catalog returned from redux: ', catalog)
-  // if (catalog[url]) {
-  //   console.log('catalog found! Returning catalog from cache')
-  //   return catalog[url]
-  // } else {
-  //   console.log('Catalog not found from redux')
-  // }
-
-  // Check if fetch is in progress for given URL
-  const fetchInProgress = yield select((state) => state.dataReducer.data.global.fetchInProgress[url])
+  const fetchInProgress = yield select((state) => state.dataReducer.dataFetching.fetchInProgress[url])
   console.log('Saga: Check if fetch is in progress')
 
   if (!fetchInProgress || fetchInProgress === false) {
     console.log('Saga: Fetch not in progress')
-    // ---> This may create an issue with concurrent data fetching
     console.log('Saga: Starting to download catalog in Saga for url: ', url)
     put(catalogFetchStart({ url, inProgress: true }))
     try {
