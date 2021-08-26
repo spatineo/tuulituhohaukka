@@ -15,15 +15,7 @@ interface Props {
 const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
   const colorData = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
   const [clickedColorTile, setClickedColorTile] = React.useState('')
-
-  const bands = [
-    {
-      name: 'VV'
-    },
-    {
-      name: 'VH'
-    }
-  ]
+  const bands = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].derivedData.bands)
 
   const setClicked = (value: string) => {
     setClickedColorTile(value)
