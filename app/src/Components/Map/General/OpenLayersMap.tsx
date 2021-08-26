@@ -49,7 +49,6 @@ const OpenLayersMap: React.FC = () => {
       resolution: resolution,
       rotation: rotation,
     }
-    // console.log('Map moved. Dispatching action to set new extent!')
     dispatch(updateMapExtent(payload))
   }
 
