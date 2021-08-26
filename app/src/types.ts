@@ -9,6 +9,8 @@ export interface Data {
 }
 
 export interface Global {
+  fetchInProgress: FetchInProgress
+  fetchErrors: FetchError
   mapExtent: MapExtent
   inspectionDate: string
   comparisonDate: string
@@ -24,8 +26,8 @@ export interface MapExtent {
 
 export interface Cache {
   catalog: Catalog
-  fetchInProgress: FetchInProgress
-  fetchErrors: FetchError
+
+
   datasets: Dataset[]
   windDamages: WindDamages[]
 }
