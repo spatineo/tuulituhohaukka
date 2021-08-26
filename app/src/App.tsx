@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { rootSaga } from './Store/Sagas/rootSaga'
-import MainView from './Views/MainView'
+import MainView from './Components/Views/MainView'
 import dataReducer from './Store/Reducers/data';
 
 const rootReducer = combineReducers({
