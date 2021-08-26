@@ -7,7 +7,6 @@ import GeoTIFF, { SourceInfo } from 'ol/source/GeoTIFF';
 import Projection from 'ol/proj/Projection';
 import * as ol from 'ol'
 import { MouseWheelZoom, defaults } from 'ol/interaction';
-import {getCenter} from 'ol/extent';
 import 'ol/ol.css'
 
 interface State {
@@ -15,6 +14,14 @@ interface State {
   map: any
 }
 
+const RED   = 0;
+const GREEN = 1;
+const BLUE  = 2;
+
+const projection = new Projection({
+  code: 'EPSG:3067',
+  extent: [50199.4814, 6582464.0358, 761274.6247, 7799839.8902],
+});
 
 const mouseWheelZoomAnimationTime = 75;
 
@@ -37,12 +44,8 @@ const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
   const [map, setMap] = React.useState<any>()
   const mapRef = React.useRef<HTMLElement>()
 
-  const projection = new Projection({
-    code: 'EPSG:3067',
-    extent: [50199.4814, 6582464.0358, 761274.6247, 7799839.8902],
-  });
-
   const initializeOL = React.useCallback(() => {
+    console.log('Initialize!')
     const map = new ol.Map({
       interactions: defaults({ mouseWheelZoom: false }).extend([
         new MouseWheelZoom({
@@ -51,9 +54,9 @@ const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
       target: mapRef.current,
       layers: [],
       view: new ol.View({
-        center: getCenter(projection.getExtent()),
-        //extent: sourceExtent,
-        zoom: 1,
+        center: mapExtent.center,
+        resolution: mapExtent.resolution,
+        rotation: mapExtent.rotation,
         projection: projection
       })
     })
@@ -70,7 +73,6 @@ const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
       resolution: resolution,
       rotation: rotation,
     }
-    // console.log('Map moved. Dispatching action to set new extent!')
     dispatch(updateMapExtent(payload))
   }
 
@@ -92,10 +94,7 @@ const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
 
 
   React.useEffect(() => {
-    //const sources : {url: string, color: number, min: number, max: number} [] = []
-    console.log('THEITEMzzzz', item, channelSettings)
-
-    const colors = [{colorStr: 'R', color: 0 }, {colorStr: 'G', color: 1}, {colorStr: 'B', color: 2}];
+    const colors = [{colorStr: 'R', color: RED }, {colorStr: 'G', color: GREEN}, {colorStr: 'B', color: BLUE}];
     
     const min = (item && item.id && item.id.indexOf('Sentinel-1') !== -1) ? -48 : 0;
     const max = (item && item.id && item.id.indexOf('Sentinel-1') !== -1) ? 34  : 2000;
@@ -116,7 +115,7 @@ const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
         if (source.color !== targetColor) { return memo; }
           const item = ['band', i+1]
           if (memo === 0) {
-              memo = item; // TODO
+              memo = item;
           } else {
               memo = ['+', memo, item]
           }
@@ -124,24 +123,15 @@ const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
       }, 0 as any)
     }
     
-    const red   = ['clamp', sumBands(sources, 0), 0, 1]
-    const green = ['clamp', sumBands(sources, 1), 0, 1]
-    const blue  = ['clamp', sumBands(sources, 2), 0, 1]
-    
-    console.log('----------- RED\n', JSON.stringify(red))
-    console.log('----------- GREEN\n', JSON.stringify(green))
-    console.log('----------- BLUE\n', JSON.stringify(blue))
-
-
     const oldLayers = map?.getLayers() || [];
     oldLayers.forEach((l : any) => map?.removeLayer(l))
 
     const layer = new TileLayer({
       style: { color:
           ['color', 
-            ['*', 255, red   ],
-            ['*', 255, green ],
-            ['*', 255, blue  ]
+            ['*', 255, ['clamp', sumBands(sources, RED),   0, 1] ],
+            ['*', 255, ['clamp', sumBands(sources, GREEN), 0, 1] ],
+            ['*', 255, ['clamp', sumBands(sources, BLUE),  0, 1] ]
           ]
       },
       source: new GeoTIFF({

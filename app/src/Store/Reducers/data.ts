@@ -7,8 +7,8 @@ const initialState: ReduxState = {
       fetchInProgress: {},
       fetchErrors: {},
       mapExtent: {
-        center: [],
-        resolution: 0,
+        center: [397915, 7132330],
+        resolution: 3550,
         rotation: 0
       },
       inspectionDate: "",
