@@ -10,13 +10,13 @@ interface LoadDataActionWithParam {
 
 // Once LOAD_ROOT_CATALOG action is detected, loadCatalogWorker is called
 export function* loadCatalogWatcher(): any {
-  console.log('loadCatalogWatcher called!')
+  console.log('Saga: loadCatalogWatcher called!')
   yield takeLatest(LOAD_CATALOG, loadCatalogWorker)
 }
 
 // Function will download the catalog if it is not found already from cache
 function* loadCatalogWorker(action: LoadDataActionWithParam): any {
-  console.log('loadCatalogWorker called!')
+  console.log('Saga: loadCatalogWorker called!')
   yield call(getCatalog, action.payload.url)
 }
 
@@ -34,21 +34,21 @@ function* getCatalog(url: string): any {
   // }
 
   // Check if fetch is in progress for given URL
-  const fetchInProgress = yield select((state) => state.dataReducer.cache.fetchInProgress[url])
-  console.log('Check if fetch is in progress')
+  const fetchInProgress = yield select((state) => state.dataReducer.data.global.fetchInProgress[url])
+  console.log('Saga: Check if fetch is in progress')
 
-  if (!fetchInProgress) {
-    console.log('Fetch not in progress')
+  if (!fetchInProgress || fetchInProgress === false) {
+    console.log('Saga: Fetch not in progress')
     // ---> This may create an issue with concurrent data fetching
-    console.log('Starting to download catalog in Saga for url: ', url)
+    console.log('Saga: Starting to download catalog in Saga for url: ', url)
     put(catalogFetchStart({ url, inProgress: true }))
     try {
       const response = yield axios.get(url)
       const fetchedCatalog = response.data
-      console.log('Download finished in Saga! ✅  Sending action to update Redux: ', fetchedCatalog)
+      console.log('Saga: Download finished in Saga! ✅  Sending action to update Redux: ', fetchedCatalog)
       yield put(catalogFetchFinished({ url, fetchedCatalog, inProgress: false }))
     } catch (error) {
-      console.log('Error while downloading catalog! ⛔️ ', error)
+      console.log('Saga: Error while downloading catalog! ⛔️ ', error)
       yield put(catalogFetchFailed({ url, error }))
     }
   }
