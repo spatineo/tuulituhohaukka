@@ -4,8 +4,6 @@ import { ReduxState } from '../../types'
 const initialState: ReduxState = {
   data: {
     global: {
-      fetchInProgress: {},
-      fetchErrors: {},
       mapExtent: {
         center: [],
         resolution: 0,
@@ -22,6 +20,10 @@ const initialState: ReduxState = {
     catalog: {},
     datasets: [],
     windDamages: []
+  },
+  dataFetching: {
+    fetchInProgress: {},
+    fetchErrors: {},
   }
 }
 
@@ -29,18 +31,18 @@ const dataReducer = createReducer(initialState, {
   CATALOG_FETCH_START: (state, action) => {
     console.log('Reducer: Catalog download started')
     console.log('Reducer: Action payload in reducer: ', action.payload)
-    state.data.global.fetchInProgress[action.payload.url] = action.payload.inProgress
+    state.dataFetching.fetchInProgress[action.payload.url] = action.payload.inProgress
   },
   CATALOG_FETCH_FINISHED: (state, action) => {
     console.log('Reducer: Loading Catalog finished! Setting state in Redux')
     console.log('Reducer: Action payload in reducer: ', action.payload)
-    state.data.global.fetchInProgress[action.payload.url] = action.payload.inProgress
+    state.dataFetching.fetchInProgress[action.payload.url] = action.payload.inProgress
     state.cache.catalog[action.payload.url] = action.payload.fetchedCatalog
   },
   CATALOG_FETCH_FAILED: (state, action) => {
     console.log('Reducer: Saving error to reducer!')
     console.log('Reducer: Action payload in reducer: ', action.payload)
-    state.data.global.fetchErrors[action.payload.url] = action.payload.error
+    state.dataFetching.fetchErrors[action.payload.url] = action.payload.error
   },
   SET_INITIAL_SETUP: (state, action) => {
     console.log('Reducer: Loading initial setup from JSON file and setting state in Redux')
