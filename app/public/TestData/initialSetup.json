@@ -9,7 +9,7 @@
     "maps": [
       {
         "id": 0,
-        "selectedSource": null,
+        "selectedDataset": null,
         "channelSettings": {
           "R": "",
           "G": "",
@@ -23,7 +23,7 @@
         },
 
         "derivedData": {
-          "sources": [],
+          "bands": [],
           "timeValues": {
             "inspection": "2021-06-29T10:07:49Z",
             "comparison": ""
@@ -41,7 +41,7 @@
       
       {
         "id": 1,
-        "selectedSource": null,
+        "selectedDataset": null,
         "channelSettings": {
           "R": null,
           "G": null,
@@ -55,7 +55,7 @@
         },
 
         "derivedData": {
-          "sources": [],
+          "bands": [],
           "timeValues": {
             "inspection": "2021-06-29T10:07:49Z",
             "comparison": ""
@@ -74,17 +74,17 @@
   },
 
   "cache": {
-    "catalogue": {
-      "id": "1"
+    "catalog": {
+      
     },
-    "sources": [
+    "datasets": [
       {
-        "id": "S1M",
+        "id": "dataset-S1M",
         "name": "S1M (sentinel 1 mosaic)",
         "channelSelectorType": "sentinel"
       }, 
       {
-        "id": "S2M",
+        "id": "dataset-S2M",
         "name": "S2M (sentinel 2 mosaic)",
         "channelSelectorType": "sentinel"
       },

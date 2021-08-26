@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { useDispatch } from 'react-redux';
-
+import { useDispatch, batch } from 'react-redux';
 import { createStyles, makeStyles, withStyles } from '@material-ui/styles'
 import { green } from '@material-ui/core/colors';
 import { Radio, RadioProps } from '@material-ui/core'
 import { ListChildComponentProps } from 'react-window'
-import { setDataSource } from '../../../../Store/Actions/data'
+import { setSelectedDataset, setBands } from '../../../../Store/Actions/data'
+import { getBandsForDataset } from '../../../../API/Api';
 
 const GreenRadio = withStyles({
   root: {
@@ -17,28 +17,27 @@ const GreenRadio = withStyles({
   checked: {},
 })((props: RadioProps) => <Radio color="default" {...props} />);
 
-const DefaultListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
-  const name = data.sources[index].name
-  const selectedSource = data.selectedSource
+const DatasetListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
+  const selectedDataset = data.selectedDataset
+  const datasetId = data.datasets[index].id
   const mapComponentIndex = data.mapComponentIndex
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  const payload = {
-    mapComponentIndex: mapComponentIndex,
-    selectedSource: name
-  }
-
   return (
     <div className={classes.listItemContainer} style={style}>
       <GreenRadio
-        checked={selectedSource === name}
+        checked={selectedDataset === datasetId}
         onChange={() => {
-          dispatch(setDataSource(payload))
+          batch(() => {
+            dispatch(setSelectedDataset({ mapComponentIndex: mapComponentIndex, selectedDataset: datasetId }))
+            dispatch(setBands({ bands: getBandsForDataset(datasetId), mapComponentIndex: mapComponentIndex }))
+          }
+          )
         }}
-        value={name}
+        value={datasetId}
       />
-      {name}
+      {datasetId}
     </div>
   )
 }
@@ -53,4 +52,4 @@ const useStyles = makeStyles(() =>
     }
   }))
 
-export default DefaultListItem
+export default DatasetListItem

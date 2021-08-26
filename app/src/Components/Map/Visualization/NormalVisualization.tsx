@@ -1,13 +1,10 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { createStyles, makeStyles } from '@material-ui/styles'
+import { RootState } from '../../../App'
 import { Grid } from '@material-ui/core'
-
 import ChannelColorTile from './ChannelColorTile'
-import SlimAccordion from '../SlimAccordion'
-import ColorSourceList from '../ListComponents/ColorSourceList'
-
-
+import SlimAccordion from '../General/SlimAccordion'
+import BandList from '../ListComponents/Lists/BandList'
 import { ChannelSettings } from '../../../types'
 
 interface Props {
@@ -15,21 +12,10 @@ interface Props {
   mapComponentIndex: number
 }
 
-const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentIndex }) => {
-  // const sources = useSelector((state: ReduxState): Array<Source> => state.data.cache.sources)
-  const colorData = useSelector((state: any): ChannelSettings => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
+const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
+  const colorData = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
   const [clickedColorTile, setClickedColorTile] = React.useState('')
-
-  const classes = useStyles()
-
-  const sources = [
-    {
-      name: 'VV'
-    },
-    {
-      name: 'VH'
-    }
-  ]
+  const bands = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].derivedData.bands)
 
   const setClicked = (value: string) => {
     setClickedColorTile(value)
@@ -41,8 +27,8 @@ const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentInd
         return (
           <Grid item xs={10} >
             <SlimAccordion name={'list'}>
-              <ColorSourceList
-                sources={sources}
+              <BandList
+                bands={bands}
                 color={'red'}
                 mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
@@ -53,8 +39,8 @@ const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentInd
         return (
           <Grid item xs={10} >
             <SlimAccordion name={'list'}>
-              <ColorSourceList
-                sources={sources}
+              <BandList
+                bands={bands}
                 color={'green'}
                 mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
@@ -65,8 +51,8 @@ const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentInd
         return (
           <Grid item xs={10} >
             <SlimAccordion name={'list'}>
-              <ColorSourceList
-                sources={sources}
+              <BandList
+                bands={bands}
                 color={'blue'}
                 mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
@@ -77,14 +63,13 @@ const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentInd
         return (
           <Grid item xs={10} >
             <SlimAccordion name={'list'}>
-              <ColorSourceList
-                sources={sources}
+              <BandList
+                bands={bands}
                 color={'red'}
                 mapComponentIndex={mapComponentIndex} />
             </SlimAccordion>
           </Grid>
         )
-
       }
     }
   }
@@ -110,9 +95,5 @@ const NormalVisualization: React.FC<Props> = ({ channelSettings, mapComponentInd
     </div >
   )
 }
-
-const useStyles = makeStyles(() =>
-  createStyles({
-  }))
 
 export default NormalVisualization

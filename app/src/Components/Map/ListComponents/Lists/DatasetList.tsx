@@ -1,32 +1,32 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { FixedSizeList } from 'react-window'
-import { Source } from '../../../types'
+import { Dataset } from '../../../../types'
+import { RootState } from '../../../../App'
 import { Grid, Input, InputAdornment } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
-
-
-import DefaultListItem from './ListItems/DefaultListItem'
+import DatasetListItem from '../ListItems/DatasetListItem'
 
 interface Props {
-  sources: Source[],
+  datasets: Dataset[],
   mapComponentIndex: number
 }
 
-const DataSourceList: React.FC<Props> = ({ sources, mapComponentIndex }) => {
-  const selectedSource = useSelector((state: any): string => state.dataReducer.data.maps[mapComponentIndex].selectedSource)
+const DatasetList: React.FC<Props> = ({ datasets, mapComponentIndex }) => {
+  const selectedDataset = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].selectedDataset)
   const [searchText, setSearchText] = React.useState('')
 
+  console.log('datasets in DatasetList: ', datasets)
   const searchAndFilter = (input: string) => {
-    const filteredSources = sources.filter((source: Source) => {
-      const sourceData = source.name.toUpperCase()
+    const filteredDatasets = datasets.filter((dataset: Dataset) => {
+      const sourceData = dataset.id?.toUpperCase()
       const searchText = input.toUpperCase()
-      return sourceData.includes(searchText)
+      return sourceData?.includes(searchText)
     }).sort()
-    return filteredSources
+    return filteredDatasets
   }
 
-  const filteredSources = searchAndFilter(searchText)
+  const filteredDatasets = searchAndFilter(searchText)
 
   return (
     <div style={{ width: '100%' }}>
@@ -46,13 +46,13 @@ const DataSourceList: React.FC<Props> = ({ sources, mapComponentIndex }) => {
               height={200}
               width={200}
               itemSize={30}
-              itemCount={filteredSources.length}
+              itemCount={filteredDatasets?.length}
               itemData={{
-                sources: filteredSources,
+                datasets: filteredDatasets,
                 mapComponentIndex: mapComponentIndex,
-                selectedSource: selectedSource
+                selectedDataset: selectedDataset
               }}>
-              {DefaultListItem}
+              {DatasetListItem}
             </FixedSizeList>
           </Grid>
         </Grid>
@@ -61,4 +61,4 @@ const DataSourceList: React.FC<Props> = ({ sources, mapComponentIndex }) => {
   )
 }
 
-export default DataSourceList
+export default DatasetList

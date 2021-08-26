@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { rootSaga } from './Store/Sagas/rootSaga'
-import MainView from './Views/MainView'
+import MainView from './Components/Views/MainView'
 import dataReducer from './Store/Reducers/data';
 
 const rootReducer = combineReducers({
@@ -22,7 +22,6 @@ const configureStore = () => {
   sagaMiddleware.run(rootSaga)
   return store
 }
-
 const store = configureStore()
 
 const App = (): JSX.Element => {
@@ -34,6 +33,7 @@ const App = (): JSX.Element => {
 }
 
 export default App;
+export { store }
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch

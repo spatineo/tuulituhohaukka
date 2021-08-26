@@ -1,6 +1,7 @@
 export interface ReduxState {
   data: Data
   cache: Cache
+  dataFetching: DataFetching
 }
 
 export interface Data {
@@ -9,23 +10,43 @@ export interface Data {
 }
 
 export interface Global {
-  bbox: number[];
-  selectedTime: string;
-  fullScreen: string;
-  mapSize: string;
+  mapExtent: MapExtent
+  inspectionDate: string
+  comparisonDate: string
+  fullScreen: string
+  mapSize: string
+}
+
+export interface DataFetching {
+  fetchInProgress: FetchInProgress
+  fetchErrors: FetchError
+}
+
+export interface MapExtent {
+  center: number[]
+  resolution: number
+  rotation: number
 }
 
 export interface Cache {
-  catalogue: Catalogue;
-  sources: Source[];
-  windDamages: WindDamages[];
+  catalog: Catalog
+
+
+  datasets: Dataset[]
+  windDamages: WindDamages[]
 }
 
+interface FetchInProgress {
+  [key: string]: boolean
+}
 
+interface FetchError {
+  [key: string]: string
+}
 
 export interface Map {
   id: number
-  selectedSource: string | null
+  selectedDataset: string | null
   channelSettings: ChannelSettings
   displayWindDamageVector: boolean
   displaySpyGlass: boolean
@@ -34,7 +55,7 @@ export interface Map {
 }
 
 export interface DerivedData {
-  sources: Source[]
+  bands: Band[]
   timeValues: TimeValues
   mapLayers: []
 }
@@ -63,14 +84,18 @@ export interface ChannelSettings {
   B: string
 }
 
-export interface Catalogue {
-  id?: number
+export interface Catalog {
+  [key: string]: Record<string, unknown>
 }
 
-export interface Source {
+export interface Dataset {
   id?: string
-  name: string
+  title: string
   channelSelectorType?: string
+}
+
+export interface Band {
+  name: string
 }
 
 export interface WindDamages {

@@ -14,7 +14,6 @@ const Circle: React.FC<Props> = ({ text, color, borderWidth }) => {
       className={classes.circle}
       style={{ borderColor: `${color}`, borderWidth: `${borderWidth}` }}
     >
-
       {text}
     </div>
   )

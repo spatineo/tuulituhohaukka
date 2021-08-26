@@ -2,9 +2,8 @@ import * as React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { ButtonBase, Typography } from '@material-ui/core'
-import { setInspectionDate } from '../../Store/Actions/data'
-
-import { setComparisonDate } from '../../Store/Actions/data'
+import { setInspectionDate, setComparisonDate } from '../../Store/Actions/data'
+import { RootState } from '../../App'
 
 interface Props {
   month: string
@@ -13,14 +12,13 @@ interface Props {
 }
 
 const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
-  const inspectionDateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.inspectionDate)
-  const comparisonDateFromRedux = useSelector((state: any): string => state.dataReducer.data.global.comparisonDate)
+  const inspectionDateFromRedux = useSelector((state: RootState) => state.dataReducer.data.global.inspectionDate)
+  const comparisonDateFromRedux = useSelector((state: RootState) => state.dataReducer.data.global.comparisonDate)
   const classes = useStyles()
   const dispatch = useDispatch()
 
   let date: Date
   let monthNumber: number
-
 
   if (selectedType === 'inspection') {
     date = new Date(inspectionDateFromRedux)
@@ -33,27 +31,16 @@ const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
   const setMonth = (index: number) => {
     if (selectedType === 'inspection') {
       const editedDate = new Date(date.setMonth(index))
-      const payload = {
-        inspectionDate: editedDate
-      }
-      dispatch(setInspectionDate(payload))
+      dispatch(setInspectionDate({ inspectionDate: editedDate }))
     } else if (selectedType === 'comparison') {
-      const payload = {
-        comparisonDate: new Date()
-      }
-
       if (comparisonDateFromRedux === '') {
         const date = new Date()
         const editedDate = new Date(date.setMonth(index))
-        payload.comparisonDate = editedDate
+        dispatch(setComparisonDate({ comparisonDate: editedDate }))
       } else {
         const editedDate = new Date(date.setMonth(index))
-        payload.comparisonDate = editedDate
+        dispatch(setComparisonDate({ comparisonDate: editedDate }))
       }
-
-      dispatch(setComparisonDate(payload))
-      console.log('edited date for blue: ', payload.comparisonDate)
-      // send action to redux
     }
   }
 

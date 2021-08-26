@@ -1,15 +1,9 @@
 import * as React from 'react'
-import { createStyles, makeStyles } from '@material-ui/styles'
 import { Grid, Card } from '@material-ui/core'
-
-import SelectMonth from '../Components/SidePanel/SelectMonth'
-import SelectDay from '../Components/SidePanel/SelectDay'
-// interface SidePanelProps {
-
-// }
+import SelectMonth from '../SidePanel/SelectMonth'
+import SelectDay from '../SidePanel/SelectDay'
 
 const SidePanel: React.FC = () => {
-  const classes = useStyles()
   return (
     <div >
       <Grid container direction="column" justify="center" alignItems="center" spacing={2} >
@@ -23,14 +17,7 @@ const SidePanel: React.FC = () => {
         </Grid>
       </Grid>
     </div >
-
   )
 }
-
-const useStyles = makeStyles(() =>
-  createStyles({
-
-  })
-)
 
 export default SidePanel

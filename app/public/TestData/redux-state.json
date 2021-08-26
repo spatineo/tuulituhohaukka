@@ -1,7 +1,7 @@
 {
   "data": {
     "global": {
-      "bbox": [-180.0, -90.0, 180.0, 90.0],
+      "mapExtent": [],
       "selectedTime": "ISO time",
       "fullScreen": "null or id of the map",
       "mapSize": "small / medium / large"
@@ -9,7 +9,7 @@
     "maps": [
       {
         "id": 0,
-        "selectedSource": "id of the source",
+        "selectedDataset": "id of the source",
         "channelSettings": {
           "R": "VV",
           "G": "",
@@ -23,7 +23,7 @@
         },
 
         "derivedData": {
-          "sources": [],
+          "bands": [],
           "timeValues": {
             "inspection": "2021-06-29T10:07:49Z",
             "comparison": "2022-08-30T10:07:49Z"
@@ -42,8 +42,8 @@
   },
 
   "cache": {
-    "catalogue": {},
-    "sources": [
+    "catalog": {},
+    "datasets": [
       {
         "id": "S1M",
         "name": "S1M (sentinel 1 mosaic)",
