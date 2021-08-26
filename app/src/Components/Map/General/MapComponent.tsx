@@ -25,17 +25,17 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets 
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  let itemObject : { items: any[] } = { items: [] }
-  
+  let itemObject: { items: any[] } = { items: [] }
+
   if (inspectionDate && selectedDataset) {
     itemObject = getItemsForDatasetAndTime(selectedDataset, inspectionDate) as { items: any[] }
   }
 
-  React.useEffect(() => {
-    if (inspectionDate && selectedDataset) {
-      getItemsForDatasetAndTime(selectedDataset, inspectionDate)
-    }
-  }, [inspectionDate, selectedDataset])
+  // React.useEffect(() => {
+  //   if (inspectionDate && selectedDataset) {
+  //     itemObject = getItemsForDatasetAndTime(selectedDataset, inspectionDate) as { items: any[] }
+  //   }
+  // }, [inspectionDate, selectedDataset])
 
   return (
     <div className={classes.mapContainer}>
@@ -46,7 +46,7 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets 
         >
           -
         </Button>
-        <OpenLayersMap item={itemObject.items[0]}/>
+        <OpenLayersMap item={itemObject.items[0]} />
       </div>
       <div className={classes.footer}>
         <Grid container>
