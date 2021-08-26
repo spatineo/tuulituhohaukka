@@ -97,6 +97,8 @@ const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
 
     const colors = [{colorStr: 'R', color: 0 }, {colorStr: 'G', color: 1}, {colorStr: 'B', color: 2}];
     
+    const min = (item && item.id && item.id.indexOf('Sentinel-1') !== -1) ? -48 : 0;
+    const max = (item && item.id && item.id.indexOf('Sentinel-1') !== -1) ? 34  : 2000;
     
     const sources = colors
       .filter(c => channelSettings[c.colorStr])
@@ -104,8 +106,8 @@ const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
       .map(c => { return {
         url: item.assets[channelSettings[c.colorStr]].sourceUrl,
         color: c.color,
-        min: 0,
-        max: 2000
+        min: min,
+        max: max
       }});
 
     // adds bands together for a single color value
