@@ -115,9 +115,7 @@ export const getItemsForDatasetAndTime = (datasetId: string, inspectionTime: str
 
   if (index === -1) {
     console.log('There are no catalogs after inspection time')
-    return { items: [ /* items */] }
-  }
-  else {
+  } else {
 
     // Loop untill wanted item is found
     for (; index < listOfSubCatalogs.length; index++) {
@@ -148,6 +146,8 @@ export const getItemsForDatasetAndTime = (datasetId: string, inspectionTime: str
       }
       console.log('API: Item not found, loop will run again 🔁')
     }
+
+    return { items: [ /* items */] }
   }
 
 }

@@ -2,29 +2,33 @@ import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateMapExtent } from '../../../Store/Actions/data'
-import { RootState } from '../../../App'
 import TileLayer from 'ol/layer/WebGLTile';
 import GeoTIFF, { SourceInfo } from 'ol/source/GeoTIFF';
 import Projection from 'ol/proj/Projection';
 import * as ol from 'ol'
-import OlMap from 'ol/Map'
 import { MouseWheelZoom, defaults } from 'ol/interaction';
 import { getCenter } from 'ol/extent';
-import equal from 'deep-equal';
-import * as layer from 'ol/layer'
-import * as source from 'ol/source'
 import 'ol/ol.css'
 
 const mouseWheelZoomAnimationTime = 75;
 
 interface Props {
-  item: any
+  item: any,
+  channelSettings: any
 }
 
-const OpenLayersMap: React.FC<Props> = ({ item }) => {
-  const mapExtent = useSelector((state: RootState) => state.dataReducer.data.global.mapExtent)
+const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
+  const mapExtent = useSelector((state: any) => state.dataReducer.data.global.mapExtent)
+
   const dispatch = useDispatch()
-  const [map, setMap] = React.useState<OlMap>()
+
+  const initialState = {
+    showLens: false,
+    map: null,
+    sources: []
+  }
+
+  const [map, setMap] = React.useState<any>()
   const mapRef = React.useRef<HTMLElement>()
 
   const projection = new Projection({
@@ -82,31 +86,23 @@ const OpenLayersMap: React.FC<Props> = ({ item }) => {
 
 
   React.useEffect(() => {
-    const sources: { url: string, color: number, min: number, max: number }[] = []
-    console.log('THEITEM', item)
-    if (item && item.assets && Object.keys(item.assets).length > 0) {
-      sources.push({
-        url: item.assets['b04'].sourceUrl,
-        color: 0,
-        min: 0,
-        max: 2000 // 20610.000
-      })
-      sources.push({
-        url: item.assets['b03'].sourceUrl,
-        color: 1,
-        min: 0,
-        max: 2000 // 20610.000
-      })
-      sources.push({
-        url: item.assets['b02'].sourceUrl,
-        color: 2,
-        min: 0,
-        max: 2000 // 20610.000
-      })
-    }
+    //const sources : {url: string, color: number, min: number, max: number} [] = []
+    console.log('THEITEMzzzz', item, channelSettings)
 
-    console.log(`SOURCE URLs (${sources.length})`)
-    sources.forEach(s => console.log(s.url));
+    const colors = [{ colorStr: 'R', color: 0 }, { colorStr: 'G', color: 1 }, { colorStr: 'B', color: 2 }];
+
+
+    const sources = colors
+      .filter(c => channelSettings[c.colorStr])
+      .filter(c => item && item.assets && item.assets[channelSettings[c.colorStr]])
+      .map(c => {
+        return {
+          url: item.assets[channelSettings[c.colorStr]].sourceUrl,
+          color: c.color,
+          min: 0,
+          max: 2000
+        }
+      });
 
     // adds bands together for a single color value
     function sumBands(sources: { url: string, color: number }[], targetColor: number) {
@@ -158,7 +154,7 @@ const OpenLayersMap: React.FC<Props> = ({ item }) => {
     })
     map?.addLayer(layer);
 
-  }, [item]);
+  }, [item, channelSettings]);
 
   const classes = useStyles()
   return (
