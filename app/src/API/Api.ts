@@ -1,6 +1,6 @@
 import { store } from '../App'
 import { loadCatalog } from '../Store/Actions/data'
-import { Dataset, Band } from '../types'
+import { Dataset } from '../types'
 
 interface RootCatalog {
   type?: string,
@@ -16,16 +16,15 @@ interface Link {
 
 // Helper function
 const getCatalogHelper = (url: string) => {
-  console.log('Helper function called. Checking if catalog can be found for given url')
+  console.log('API: Helper function called. Checking if catalog can be found for given url')
   const ReduxState = store.getState()
   const catalog = ReduxState.dataReducer.cache.catalog[url]
   if (!catalog) {
-    console.log('No catalog found for given url from cache. Dispatching action to load more..')
+    console.log('API: No catalog found for given url from cache. Dispatching action to load more..')
     store.dispatch(loadCatalog({ url: url }))
-    console.log('Returning empty object for now')
     return {}
   } else {
-    console.log('catalog found! returning catalog')
+    console.log('API: catalog found! returning catalog')
     return catalog
   }
 }
@@ -33,28 +32,28 @@ const getCatalogHelper = (url: string) => {
 // 2. get all datasets catalog
 // 3. read id and title from each dataset catalog and return as an array of objects {datasets: [{id: 'foo', title: 'bar'}, {...}]}
 export const getAllDatasets = (): any | undefined => {
-  console.log('getAllDatasets Called')
+  console.log('API: getAllDatasets Called')
   const ReduxState = store.getState()
-  const rootCatalog: RootCatalog = ReduxState.dataReducer.cache.catalog['/Testdata/root.json']
+  const rootCatalog: RootCatalog = ReduxState.dataReducer.cache.catalog['https://s3.eu-west-1.amazonaws.com/directory.spatineo.com/tmp/tuulituhohaukka-stac/catalog/root.json']
+  console.log('RootCatalog from server: ', rootCatalog)
 
   if (rootCatalog && Object.keys(rootCatalog).length === 0 || rootCatalog == undefined) {
-    console.log('Root catalog not found. Dispatching action to download root catalog')
-    store.dispatch(loadCatalog({ url: '/Testdata/root.json' }))
+    console.log('API: Root catalog not found. Dispatching action to download root catalog')
+    store.dispatch(loadCatalog({ url: 'https://s3.eu-west-1.amazonaws.com/directory.spatineo.com/tmp/tuulituhohaukka-stac/catalog/root.json' }))
     return []
   }
   else {
     if (rootCatalog.links) {
-      const dataSets = rootCatalog.links.filter((link: Link) => link.rel === 'child')
+      const datasets = rootCatalog.links.filter((link: Link) => link.rel === 'child')
         .map((link: Link) => {
-          console.log('Looping to get next level inside catalog 🔁 ')
-          console.log('Current link to fetch is: ', link.href)
+          console.log('API: Looping to get next level inside catalog 🔁 ')
+          console.log('API: Current link to fetch is: ', link.href)
           const catalog = getCatalogHelper(link.href)
           return catalog
         })
         .filter((catalog) => catalog.id !== undefined)
-      // Once loop is finished, return array of dataSets
-      // Returns [{}] array of objects
-      return dataSets
+      console.log('Dataset returned from getAllDatasets: ', datasets)
+      return datasets
     }
   }
 }
@@ -63,13 +62,13 @@ export const getAllDatasets = (): any | undefined => {
 // 2. find the dataset catalog with given id
 // 3. return bands from selecte dataset catalog contents
 export const getBandsForDataset = (id: string): any => {
-  console.log('getBandsForDatasets called!')
+  console.log('API: getBandsForDatasets called!')
   const dataSets = getAllDatasets()
-  console.log('Datasets returned: ', dataSets)
+  console.log('API: Datasets returned: ', dataSets)
   const dataSetById = dataSets?.find((dataset: Dataset) => dataset.id == id)
-  console.log('Dataset with given id: ', dataSetById)
+  console.log('API: Dataset with given id: ', dataSetById)
   const bands = dataSetById.summaries.bands
-  console.log('Bands to return: ', bands)
+  console.log('API: Bands to return: ', bands)
   return bands
 }
 
