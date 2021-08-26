@@ -1,6 +1,6 @@
 import { store } from '../App'
 import { loadCatalog } from '../Store/Actions/data'
-import { Catalog, Dataset } from '../types'
+import { Dataset } from '../types'
 
 interface RootCatalog {
   type?: string,
@@ -18,6 +18,11 @@ interface Link {
 interface Time {
   time_start: string
   time_end: string
+}
+
+interface CreatedLinkObject {
+  time_start: Date
+  time_end: Date
 }
 
 // Helper function
@@ -78,6 +83,16 @@ export const getBandsForDataset = (id: string): any => {
   return bands
 }
 
+
+// 1. get root catalog
+// 2. get all dataset catalogs
+// 3. find the dataset catalog with given id
+// 4. identify dataset-time catalog that overlap with "inspectionTime" and the next dataset-time catalog (in time order)
+// 5. get dataset-time catalogs that were identified in step 4
+// 6. get all items in the two dataset-time catalogs identified in step 4
+// 7. place items from step 6 in order (per time) and select the first item where startdate (or time) is after inspectionTime 
+// 8. return data
+
 export const getItemsForDatasetAndTime = (datasetId: string, inspectionTime: string) => {
 
   const createLinkObject = (link: Link) => {
@@ -88,42 +103,26 @@ export const getItemsForDatasetAndTime = (datasetId: string, inspectionTime: str
     }
   }
 
-  const sortObjectByTime = (a: any, b: any) => a.time_start.getTime() - b.time_start.getTime()
-
-  // 1. get root catalog
-  // 2. get all dataset catalogs
+  const sortObjectByTime = (a: CreatedLinkObject, b: CreatedLinkObject) => a.time_start.getTime() - b.time_start.getTime()
   const dataSets = getAllDatasets()
-  // 3. find the dataset catalog with given id
   const dataSetById = dataSets?.find((dataSet: any) => dataSet.id == datasetId)
-  // 4. identify dataset-time catalog that overlap with "inspectionTime" and the next dataset-time catalog (in time order)
   const inspectionDate = new Date(inspectionTime)
-  console.log('inspectionTime:  ', inspectionTime)
-  console.log('inspectionDate: ', inspectionDate)
-
-  // make a list of sub catalog
   const listOfSubCatalogs = dataSetById?.links.filter((link: Link) => link.rel === 'child').map(createLinkObject)
-
-  // sort list in timely order
   listOfSubCatalogs.sort(sortObjectByTime)
   console.log('API: ListOfSubCatalogs: ', listOfSubCatalogs)
 
-  // get index for catalog that has selected inspection time
-
-
   let index = listOfSubCatalogs.findIndex((object: any) => inspectionDate.getTime() < object.time_end.getTime())
-
-  console.log('index for listObSubCatalogs: ', index)
 
   if (index === -1) {
     console.log('There are no catalogs after inspection time')
     return { items: [ /* items */] }
-  } else {
+  }
+  else {
 
-    // Loop this untill you find item that matches criteria
+    // Loop untill wanted item is found
     for (; index < listOfSubCatalogs.length; index++) {
       const href = listOfSubCatalogs[index].href
       const datasetTimeCatalog = getCatalogHelper(href) as any
-      console.log('DatsetTimeCatalog 💥: ', datasetTimeCatalog)
 
       if (!datasetTimeCatalog.links) {
         return { items: [ /* items */] }
@@ -136,6 +135,7 @@ export const getItemsForDatasetAndTime = (datasetId: string, inspectionTime: str
       // Find item that starts after inspection time
       const foundItem = items.find((item: any) => inspectionDate.getTime() < item.time_start.getTime())
       if (foundItem) {
+        console.log('API: Item found! Starting to fetch next level in catalog..')
         const fetchedItem = getCatalogHelper(foundItem.href)
 
         if (!fetchedItem.links) {
@@ -146,23 +146,9 @@ export const getItemsForDatasetAndTime = (datasetId: string, inspectionTime: str
           return { items: [fetchedItem] }
         }
       }
-      console.log('Item not found, loop will run again 🔁')
+      console.log('API: Item not found, loop will run again 🔁')
     }
   }
 
-
-
-
-
-
-
-  // 5. get dataset-time catalogs that were identified in step 4
-  // 6. get all items in the two dataset-time catalogs identified in step 4
-  // 7. place items from step 6 in order (per time) and select the first item where startdate (or time) is after inspectionTime 
-  // 8. return data
-
-
-
-  // If a catalog or item is not loaded yet, start loading it and do not proceed further, return an empty result: { items: [] }
 }
 
