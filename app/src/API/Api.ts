@@ -108,6 +108,11 @@ export const getItemsForDatasetAndTime = (datasetId: string, inspectionTime: str
   const dataSetById = dataSets?.find((dataSet: any) => dataSet.id == datasetId)
   const inspectionDate = new Date(inspectionTime)
   const listOfSubCatalogs = dataSetById?.links.filter((link: Link) => link.rel === 'child').map(createLinkObject)
+  if (!listOfSubCatalogs) {
+    return { items: [ /* items */] }
+  }
+
+  // sort list in timely order
   listOfSubCatalogs.sort(sortObjectByTime)
   console.log('API: ListOfSubCatalogs: ', listOfSubCatalogs)
 

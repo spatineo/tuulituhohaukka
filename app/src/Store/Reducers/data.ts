@@ -5,8 +5,8 @@ const initialState: ReduxState = {
   data: {
     global: {
       mapExtent: {
-        center: [],
-        resolution: 0,
+        center: [397915, 7132330],
+        resolution: 3550,
         rotation: 0
       },
       inspectionDate: "",
