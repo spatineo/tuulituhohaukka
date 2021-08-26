@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Grid, Card } from '@material-ui/core'
-import SelectMonth from '../Components/SidePanel/SelectMonth'
-import SelectDay from '../Components/SidePanel/SelectDay'
+import SelectMonth from '../SidePanel/SelectMonth'
+import SelectDay from '../SidePanel/SelectDay'
 
 const SidePanel: React.FC = () => {
   return (

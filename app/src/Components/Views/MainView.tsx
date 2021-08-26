@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { loadInitialSetup, setAllDatasets, setBands } from '../Store/Actions/data'
+import { loadInitialSetup, setAllDatasets, setBands } from '../../Store/Actions/data'
 import { Button, Divider, Grid } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import MapView from './MapView'
 import SidePanel from './SidePanel'
-import { getAllDatasets, getBandsForDataset } from '../API/Api';
+import { getAllDatasets, getBandsForDataset } from '../../API/Api';
 
 const MainView: React.FC = () => {
   const classes = useStyles()

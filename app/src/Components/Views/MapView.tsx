@@ -1,13 +1,15 @@
 import * as React from 'react'
 import { useDispatch } from 'react-redux'
-import { addMap } from '../Store/Actions/data'
-import { RootState } from '../App'
+import { addMap } from '../../Store/Actions/data'
+import { RootState } from '../../App'
 import { createStyles, makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import { green } from '@material-ui/core/colors'
 import { Button, Grid } from '@material-ui/core'
 import { useSelector } from 'react-redux'
-import MapComponent from '../Components/Map/General/MapComponent'
+import MapComponent from '../Map/General/MapComponent'
+import { getAllDatasets } from '../../API/Api'
 
+import { Dataset } from '../../types'
 const greenTheme = createMuiTheme({
   palette: {
     primary: green
@@ -19,6 +21,13 @@ const MapView: React.FC = () => {
   const dispatch = useDispatch()
   const mapData = useSelector((state: RootState) => state.dataReducer.data.maps)
   const latestMapIndex = mapData.length - 1
+
+  const datasets = getAllDatasets() as Dataset[]
+  const cache = useSelector((state: RootState) => state.dataReducer.cache)
+
+  React.useEffect(() => {
+    getAllDatasets()
+  }, [cache])
 
   const payload = {
     "mapObject": {
@@ -75,6 +84,7 @@ const MapView: React.FC = () => {
               <MapComponent
                 mapObject={mapObject}
                 mapComponentIndex={index}
+                datasets={datasets}
               />
             </Grid>)
         })}
