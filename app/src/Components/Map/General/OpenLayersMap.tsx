@@ -9,17 +9,11 @@ import Projection from 'ol/proj/Projection';
 import * as ol from 'ol'
 import OlMap from 'ol/Map'
 import { MouseWheelZoom, defaults } from 'ol/interaction';
-import {getCenter} from 'ol/extent';
+import { getCenter } from 'ol/extent';
 import equal from 'deep-equal';
 import * as layer from 'ol/layer'
 import * as source from 'ol/source'
 import 'ol/ol.css'
-
-interface State {
-  showLens: boolean
-  map: any
-}
-
 
 const mouseWheelZoomAnimationTime = 75;
 
@@ -28,18 +22,9 @@ interface Props {
 }
 
 const OpenLayersMap: React.FC<Props> = ({ item }) => {
-  const mapExtent = useSelector((state: any) => state.dataReducer.data.global.mapExtent)
-
+  const mapExtent = useSelector((state: RootState) => state.dataReducer.data.global.mapExtent)
   const dispatch = useDispatch()
-
-  const initialState = {
-    showLens: false,
-    map: null,
-    sources: []
-  }
-
-  const [state, setState] = React.useState<State>(initialState)
-  const [map, setMap] = React.useState<any>()
+  const [map, setMap] = React.useState<OlMap>()
   const mapRef = React.useRef<HTMLElement>()
 
   const projection = new Projection({
@@ -61,10 +46,6 @@ const OpenLayersMap: React.FC<Props> = ({ item }) => {
         zoom: 1,
         projection: projection
       })
-    })
-    setState({
-      showLens: false,
-      map
     })
     return map
   }, [mapRef])
@@ -93,15 +74,15 @@ const OpenLayersMap: React.FC<Props> = ({ item }) => {
 
   React.useEffect(() => {
     //if (!map?.getView().getInteracting()) {
-      map?.getView().setCenter(mapExtent.center)
-      map?.getView().setResolution(mapExtent.resolution)
-      map?.getView().setRotation(mapExtent.rotation)
+    map?.getView().setCenter(mapExtent.center)
+    map?.getView().setResolution(mapExtent.resolution)
+    map?.getView().setRotation(mapExtent.rotation)
     //}
   }, [mapExtent])
 
 
   React.useEffect(() => {
-    const sources : {url: string, color: number, min: number, max: number} [] = []
+    const sources: { url: string, color: number, min: number, max: number }[] = []
     console.log('THEITEM', item)
     if (item && item.assets && Object.keys(item.assets).length > 0) {
       sources.push({
@@ -128,52 +109,55 @@ const OpenLayersMap: React.FC<Props> = ({ item }) => {
     sources.forEach(s => console.log(s.url));
 
     // adds bands together for a single color value
-    function sumBands(sources : {url: string, color: number }[], targetColor: number) {
+    function sumBands(sources: { url: string, color: number }[], targetColor: number) {
       return sources.reduce((memo, source, i) => {
         if (source.color !== targetColor) { return memo; }
-          const item = ['band', i+1]
-          if (memo === 0) {
-              memo = item; // TODO
-          } else {
-              memo = ['+', memo, item]
-          }
-          return memo;
+        const item = ['band', i + 1]
+        if (memo === 0) {
+          memo = item; // TODO
+        } else {
+          memo = ['+', memo, item]
+        }
+        return memo;
       }, 0 as any)
     }
-    
-    const red   = ['clamp', sumBands(sources, 0), 0, 1]
+
+    const red = ['clamp', sumBands(sources, 0), 0, 1]
     const green = ['clamp', sumBands(sources, 1), 0, 1]
-    const blue  = ['clamp', sumBands(sources, 2), 0, 1]
-    
+    const blue = ['clamp', sumBands(sources, 2), 0, 1]
+
     console.log('----------- RED\n', JSON.stringify(red))
     console.log('----------- GREEN\n', JSON.stringify(green))
     console.log('----------- BLUE\n', JSON.stringify(blue))
 
 
     const oldLayers = map?.getLayers() || [];
-    oldLayers.forEach((l : any) => map?.removeLayer(l))
+    oldLayers.forEach((l: any) => map?.removeLayer(l))
 
     const layer = new TileLayer({
-      style: { color:
-          ['color', 
-            ['*', 255, red   ],
-            ['*', 255, green ],
-            ['*', 255, blue  ]
+      style: {
+        color:
+          ['color',
+            ['*', 255, red],
+            ['*', 255, green],
+            ['*', 255, blue]
           ]
       },
       source: new GeoTIFF({
         sources:
-          sources.map(s => { return {
-            url: s.url,
-            //nodata: 0, !!! Important!
-            bands: [0],
-            min: s.min,
-            max: s.max
-          }})
+          sources.map(s => {
+            return {
+              url: s.url,
+              //nodata: 0, !!! Important!
+              bands: [0],
+              min: s.min,
+              max: s.max
+            }
+          })
       })
     })
     map?.addLayer(layer);
-  
+
   }, [item]);
 
   const classes = useStyles()
