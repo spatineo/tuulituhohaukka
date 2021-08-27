@@ -55,6 +55,13 @@ const dataReducer = createReducer(initialState, {
     state.cache.datasets = action.payload.cache.datasets
     // state.cache.windDamages = action.payload.cache.windDamages
   },
+  SET_STATE_FROM_URL: (state, action) => {
+    console.log('Reducer: Setting state based on URL')
+    console.log('Reducer: Action payload: ', action.payload)
+    state.data = action.payload.data
+
+
+  },
   SET_RED_CHANNEL: (state, action) => {
     console.log('Reducer: Setting red channel value in redux')
     console.log('Reducer: action payload for set red channel: ', action.payload)
