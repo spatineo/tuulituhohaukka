@@ -47,20 +47,15 @@ const dataReducer = createReducer(initialState, {
   SET_INITIAL_SETUP: (state, action) => {
     console.log('Reducer: Loading initial setup from JSON file and setting state in Redux')
     console.log('Reducer: Actions pay load in reducer: ', action.payload)
-    // state.data.global.bbox = action.payload.data.global.bbox
     state.data.global.inspectionDate = action.payload.data.global.inspectionDate
     state.data.global.fullScreen = action.payload.data.global.fullScreen
     state.data.global.mapSize = action.payload.data.global.mapSize
     state.data.maps = action.payload.data.maps
-    state.cache.datasets = action.payload.cache.datasets
-    // state.cache.windDamages = action.payload.cache.windDamages
   },
   SET_STATE_FROM_URL: (state, action) => {
     console.log('Reducer: Setting state based on URL')
     console.log('Reducer: Action payload: ', action.payload)
     state.data = action.payload.data
-
-
   },
   SET_RED_CHANNEL: (state, action) => {
     console.log('Reducer: Setting red channel value in redux')
