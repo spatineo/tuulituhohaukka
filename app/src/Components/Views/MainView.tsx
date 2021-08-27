@@ -9,7 +9,7 @@ import SidePanel from './SidePanel'
 import { getAllDatasets, getBandsForDataset } from '../../API/Api';
 import { RootState } from '../../App';
 
-const MainView: React.FC = () => {
+const MainView: React.FC = (props) => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const globalState = useSelector((state: RootState) => state.dataReducer.data.global)
@@ -20,18 +20,37 @@ const MainView: React.FC = () => {
   // 2. Run state through JSON.stringify
   // 3. Compress the string somehow..
 
-  const createUrl = (globalState: any, mapArray: any) => {
-    const updatedArray = mapArray.map((mapObject: any) => {
-      console.log('mapObject in loop: ', mapObject)
-      Object.keys(mapObject)
-        .filter((key: string) => key === 'derivedData')
+  const createUrl = () => {
+    const filteredMaps = mapArray.map((mapObject, index) => {
+      return {
+        id: index,
+        selectedDataset: mapObject.selectedDataset,
+        channelSettings: mapObject.channelSettings,
+        displayWindDamagedVector: mapObject.displayWindDamageVector,
+        displaySpyGlass: mapObject.displaySpyGlass,
+        panelBarSettings: mapObject.panelBarSettings
+      }
     })
-    console.log('Updated array: ', updatedArray)
+
+    const newObject = {
+      data: {
+        global: globalState,
+        maps: filteredMaps
+      }
+    }
+    console.log('New objects created for URL: ', newObject)
+    const objectAsString = JSON.stringify(newObject)
+    console.log('Object as string: ', objectAsString)
+    const URL = `http://localhost:3000/stateData/${objectAsString}`
+    console.log('URL with state: ', URL)
   }
 
-  createUrl(globalState, mapArray)
+  createUrl()
 
   React.useEffect(() => {
+    console.log('Props in mainView: ', props)
+    // console.log('current url is: ', currentUrl)
+
     dispatch(loadInitialSetup())
   }, [])
 
@@ -48,6 +67,11 @@ const MainView: React.FC = () => {
         dispatch(setBands(getBandsForDataset('dataset-S1M')))
       }}>
         fetch bands for dataset!
+      </Button>
+      <Button variant='contained' onClick={() => {
+        createUrl()
+      }}>
+        Copy URL to clipboard
       </Button>
       <Divider />
       <div className={classes.root}>
