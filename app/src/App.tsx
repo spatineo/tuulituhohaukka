@@ -1,10 +1,9 @@
-import React from 'react';
 import './App.css';
-
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import createSagaMiddleware from '@redux-saga/core';
 import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import { rootSaga } from './Store/Sagas/rootSaga'
 import MainView from './Components/Views/MainView'
@@ -27,7 +26,12 @@ const store = configureStore()
 const App = (): JSX.Element => {
   return (
     <Provider store={store}>
-      <MainView />
+      <Router>
+        <Switch>
+          <Route path='/' component={MainView} />
+          <Route path='/params/:settingsObject' component={MainView} />
+        </Switch>
+      </Router>
     </Provider>
   )
 }
