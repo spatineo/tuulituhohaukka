@@ -21,7 +21,6 @@ const MapView: React.FC = () => {
   const dispatch = useDispatch()
   const mapData = useSelector((state: RootState) => state.dataReducer.data.maps)
   const latestMapIndex = mapData.length - 1
-
   const datasets = getAllDatasets() as Dataset[]
   const cache = useSelector((state: RootState) => state.dataReducer.cache)
 
@@ -34,9 +33,9 @@ const MapView: React.FC = () => {
       "id": latestMapIndex + 1,
       "selectedDataset": "id of the source",
       "channelSettings": {
-        "R": "VV",
+        "R": "",
         "G": "",
-        "B": "VH"
+        "B": ""
       },
       "displayWindDamageVector": true,
       "displaySpyglass": false,
@@ -44,21 +43,13 @@ const MapView: React.FC = () => {
         "displayDataSourceList": false,
         "displayVisualization": false
       },
-
       "derivedData": {
         "sources": [],
         "timeValues": {
           "inspection": "",
           "comparison": ""
         },
-        "mapLayers": [
-          [
-            {
-              "linkToMapImage": "https://asdasdasd",
-              "srs": "EPSG:3067"
-            }
-          ]
-        ]
+        "mapLayers": [[]]
       }
     }
   }
