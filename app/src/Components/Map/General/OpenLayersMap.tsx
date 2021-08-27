@@ -151,7 +151,9 @@ const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
 
   const classes = useStyles()
   return (
-    <div ref={mapRef as any} className={classes.mapContainer} />
+    <div ref={mapRef as any} className={classes.mapContainer}>
+      <div className={classes.crossHair} />
+    </div>
   )
 }
 
@@ -162,6 +164,20 @@ const useStyles = makeStyles(() =>
       width: '100%',
       border: 'solid black 1px',
       background: 'black'
+    },
+    crossHair: {
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      pointerEvents: 'none',
+      backgroundImage: 'url("crosshair.svg")',
+      backgroundSize: '100% 100%',
+      backgroundRepeat: 'no-repeat',
+      margin: 0,
+      padding: 0,
+      zIndex: 10000,
+      position: 'absolute'
     }
   }))
 
