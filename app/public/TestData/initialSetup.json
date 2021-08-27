@@ -9,11 +9,11 @@
     "maps": [
       {
         "id": 0,
-        "selectedDataset": null,
+        "selectedDataset": "Sentinel-2_global_mosaic_dekadi",
         "channelSettings": {
-          "R": "",
-          "G": "",
-          "B": ""
+          "R": "b04",
+          "G": "b03",
+          "B": "b01"
         },
         "displayWindDamageVector": true,
         "displaySpyglass": false,
@@ -21,83 +21,14 @@
           "displayDataSourceList": false,
           "displayVisualization": false
         },
-
         "derivedData": {
           "bands": [],
           "timeValues": {
-            "inspection": "2021-06-29T10:07:49Z",
+            "inspection": "",
             "comparison": ""
           },
-          "mapLayers": [
-            [
-               {
-                "linkToMapImage": "https://vemaps.com/uploads/img/fi-05.png",
-                "srs": "EPSG:3067"
-              }
-            ]
-          ]
+          "mapLayers": [[ ]]
         }
-      },
-      
-      {
-        "id": 1,
-        "selectedDataset": null,
-        "channelSettings": {
-          "R": null,
-          "G": null,
-          "B": null
-        },
-        "displayWindDamageVector": true,
-        "displaySpyglass": false,
-        "panelBarSettings": {
-          "displayDataSourceList": false,
-          "displayVisualization": false
-        },
-
-        "derivedData": {
-          "bands": [],
-          "timeValues": {
-            "inspection": "2021-06-29T10:07:49Z",
-            "comparison": ""
-          },
-          "mapLayers": [
-            [
-              {
-                "linkToMapImage": "https://vemaps.com/uploads/img/fi-05.png",
-                "srs": "EPSG:3067"
-              }
-            ]
-          ]
-        }
-      }
-    ]
-  },
-
-  "cache": {
-    "catalog": {
-      
-    },
-    "datasets": [
-      {
-        "id": "dataset-S1M",
-        "name": "S1M (sentinel 1 mosaic)",
-        "channelSelectorType": "sentinel"
-      }, 
-      {
-        "id": "dataset-S2M",
-        "name": "S2M (sentinel 2 mosaic)",
-        "channelSelectorType": "sentinel"
-      },
-      {
-        "id": "Metsä1",
-        "name": "Metsä1 (Metsävara 1 mosaic)",
-        "channelSelectorType": "metsävara"
-      }
-    ],
-    "windDamages": [
-      {
-        "date": "YY/MM/DD",
-        "value": "some number, still unsure what it represents"
       }
     ]
   }
