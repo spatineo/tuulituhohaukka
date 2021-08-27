@@ -6,6 +6,7 @@ export const CATALOG_FETCH_FAILED = 'CATALOG_FETCH_FAILED'
 
 export const LOAD_INITIAL_SETUP = 'LOAD_INITIAL_SETUP'
 export const SET_INITIAL_SETUP = 'SET_INITIAL_SETUP'
+export const SET_STATE_FROM_URL = 'SET_STATE_FROM_URL'
 
 export const SET_ALL_DATASETS = 'SET_ALL_DATASETS'
 export const SET_BANDS = 'SET_BANDS'
@@ -67,6 +68,11 @@ export const setBands = (data: Record<string, unknown>): SetDataAction => ({
 //_____ Dummy Data
 export const loadInitialSetup = (): LoadDataAction => ({
   type: LOAD_INITIAL_SETUP
+})
+
+export const setStateFromUrl = (data: Record<string, unknown>): SetDataAction => ({
+  type: SET_STATE_FROM_URL,
+  payload: data
 })
 
 export const setInitialSetup = (data: Record<string, unknown>): SetDataAction => ({
