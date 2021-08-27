@@ -2,7 +2,7 @@
   "data": {
     "global": {
       "mapExtent": [],
-      "selectedTime": "ISO time",
+      "inspectionDate": "ISO time",
       "fullScreen": "null or id of the map",
       "mapSize": "small / medium / large"
     },
