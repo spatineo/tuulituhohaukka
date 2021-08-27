@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadInitialSetup, setAllDatasets, setBands } from '../../Store/Actions/data'
+import { loadInitialSetup, setAllDatasets, setBands, setStateFromUrl } from '../../Store/Actions/data'
 import { Button, Divider, Grid } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
@@ -8,8 +8,9 @@ import MapView from './MapView'
 import SidePanel from './SidePanel'
 import { getAllDatasets, getBandsForDataset } from '../../API/Api';
 import { RootState } from '../../App';
+import { create } from 'ol/transform';
 
-const MainView: React.FC = (props) => {
+const MainView: React.FC = (props: any) => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const globalState = useSelector((state: RootState) => state.dataReducer.data.global)
@@ -28,7 +29,18 @@ const MainView: React.FC = (props) => {
         channelSettings: mapObject.channelSettings,
         displayWindDamagedVector: mapObject.displayWindDamageVector,
         displaySpyGlass: mapObject.displaySpyGlass,
-        panelBarSettings: mapObject.panelBarSettings
+        panelBarSettings: mapObject.panelBarSettings,
+        derivedData: {
+          bands: [],
+          timeValues: {
+            inspection: '',
+            comparison: '',
+          },
+          mapLayers: [
+            [
+            ]
+          ]
+        }
       }
     })
 
@@ -49,9 +61,21 @@ const MainView: React.FC = (props) => {
 
   React.useEffect(() => {
     console.log('Props in mainView: ', props)
-    // console.log('current url is: ', currentUrl)
+    const currentUrl = props.location.pathname
+    console.log('current url is: ', currentUrl)
 
-    dispatch(loadInitialSetup())
+    if (currentUrl === '/') {
+      dispatch(loadInitialSetup())
+    }
+    else if (currentUrl.includes('/stateData')) {
+
+      const stateData = currentUrl.slice(11)
+      console.log('Sliced stateData: ', stateData)
+      const stateDataObject = JSON.parse(stateData)
+      console.log('Generated JSON: ', stateDataObject)
+      dispatch(setStateFromUrl(stateDataObject))
+    }
+
   }, [])
 
   return (
