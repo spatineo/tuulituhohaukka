@@ -89,7 +89,7 @@ const useStyles = makeStyles(() =>
       flexDirection: 'column',
       justifyContent: 'flex-start',
       alignItems: 'center',
-      height: '425px',
+      height: '410px',
       aspectRatio: '4/3',
     },
     mapBox: {
