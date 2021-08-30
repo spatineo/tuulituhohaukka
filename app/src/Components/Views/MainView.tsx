@@ -267,7 +267,6 @@ const useStyles = makeStyles((theme) =>
 
 
     graphContent: {
-
       padding: theme.spacing(2),
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
@@ -276,7 +275,6 @@ const useStyles = makeStyles((theme) =>
       margin: 0,
     },
     graphContentShift: {
-
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
