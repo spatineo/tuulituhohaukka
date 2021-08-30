@@ -76,6 +76,7 @@ const useStyles = makeStyles(() =>
     noStyle: {
     },
     redStyle: {
+      width: '100%',
       border: 'solid 1px',
       borderColor: '#ff0000',
       borderRadius: '5px',
