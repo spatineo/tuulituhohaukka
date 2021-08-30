@@ -46,7 +46,7 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets 
         >
           -
         </Button>
-        <OpenLayersMap item={itemObject.items[0]} channelSettings={mapObject.channelSettings} />
+        <OpenLayersMap item={(itemObject && itemObject.items && itemObject.items.length) > 0 ? itemObject.items[0] : null} channelSettings={mapObject.channelSettings} />
       </div>
       <div className={classes.footer}>
         <Grid container>
