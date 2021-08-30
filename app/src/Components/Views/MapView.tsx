@@ -2,7 +2,8 @@ import * as React from 'react'
 import { useDispatch } from 'react-redux'
 import { addMap } from '../../Store/Actions/data'
 import { RootState } from '../../App'
-import { createStyles, makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { createStyles, makeStyles, ThemeProvider, createMuiTheme, } from '@material-ui/core/styles'
+import { createTheme } from '@material-ui/lab/node_modules/@material-ui/system'
 import { green } from '@material-ui/core/colors'
 import { Button, Grid } from '@material-ui/core'
 import { useSelector } from 'react-redux'
@@ -31,11 +32,11 @@ const MapView: React.FC = () => {
   const payload = {
     "mapObject": {
       "id": latestMapIndex + 1,
-      "selectedDataset": "id of the source",
+      "selectedDataset": "Sentinel-2_global_mosaic_dekadi",
       "channelSettings": {
-        "R": "",
-        "G": "",
-        "B": ""
+        "R": "b04",
+        "G": "b03",
+        "B": "b01"
       },
       "displayWindDamageVector": true,
       "displaySpyglass": false,
@@ -61,17 +62,18 @@ const MapView: React.FC = () => {
           <Button
             variant="contained"
             color="primary"
-            style={{ color: 'white', fontWeight: 'bold', fontSize: '25px' }}
+            size='large'
+            style={{ color: 'white', fontWeight: 'bold', fontSize: '27px', aspectRatio: '1:1', borderRadius: '50px' }}
             onClick={() => dispatch(addMap(payload))}
           >
             +
           </Button>
         </ThemeProvider>
       </div>
-      <Grid container justify='flex-start' spacing={6} style={{ width: '100%', height: '100%' }}>
+      <Grid container justify='flex-start' spacing={6} >
         {mapData.map((mapObject, index) => {
           return (
-            <Grid key={mapObject.id} container direction='column' item xs={12} lg={6} xl={4} alignItems='center' >
+            <Grid key={mapObject.id} container direction='column' item xs={12} md={12} lg={6} xl={4} alignItems='center' >
               <MapComponent
                 mapObject={mapObject}
                 mapComponentIndex={index}
@@ -80,6 +82,7 @@ const MapView: React.FC = () => {
             </Grid>)
         })}
       </Grid>
+      <div style={{ width: '100px' }} />
     </div>
   )
 }
@@ -90,11 +93,16 @@ const useStyles = makeStyles(() =>
       display: 'flex',
     },
     buttonContainer: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      marginLeft: '10px',
-      marginRight: '10px',
+      position: 'absolute',
+      right: '0',
+      bottom: '0',
+      padding: '15px'
+      // display: 'flex',
+      // height: '100%',
+      // flexDirection: 'column',
+      // alignItems: 'center',
+      // justifyContent: 'flex-end',
+      // padding: '10px'
     },
   }))
 
