@@ -25,11 +25,12 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets 
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  let itemObject: { items: any[] } = { items: [] }
+  const itemObject: { items: any[] } = { items: [] }
 
-  if (inspectionDate && selectedDataset) {
-    itemObject = getItemsForDatasetAndTime(selectedDataset, inspectionDate) as { items: any[] }
-  }
+  // UNCOMMENT THIS TO FETCH MAP ITEMS
+  // if (inspectionDate && selectedDataset) {
+  //   itemObject = getItemsForDatasetAndTime(selectedDataset, inspectionDate) as { items: any[] }
+  // }
 
   // React.useEffect(() => {
   //   if (inspectionDate && selectedDataset) {
