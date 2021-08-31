@@ -9,6 +9,7 @@ const initialState: ReduxState = {
         resolution: 3550,
         rotation: 0
       },
+      selectedMonth: "",
       inspectionDate: "",
       comparisonDate: "",
       fullScreen: "",
@@ -47,6 +48,7 @@ const dataReducer = createReducer(initialState, {
   SET_INITIAL_SETUP: (state, action) => {
     console.log('Reducer: Loading initial setup from JSON file and setting state in Redux')
     console.log('Reducer: Actions pay load in reducer: ', action.payload)
+    state.data.global.selectedMonth = new Date().toISOString()
     state.data.global.inspectionDate = new Date().toISOString()
     state.data.global.fullScreen = action.payload.data.global.fullScreen
     state.data.global.mapSize = action.payload.data.global.mapSize
@@ -71,6 +73,11 @@ const dataReducer = createReducer(initialState, {
     console.log('Reducer: Setting blue channel value in redux')
     console.log('Reducer: action payload for set blue channel: ', action.payload)
     state.data.maps[action.payload.mapComponentIndex].channelSettings.B = action.payload.blueChannelValue
+  },
+  SET_SELECTED_MONTH: (state, action) => {
+    console.log('Reducer: Setting selected month in reducer')
+    console.log('Reducer: Action payload: ', action.payload)
+    state.data.global.selectedMonth = action.payload.selectedMonth
   },
   SET_INSPECTION_DATE: (state, action) => {
     console.log('Reducer: Setting inspection date in reducer')
