@@ -1,13 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadInitialSetup, setStateFromUrl } from '../../Store/Actions/data'
-import { AppBar, Button, Divider, Drawer, Grid, IconButton, Toolbar, List, ListItem } from '@material-ui/core'
+import { AppBar, Button, Divider, Drawer, IconButton, Toolbar, List, ListItem } from '@material-ui/core'
 import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu'
 import { makeStyles, createStyles, useTheme } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import MapView from './MapView'
-import SidePanel from './SidePanel'
 import { RootState } from '../../App';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -15,11 +14,12 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import GraphIcon from '@material-ui/icons/Assessment';
 import CalendarIcon from '@material-ui/icons/Today';
+import LinkIcon from '@material-ui/icons/Link'
 
 import SelectDay from '../SidePanel/SelectDay';
 import SelectMonth from '../SidePanel/SelectMonth';
 
-const drawerWidth = 370
+const drawerWidth = 400
 
 const MainView: React.FC = (props: any) => {
   const classes = useStyles()
@@ -109,13 +109,6 @@ const MainView: React.FC = (props: any) => {
           <Typography variant="h6" noWrap>
             Tuulituhohaukka 🌪 💥 🦅
           </Typography>
-          <Button
-            variant='contained'
-            onClick={() => {
-              window.prompt('Copy the link from here ⬇️', createUrl())
-            }}>
-            Copy URL to clipboard
-          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -137,9 +130,9 @@ const MainView: React.FC = (props: any) => {
           </IconButton>
         </div>
         <Divider />
-        <List>
+        <List >
           <ListItem  >
-            <Button size='medium' onClick={open ? handleDrawerClose : handleDrawerOpen}>
+            <Button onClick={open ? handleDrawerClose : handleDrawerOpen}>
               <ListItemIcon>
                 <GraphIcon />
               </ListItemIcon>
@@ -150,7 +143,7 @@ const MainView: React.FC = (props: any) => {
               <SelectMonth />
             </div>
           </ListItem>
-
+          <Divider />
           <ListItem >
             <Button onClick={open ? handleDrawerClose : handleDrawerOpen}>
               <ListItemIcon>
@@ -164,6 +157,25 @@ const MainView: React.FC = (props: any) => {
             </div>
           </ListItem>
           <Divider />
+          <ListItem >
+            <Button onClick={open ? handleDrawerClose : handleDrawerOpen}>
+              <ListItemIcon>
+                <LinkIcon />
+              </ListItemIcon>
+            </Button>
+            <div className={clsx(classes.graphContent, {
+              [classes.linkShift]: open
+            })}>
+              <Button
+                variant='contained'
+                onClick={() => {
+                  window.prompt('Copy the link from here ⬇️', createUrl())
+                }}>
+                Copy URL to clipboard
+              </Button>
+            </div>
+          </ListItem>
+
         </List>
       </Drawer>
       <div className={clsx(classes.content, {
@@ -178,21 +190,9 @@ const MainView: React.FC = (props: any) => {
 
 const useStyles = makeStyles((theme) =>
   createStyles({
-    // reduxLoadButton: {
-    //   margin: '50px',
-    // },
-    // root: {
-    //   display: 'flex',
-    //   flexGrow: 1,
-    //   height: '1000px',
-    // },
-    // border: {
-    //   border: 'solid black 1px',
-    //   borderRadius: '10px'
-    // },
-    // container: {
-    //   height: '100%'
-    // },
+    container: {
+      height: '100%'
+    },
     root: {
       display: 'flex',
     },
@@ -250,12 +250,12 @@ const useStyles = makeStyles((theme) =>
     },
     content: {
       flexGrow: 1,
-      padding: theme.spacing(3),
+      margin: theme.spacing(5),
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
-      marginLeft: 50,
+      marginLeft: 0,
     },
     contentShift: {
       transition: theme.transitions.create('margin', {
@@ -267,22 +267,30 @@ const useStyles = makeStyles((theme) =>
 
 
     graphContent: {
-
-      padding: theme.spacing(2),
+      margin: theme.spacing(4),
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
-      margin: 0,
     },
     graphContentShift: {
-
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
-      marginLeft: -35,
-    }
+      marginLeft: -20,
+    },
+    linkShift: {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      display: 'flex',
+      width: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginLeft: -20,
+    },
   }),
 )
 
