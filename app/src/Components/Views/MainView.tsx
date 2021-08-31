@@ -19,7 +19,7 @@ import LinkIcon from '@material-ui/icons/Link'
 import SelectDay from '../SidePanel/SelectDay';
 import SelectMonth from '../SidePanel/SelectMonth';
 
-const drawerWidth = 400
+const drawerWidth = 450
 
 const MainView: React.FC = (props: any) => {
   const classes = useStyles()
@@ -131,7 +131,8 @@ const MainView: React.FC = (props: any) => {
         </div>
         <Divider />
         <List >
-          <ListItem  >
+
+          <ListItem disableGutters>
             <Button onClick={open ? handleDrawerClose : handleDrawerOpen}>
               <ListItemIcon>
                 <GraphIcon />
@@ -143,8 +144,10 @@ const MainView: React.FC = (props: any) => {
               <SelectMonth />
             </div>
           </ListItem>
+
           <Divider />
-          <ListItem >
+
+          <ListItem disableGutters>
             <Button onClick={open ? handleDrawerClose : handleDrawerOpen}>
               <ListItemIcon>
                 <CalendarIcon />
@@ -156,8 +159,10 @@ const MainView: React.FC = (props: any) => {
               <SelectDay />
             </div>
           </ListItem>
+
           <Divider />
-          <ListItem >
+
+          <ListItem disableGutters>
             <Button onClick={open ? handleDrawerClose : handleDrawerOpen}>
               <ListItemIcon>
                 <LinkIcon />
@@ -278,7 +283,7 @@ const useStyles = makeStyles((theme) =>
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
-      marginLeft: -20,
+      marginLeft: 0,
     },
     linkShift: {
       transition: theme.transitions.create('margin', {
@@ -289,7 +294,7 @@ const useStyles = makeStyles((theme) =>
       width: '100%',
       justifyContent: 'center',
       alignItems: 'center',
-      marginLeft: -20,
+      marginLeft: 0,
     },
   }),
 )
