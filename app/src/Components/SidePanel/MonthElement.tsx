@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { ButtonBase, Typography } from '@material-ui/core'
-import { setInspectionDate, setComparisonDate } from '../../Store/Actions/data'
+import { setSelectedMonth } from '../../Store/Actions/data'
 import { RootState } from '../../App'
 
 interface Props {
@@ -12,8 +12,7 @@ interface Props {
 }
 
 const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
-  const inspectionDateFromRedux = useSelector((state: RootState) => state.dataReducer.data.global.inspectionDate)
-  const comparisonDateFromRedux = useSelector((state: RootState) => state.dataReducer.data.global.comparisonDate)
+  const selectedMonth = useSelector((state: RootState) => state.dataReducer.data.global.selectedMonth)
   const classes = useStyles()
   const dispatch = useDispatch()
 
@@ -21,25 +20,25 @@ const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
   let monthNumber: number
 
   if (selectedType === 'inspection') {
-    date = new Date(inspectionDateFromRedux)
+    date = new Date(selectedMonth)
     monthNumber = date.getMonth()
   } else {
-    date = new Date(comparisonDateFromRedux)
+    date = new Date(selectedMonth)
     monthNumber = date.getMonth()
   }
 
   const setMonth = (index: number) => {
     if (selectedType === 'inspection') {
       const editedDate = new Date(date.setMonth(index))
-      dispatch(setInspectionDate({ inspectionDate: editedDate }))
+      dispatch(setSelectedMonth({ selectedMonth: editedDate }))
     } else if (selectedType === 'comparison') {
-      if (comparisonDateFromRedux === '') {
+      if (selectedMonth === '') {
         const date = new Date()
         const editedDate = new Date(date.setMonth(index))
-        dispatch(setComparisonDate({ comparisonDate: editedDate }))
+        dispatch(setSelectedMonth({ selectedMonth: editedDate }))
       } else {
         const editedDate = new Date(date.setMonth(index))
-        dispatch(setComparisonDate({ comparisonDate: editedDate }))
+        dispatch(setSelectedMonth({ selectedMonth: editedDate }))
       }
     }
   }
@@ -48,7 +47,7 @@ const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
     return (
       <div className={classes.redStyle}>
         <ButtonBase onClick={() => setMonth(index)}>
-          <Typography style={{ fontSize: '12px' }}>{month}</Typography>
+          <Typography style={{ fontSize: '11px' }}>{month}</Typography>
         </ButtonBase>
       </div>
     )
@@ -56,7 +55,7 @@ const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
     return (
       <div className={classes.blueStyle}>
         <ButtonBase onClick={() => console.log('I was clicked!')} >
-          <Typography style={{ fontSize: '12px' }}>{month}</Typography>
+          <Typography style={{ fontSize: '11px' }}>{month}</Typography>
         </ButtonBase>
       </div>
     )
@@ -64,7 +63,7 @@ const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
     return (
       <div className={classes.noStyle}>
         <ButtonBase onClick={() => setMonth(index)} >
-          <Typography style={{ fontSize: '12px' }}>{month}</Typography>
+          <Typography style={{ fontSize: '11px' }}>{month}</Typography>
         </ButtonBase>
       </div>
     )
@@ -76,6 +75,7 @@ const useStyles = makeStyles(() =>
     noStyle: {
     },
     redStyle: {
+      textAlign: 'center',
       width: '100%',
       border: 'solid 1px',
       borderColor: '#ff0000',
