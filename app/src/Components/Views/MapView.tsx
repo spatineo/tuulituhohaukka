@@ -96,13 +96,7 @@ const useStyles = makeStyles(() =>
       position: 'absolute',
       right: '0',
       bottom: '0',
-      padding: '15px'
-      // display: 'flex',
-      // height: '100%',
-      // flexDirection: 'column',
-      // alignItems: 'center',
-      // justifyContent: 'flex-end',
-      // padding: '10px'
+      padding: '15px',
     },
   }))
 
