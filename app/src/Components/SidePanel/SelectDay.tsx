@@ -135,7 +135,7 @@ const useStyles = makeStyles(() =>
       borderRadius: 0,
       borderStyle: "solid",
       borderWidth: "3px",
-      borderColor: "#ff0000",
+      borderColor: "red",
       cursor: "pointer",
     },
     todayPaper: {
@@ -145,6 +145,9 @@ const useStyles = makeStyles(() =>
       backgroundColor: "#4e9951",
       boxShadow: "none",
       borderRadius: 0,
+      borderStyle: "solid",
+      borderWidth: "3px",
+      borderColor: "white",
       cursor: "pointer",
       color: " white",
     }
