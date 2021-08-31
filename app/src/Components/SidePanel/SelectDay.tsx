@@ -9,7 +9,7 @@ import { grey } from '@material-ui/core/colors'
 import { MuiThemeProvider } from '@material-ui/core'
 import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
-import { setInspectionDate } from '../../Store/Actions/data'
+import { setInspectionDate, setSelectedMonth } from '../../Store/Actions/data'
 import { RootState } from '../../App'
 import locale from 'date-fns/locale/fi'
 
@@ -17,8 +17,16 @@ if (locale && locale.options) {
   locale.options.weekStartsOn = 1
 }
 
+// ToDo
+
+// 1. Get selectedMonth from redux ✅
+// 2. Set month in calendar to selected month
+// 3. Changing month in calendar will set selectedMonth as well in Redux
+// 4. Clicking on calendar will fire setInspection day action
+
 const SelectDay: React.FC = () => {
   const dateFromRedux = useSelector((state: RootState): string => state.dataReducer.data.global.inspectionDate)
+  const selectedMonth = useSelector((state: RootState): string => state.dataReducer.data.global.selectedMonth)
   const dateObject = new Date(dateFromRedux)
   const windDamages = [1, 6, 10, 24, 15]
   const today = new Date()
@@ -35,10 +43,7 @@ const SelectDay: React.FC = () => {
   })
 
   const handleDateChange = (date: Date | null) => {
-    const payload = {
-      inspectionDate: date?.toISOString()
-    }
-    dispatch(setInspectionDate(payload))
+    dispatch(setInspectionDate({ inspectionDate: date?.toISOString() }))
   }
 
   const getDayElement = (day: any, selectedDate: any, isInCurrentMonth: any, dayComponent: any) => {
