@@ -14,6 +14,7 @@ export const SET_BANDS = 'SET_BANDS'
 export const SET_RED_CHANNEL = 'SET_RED_CHANNEL'
 export const SET_GREEN_CHANNEL = 'SET_GREEN_CHANNEL'
 export const SET_BLUE_CHANNEL = 'SET_BLUE_CHANNEL'
+export const SET_SELECTED_MONTH = 'SET_SELECTED_MONTH'
 export const SET_INSPECTION_DATE = 'SET_INSPECTION_DATE'
 export const SET_COMPARISON_DATE = 'SET_COMPARISON_DATE'
 export const SET_SELECTED_DATASET = 'SET_SELECTED_DATASET'
@@ -94,6 +95,11 @@ export const setGreenChannel = (data: Record<string, unknown>): SetDataAction =>
 
 export const setBlueChannel = (data: Record<string, unknown>): SetDataAction => ({
   type: SET_BLUE_CHANNEL,
+  payload: data
+})
+
+export const setSelectedMonth = (data: Record<string, unknown>): SetDataAction => ({
+  type: SET_SELECTED_MONTH,
   payload: data
 })
 
