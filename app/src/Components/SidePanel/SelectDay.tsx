@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Grid, Paper } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/styles'
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
+import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { grey } from '@material-ui/core/colors'
@@ -84,8 +84,7 @@ const SelectDay: React.FC = () => {
       <MuiThemeProvider theme={customTheme}>
         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={locale}>
           <Grid container justify='space-around'>
-            <KeyboardDatePicker
-              size='medium'
+            <DatePicker
               disableToolbar
               variant='static'
               format='MM/dd/yyyy'
@@ -95,9 +94,6 @@ const SelectDay: React.FC = () => {
               value={dateObject}
               onChange={handleDateChange}
               renderDay={(day, selectedDate, isInCurrentMonth, dayComponent) => getDayElement(day, selectedDate, isInCurrentMonth, dayComponent)}
-              KeyboardButtonProps={{
-                'aria-label': 'change date'
-              }}
             />
           </Grid>
         </MuiPickersUtilsProvider>
