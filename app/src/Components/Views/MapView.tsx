@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import { addMap } from '../../Store/Actions/data'
 import { RootState } from '../../App'
 import { createStyles, makeStyles, ThemeProvider, createMuiTheme, } from '@material-ui/core/styles'
-import { createTheme } from '@material-ui/lab/node_modules/@material-ui/system'
 import { green } from '@material-ui/core/colors'
 import { Button, Grid } from '@material-ui/core'
 import { useSelector } from 'react-redux'
@@ -93,7 +92,7 @@ const useStyles = makeStyles(() =>
       display: 'flex',
     },
     buttonContainer: {
-      position: 'absolute',
+      position: 'fixed',
       right: '0',
       bottom: '0',
       padding: '15px',
