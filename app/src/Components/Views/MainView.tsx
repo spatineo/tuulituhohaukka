@@ -183,8 +183,8 @@ const MainView: React.FC = (props: any) => {
 
         </List>
       </Drawer>
-      <div className={clsx(classes.content, {
-        [classes.contentShift]: open,
+      <div className={clsx(classes.mapContent, {
+        [classes.mapContentShift]: open,
       })}>
         <div className={classes.toolbar} />
         <MapView />
@@ -253,15 +253,14 @@ const useStyles = makeStyles((theme) =>
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
     },
-    content: {
+    mapContent: {
       marginLeft: 60,
-      margin: theme.spacing(3),
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
     },
-    contentShift: {
+    mapContentShift: {
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
@@ -271,7 +270,7 @@ const useStyles = makeStyles((theme) =>
 
 
     graphContent: {
-      margin: theme.spacing(4),
+      margin: theme.spacing(2),
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
