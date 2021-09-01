@@ -41,7 +41,7 @@ const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
   // }
 
   window.onresize = () => {
-    map.updateSize()
+    setTimeout(function () { map.updateSize(); }, 1000);
   }
 
 
