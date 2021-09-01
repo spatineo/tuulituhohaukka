@@ -81,7 +81,7 @@ const MapView: React.FC = () => {
             </Grid>)
         })}
       </Grid>
-      <div style={{ width: '100px' }} />
+      <div style={{ width: '55px' }} />
     </div>
   )
 }
@@ -90,12 +90,13 @@ const useStyles = makeStyles(() =>
   createStyles({
     container: {
       display: 'flex',
+      padding: '50px',
     },
     buttonContainer: {
       position: 'fixed',
       right: '0',
       bottom: '0',
-      padding: '15px',
+      padding: '20px',
     },
   }))
 
