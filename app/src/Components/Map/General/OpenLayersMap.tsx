@@ -40,6 +40,11 @@ const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
   //   sources: []
   // }
 
+  window.onresize = () => {
+    map.updateSize()
+  }
+
+
   const [map, setMap] = React.useState<any>()
   const mapRef = React.useRef<HTMLElement>()
 
