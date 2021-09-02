@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadInitialSetup, setStateFromUrl } from '../../Store/Actions/data'
-import { AppBar, Button, Divider, Drawer, IconButton, Toolbar, List, ListItem } from '@material-ui/core'
+import { AppBar, Button, Divider, Drawer, Grid, IconButton, Toolbar, List, ListItem } from '@material-ui/core'
 import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu'
 import { makeStyles, createStyles, useTheme } from '@material-ui/core/styles';
@@ -10,8 +10,6 @@ import MapView from './MapView'
 import { RootState } from '../../App';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import GraphIcon from '@material-ui/icons/Assessment';
 import CalendarIcon from '@material-ui/icons/Today';
 import LinkIcon from '@material-ui/icons/Link'
@@ -26,6 +24,7 @@ const MainView: React.FC = (props: any) => {
   const dispatch = useDispatch()
   const globalState = useSelector((state: RootState) => state.dataReducer.data.global)
   const mapArray = useSelector((state: RootState) => state.dataReducer.data.maps)
+  const inspectionDate = useSelector((state: RootState) => state.dataReducer.data.global.inspectionDate)
 
   const theme = useTheme()
   const [open, setOpen] = React.useState(false)
@@ -131,12 +130,11 @@ const MainView: React.FC = (props: any) => {
         </div>
         <Divider />
         <List >
-
           <ListItem disableGutters>
-            <Button onClick={open ? handleDrawerClose : handleDrawerOpen}>
-              <ListItemIcon>
-                <GraphIcon />
-              </ListItemIcon>
+            <Button
+              className={classes.iconButton}
+              onClick={open ? handleDrawerClose : handleDrawerOpen}>
+              <GraphIcon />
             </Button>
             <div className={clsx(classes.graphContent, {
               [classes.graphContentShift]: open
@@ -144,29 +142,27 @@ const MainView: React.FC = (props: any) => {
               <SelectMonth />
             </div>
           </ListItem>
-
-          <Divider />
-
           <ListItem disableGutters>
-            <Button onClick={open ? handleDrawerClose : handleDrawerOpen}>
-              <ListItemIcon>
+            <div className={classes.column}>
+              <Button
+                className={classes.iconButton}
+                onClick={open ? handleDrawerClose : handleDrawerOpen}>
                 <CalendarIcon />
-              </ListItemIcon>
-            </Button>
+              </Button>
+              <Typography style={{ fontSize: '14px' }}>Inspection Date:</Typography>
+              <Typography>{inspectionDate.slice(0, 10)}</Typography>
+            </div>
             <div className={clsx(classes.graphContent, {
               [classes.graphContentShift]: open
             })}>
               <SelectDay />
             </div>
           </ListItem>
-
-          <Divider />
-
           <ListItem disableGutters>
-            <Button onClick={open ? handleDrawerClose : handleDrawerOpen}>
-              <ListItemIcon>
-                <LinkIcon />
-              </ListItemIcon>
+            <Button
+              className={classes.iconButton}
+              onClick={open ? handleDrawerClose : handleDrawerOpen}>
+              <LinkIcon />
             </Button>
             <div className={clsx(classes.graphContent, {
               [classes.linkShift]: open
@@ -180,7 +176,6 @@ const MainView: React.FC = (props: any) => {
               </Button>
             </div>
           </ListItem>
-
         </List>
       </Drawer>
       <div className={clsx(classes.mapContent, {
@@ -200,6 +195,7 @@ const useStyles = makeStyles((theme) =>
     },
     root: {
       display: 'flex',
+      justifyContent: 'center'
     },
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
@@ -242,7 +238,7 @@ const useStyles = makeStyles((theme) =>
       overflowX: 'hidden',
       width: theme.spacing(7) + 1,
       [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9) + 1,
+        width: theme.spacing(14) + 1,
       },
     },
     toolbar: {
@@ -254,7 +250,7 @@ const useStyles = makeStyles((theme) =>
       ...theme.mixins.toolbar,
     },
     mapContent: {
-      marginLeft: 60,
+      marginLeft: 150,
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -270,7 +266,7 @@ const useStyles = makeStyles((theme) =>
 
 
     graphContent: {
-      margin: theme.spacing(2),
+      margin: theme.spacing(5),
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -293,6 +289,16 @@ const useStyles = makeStyles((theme) =>
       justifyContent: 'center',
       alignItems: 'center',
       marginLeft: 0,
+    },
+    column: {
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column'
+    },
+    iconButton: {
+      marginRight: '50px',
     },
   }),
 )
