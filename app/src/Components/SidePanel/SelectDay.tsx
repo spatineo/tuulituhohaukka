@@ -12,17 +12,11 @@ import DateFnsUtils from '@date-io/date-fns'
 import { setInspectionDate } from '../../Store/Actions/data'
 import { RootState } from '../../App'
 import locale from 'date-fns/locale/fi'
+import format from 'date-fns/format'
 
 if (locale && locale.options) {
   locale.options.weekStartsOn = 1
 }
-
-// ToDo
-
-// 1. Get selectedMonth from redux ✅
-// 2. Set month in calendar to selected month
-// 3. Changing month in calendar will set selectedMonth as well in Redux
-// 4. Clicking on calendar will fire setInspection day action
 
 const SelectDay: React.FC = () => {
   const dispatch = useDispatch()
@@ -77,14 +71,19 @@ const SelectDay: React.FC = () => {
     return dateTile
   }
 
+  class LocalizedUtils extends DateFnsUtils {
+    getDatePickerHeaderText(date: any) {
+      return format(date, "EEEEEE d. MMMM", { locale: this.locale });
+    }
+  }
+
   return (
     <div style={{ textAlign: 'center' }}>
       <MuiThemeProvider theme={customTheme}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={locale}>
+        <MuiPickersUtilsProvider utils={LocalizedUtils} locale={locale}>
           <Grid container justify='space-around'>
             <DatePicker
               variant='static'
-              format='yyyy-dd-mm'
               margin='normal'
               id='date-picker'
               label='Date Picker'
