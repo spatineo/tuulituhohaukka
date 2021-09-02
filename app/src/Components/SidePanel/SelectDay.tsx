@@ -9,7 +9,7 @@ import { grey } from '@material-ui/core/colors'
 import { MuiThemeProvider } from '@material-ui/core'
 import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
-import { setInspectionDate, setSelectedMonth } from '../../Store/Actions/data'
+import { setInspectionDate } from '../../Store/Actions/data'
 import { RootState } from '../../App'
 import locale from 'date-fns/locale/fi'
 
@@ -25,14 +25,12 @@ if (locale && locale.options) {
 // 4. Clicking on calendar will fire setInspection day action
 
 const SelectDay: React.FC = () => {
-  const dateFromRedux = useSelector((state: RootState): string => state.dataReducer.data.global.inspectionDate)
-  const selectedMonth = useSelector((state: RootState): string => state.dataReducer.data.global.selectedMonth)
-  const dateObject = new Date(dateFromRedux)
+  const dispatch = useDispatch()
+  const classes = useStyles()
+  const inspectionDate = useSelector((state: RootState): string => state.dataReducer.data.global.inspectionDate)
+  const inspectionDateObject = new Date(inspectionDate)
   const windDamages = [1, 6, 10, 24, 15]
   const today = new Date()
-
-  const classes = useStyles()
-  const dispatch = useDispatch()
 
   const customTheme = createMuiTheme({
     palette: {
@@ -48,7 +46,7 @@ const SelectDay: React.FC = () => {
 
   const getDayElement = (day: any, selectedDate: any, isInCurrentMonth: any, dayComponent: any) => {
     const foundDamages = windDamages.includes(day.getDate());
-    const isSelected = day.getDate() === selectedDate.getDate();
+    const isSelected = day.getDate() === selectedDate.getDate() && day.getMonth() === inspectionDateObject.getMonth();
     const isToday = day.getDate() === today.getDate() && day.getMonth() === today.getMonth();
 
     let dateTile
@@ -85,13 +83,13 @@ const SelectDay: React.FC = () => {
         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={locale}>
           <Grid container justify='space-around'>
             <DatePicker
-              disableToolbar
               variant='static'
-              format='MM/dd/yyyy'
+              format='yyyy-dd-mm'
               margin='normal'
               id='date-picker'
               label='Date Picker'
-              value={dateObject}
+              value={inspectionDateObject}
+              views={["year", "month", "date"]}
               onChange={handleDateChange}
               renderDay={(day, selectedDate, isInCurrentMonth, dayComponent) => getDayElement(day, selectedDate, isInCurrentMonth, dayComponent)}
             />
