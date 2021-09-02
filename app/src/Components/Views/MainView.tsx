@@ -1,19 +1,17 @@
 import React from 'react';
+import { RootState } from '../../App';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadInitialSetup, setStateFromUrl } from '../../Store/Actions/data'
-import { AppBar, Button, Divider, Drawer, Grid, IconButton, Toolbar, List, ListItem } from '@material-ui/core'
+import { AppBar, Button, Divider, Drawer, IconButton, Toolbar, Typography, List, ListItem } from '@material-ui/core'
+import { makeStyles, createStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu'
-import { makeStyles, createStyles, useTheme } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
-import MapView from './MapView'
-import { RootState } from '../../App';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import GraphIcon from '@material-ui/icons/Assessment';
 import CalendarIcon from '@material-ui/icons/Today';
 import LinkIcon from '@material-ui/icons/Link'
-
+import MapView from './MapView'
 import SelectDay from '../SidePanel/SelectDay';
 import SelectMonth from '../SidePanel/SelectMonth';
 
@@ -131,23 +129,26 @@ const MainView: React.FC = (props: any) => {
         <Divider />
         <List >
           <ListItem disableGutters>
-            <Button
-              className={classes.iconButton}
-              onClick={open ? handleDrawerClose : handleDrawerOpen}>
-              <GraphIcon />
-            </Button>
+            <div className={classes.buttonContainer}>
+              <Button
+                className={classes.iconButton}
+                onClick={open ? handleDrawerClose : handleDrawerOpen}>
+                <GraphIcon fontSize='large' />
+              </Button>
+            </div>
             <div className={clsx(classes.graphContent, {
               [classes.graphContentShift]: open
             })}>
               <SelectMonth />
             </div>
           </ListItem>
+
           <ListItem disableGutters>
-            <div className={classes.column}>
+            <div className={classes.buttonContainer}>
               <Button
                 className={classes.iconButton}
                 onClick={open ? handleDrawerClose : handleDrawerOpen}>
-                <CalendarIcon />
+                <CalendarIcon fontSize='large' />
               </Button>
               <Typography style={{ fontSize: '14px' }}>Inspection Date:</Typography>
               <Typography>{inspectionDate.slice(0, 10)}</Typography>
@@ -158,12 +159,16 @@ const MainView: React.FC = (props: any) => {
               <SelectDay />
             </div>
           </ListItem>
+
           <ListItem disableGutters>
-            <Button
-              className={classes.iconButton}
-              onClick={open ? handleDrawerClose : handleDrawerOpen}>
-              <LinkIcon />
-            </Button>
+            <div className={classes.buttonContainer}>
+              <Button
+                className={classes.iconButton}
+                onClick={open ? handleDrawerClose : handleDrawerOpen}>
+                <LinkIcon fontSize='large' />
+              </Button>
+
+            </div>
             <div className={clsx(classes.graphContent, {
               [classes.linkShift]: open
             })}>
@@ -176,6 +181,7 @@ const MainView: React.FC = (props: any) => {
               </Button>
             </div>
           </ListItem>
+
         </List>
       </Drawer>
       <div className={clsx(classes.mapContent, {
@@ -284,21 +290,21 @@ const useStyles = makeStyles((theme) =>
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
-      display: 'flex',
-      width: '100%',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginLeft: 0,
+      // display: 'flex',
+      // width: '100%',
+      // justifyContent: 'center',
+      // alignItems: 'center',
+
     },
-    column: {
+    buttonContainer: {
       width: '100%',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      flexDirection: 'column'
+      flexDirection: 'column',
     },
     iconButton: {
-      marginRight: '50px',
+      padding: '40px',
     },
   }),
 )
