@@ -3,6 +3,7 @@ import { RootState } from '../../App';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadInitialSetup, setStateFromUrl } from '../../Store/Actions/data'
 import { AppBar, Button, Divider, Drawer, IconButton, Toolbar, Typography, List, ListItem } from '@material-ui/core'
+import { ThemeProvider } from '@material-ui/styles';
 import { makeStyles, createStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu'
@@ -14,26 +15,19 @@ import LinkIcon from '@material-ui/icons/Link'
 import MapView from './MapView'
 import SelectDay from '../SidePanel/SelectDay';
 import SelectMonth from '../SidePanel/SelectMonth';
+import { greenTheme } from '../../Theme/theme';
+import { setSiderbarState } from '../../Store/Actions/data';
 
-const drawerWidth = 450
+const drawerWidth = 440
 
 const MainView: React.FC = (props: any) => {
-  const classes = useStyles()
   const dispatch = useDispatch()
+  const classes = useStyles()
   const globalState = useSelector((state: RootState) => state.dataReducer.data.global)
   const mapArray = useSelector((state: RootState) => state.dataReducer.data.maps)
   const inspectionDate = useSelector((state: RootState) => state.dataReducer.data.global.inspectionDate)
-
+  const sidebarIsOpen = useSelector((state: RootState) => state.dataReducer.data.global.sidebarIsOpen)
   const theme = useTheme()
-  const [open, setOpen] = React.useState(false)
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
 
   const createUrl = () => {
     const filteredMaps = mapArray.map((mapObject, index) => {
@@ -88,17 +82,20 @@ const MainView: React.FC = (props: any) => {
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
+          [classes.appBarShift]: sidebarIsOpen,
         })}
       >
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
+            onClick={() => {
+              console.log('Dispatching siderbar state')
+              dispatch(setSiderbarState({ sidebarIsOpen: true }))
+            }}
             edge="start"
             className={clsx(classes.menuButton, {
-              [classes.hide]: open,
+              [classes.hide]: sidebarIsOpen,
             })}
           >
             <MenuIcon />
@@ -111,18 +108,18 @@ const MainView: React.FC = (props: any) => {
       <Drawer
         variant="permanent"
         className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
+          [classes.drawerOpen]: sidebarIsOpen,
+          [classes.drawerClose]: !sidebarIsOpen,
         })}
         classes={{
           paper: clsx({
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
+            [classes.drawerOpen]: sidebarIsOpen,
+            [classes.drawerClose]: !sidebarIsOpen,
           }),
         }}
       >
         <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={() => dispatch(setSiderbarState({ sidebarIsOpen: false }))}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </div>
@@ -132,12 +129,15 @@ const MainView: React.FC = (props: any) => {
             <div className={classes.buttonContainer}>
               <Button
                 className={classes.iconButton}
-                onClick={open ? handleDrawerClose : handleDrawerOpen}>
+                onClick={sidebarIsOpen ?
+                  () => dispatch(setSiderbarState({ sidebarIsOpen: false }))
+                  :
+                  () => dispatch(setSiderbarState({ sidebarIsOpen: true }))}>
                 <GraphIcon fontSize='large' />
               </Button>
             </div>
             <div className={clsx(classes.graphContent, {
-              [classes.graphContentShift]: open
+              [classes.graphContentShift]: sidebarIsOpen
             })}>
               <SelectMonth />
             </div>
@@ -147,14 +147,20 @@ const MainView: React.FC = (props: any) => {
             <div className={classes.buttonContainer}>
               <Button
                 className={classes.iconButton}
-                onClick={open ? handleDrawerClose : handleDrawerOpen}>
+                onClick={sidebarIsOpen ?
+                  () => dispatch(setSiderbarState({ sidebarIsOpen: false }))
+                  :
+                  () => dispatch(setSiderbarState({ sidebarIsOpen: true }))}>
                 <CalendarIcon fontSize='large' />
               </Button>
-              <Typography style={{ fontSize: '14px' }}>Inspection Date:</Typography>
-              <Typography>{inspectionDate.slice(0, 10)}</Typography>
+
+
+              <Typography style={{ fontSize: '13px' }}>Inspection Date:</Typography>
+              <Typography style={{ fontSize: '13px' }}>{inspectionDate.slice(0, 10)}</Typography>
+
             </div>
             <div className={clsx(classes.graphContent, {
-              [classes.graphContentShift]: open
+              [classes.graphContentShift]: sidebarIsOpen
             })}>
               <SelectDay />
             </div>
@@ -164,28 +170,36 @@ const MainView: React.FC = (props: any) => {
             <div className={classes.buttonContainer}>
               <Button
                 className={classes.iconButton}
-                onClick={open ? handleDrawerClose : handleDrawerOpen}>
+                onClick={sidebarIsOpen ?
+                  () => dispatch(setSiderbarState({ sidebarIsOpen: false }))
+                  :
+                  () => dispatch(setSiderbarState({ sidebarIsOpen: true }))}>
                 <LinkIcon fontSize='large' />
               </Button>
 
             </div>
             <div className={clsx(classes.graphContent, {
-              [classes.linkShift]: open
+              [classes.linkShift]: sidebarIsOpen
             })}>
-              <Button
-                variant='contained'
-                onClick={() => {
-                  window.prompt('Copy the link from here ⬇️', createUrl())
-                }}>
-                Copy URL to clipboard
-              </Button>
+              <ThemeProvider theme={greenTheme}>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  style={{ color: 'white' }}
+                  onClick={() => {
+                    window.prompt('Copy the link from here ⬇️', createUrl())
+                  }}>
+                  Copy URL to clipboard
+                </Button>
+
+              </ThemeProvider>
             </div>
           </ListItem>
 
         </List>
       </Drawer>
       <div className={clsx(classes.mapContent, {
-        [classes.mapContentShift]: open,
+        [classes.mapContentShift]: sidebarIsOpen,
       })}>
         <div className={classes.toolbar} />
         <MapView />
@@ -272,7 +286,7 @@ const useStyles = makeStyles((theme) =>
 
 
     graphContent: {
-      margin: theme.spacing(5),
+      margin: theme.spacing(2),
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -286,25 +300,23 @@ const useStyles = makeStyles((theme) =>
       marginLeft: 0,
     },
     linkShift: {
+      marginLeft: 50,
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
-      // display: 'flex',
-      // width: '100%',
-      // justifyContent: 'center',
-      // alignItems: 'center',
-
     },
     buttonContainer: {
-      width: '100%',
+      padding: '10px',
+      width: '115',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'column',
     },
     iconButton: {
-      padding: '40px',
+      padding: '30px',
+      // left: 0,
     },
   }),
 )
