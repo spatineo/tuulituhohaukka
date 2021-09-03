@@ -38,14 +38,14 @@ const useStyles = makeStyles(() =>
   createStyles({
     letterContainer: {
       display: 'flex',
-      height: '35px',
+      height: '45px',
       flexDirection: 'column',
-      justifyContent: 'center',
+      justifyContent: 'center ',
       alignItem: 'center',
     },
     ballContainer: {
       display: 'flex',
-      height: '35px',
+      height: '45px',
       paddingLeft: '5px',
       aspectRatio: '1/1',
       flexDirection: 'column',
