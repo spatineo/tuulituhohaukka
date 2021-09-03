@@ -1,20 +1,14 @@
 import * as React from 'react'
 import { useDispatch } from 'react-redux'
 import { addMap } from '../../Store/Actions/data'
+import { Dataset } from '../../types'
 import { RootState } from '../../App'
-import { createStyles, makeStyles, ThemeProvider, createMuiTheme, } from '@material-ui/core/styles'
-import { green } from '@material-ui/core/colors'
+import { createStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles'
 import { Button, Grid } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import MapComponent from '../Map/General/MapComponent'
 import { getAllDatasets } from '../../API/Api'
-
-import { Dataset } from '../../types'
-const greenTheme = createMuiTheme({
-  palette: {
-    primary: green
-  }
-})
+import { greenTheme } from '../../Theme/theme'
 
 const MapView: React.FC = () => {
   const classes = useStyles()
