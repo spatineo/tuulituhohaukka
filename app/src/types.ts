@@ -11,7 +11,7 @@ export interface Data {
 
 export interface Global {
   mapExtent: MapExtent
-  selectedMonth: string
+  sidebarIsOpen: boolean
   inspectionDate: string
   comparisonDate: string
   fullScreen: string
