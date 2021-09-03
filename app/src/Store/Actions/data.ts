@@ -21,6 +21,7 @@ export const SET_SELECTED_DATASET = 'SET_SELECTED_DATASET'
 export const REMOVE_MAP = 'REMOVE_MAP'
 export const ADD_MAP = 'ADD_MAP'
 export const UPDATE_MAP_EXTENT = 'UPDATE_MAP_EXTENT'
+export const SET_SIDEBAR_STATE = 'SET_SIDEBAR_STATE'
 
 interface LoadDataAction {
   type: string
@@ -130,5 +131,10 @@ export const addMap = (data: Record<string, unknown>): SetDataAction => ({
 
 export const updateMapExtent = (data: Record<string, unknown>): SetDataAction => ({
   type: UPDATE_MAP_EXTENT,
+  payload: data
+})
+
+export const setSiderbarState = (data: Record<string, unknown>): SetDataAction => ({
+  type: SET_SIDEBAR_STATE,
   payload: data
 })
