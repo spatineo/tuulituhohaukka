@@ -12,7 +12,7 @@ interface Props {
 }
 
 const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
-  const selectedMonth = useSelector((state: RootState) => state.dataReducer.data.global.selectedMonth)
+
   const inspectionDate = useSelector((state: RootState) => state.dataReducer.data.global.inspectionDate)
   const classes = useStyles()
   const dispatch = useDispatch()
@@ -34,7 +34,7 @@ const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
       editedDate.setDate(1)
       dispatch(setInspectionDate({ inspectionDate: editedDate.toISOString() }))
     } else if (selectedType === 'comparison') {
-      if (selectedMonth === '') {
+      if (inspectionDate === '') {
         const date = new Date()
         const editedDate = new Date(date.setMonth(index))
         editedDate.setDate(1)
@@ -51,7 +51,7 @@ const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
     return (
       <div className={classes.redStyle}>
         <ButtonBase onClick={() => setMonth(index)}>
-          <Typography style={{ fontSize: '10px' }}>{month}</Typography>
+          <Typography style={{ fontSize: '9px' }}>{month}</Typography>
         </ButtonBase>
       </div>
     )
@@ -59,7 +59,7 @@ const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
     return (
       <div className={classes.blueStyle}>
         <ButtonBase onClick={() => console.log('I was clicked!')} >
-          <Typography style={{ fontSize: '10px' }}>{month}</Typography>
+          <Typography style={{ fontSize: '9px' }}>{month}</Typography>
         </ButtonBase>
       </div>
     )
@@ -67,7 +67,7 @@ const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
     return (
       <div className={classes.noStyle}>
         <ButtonBase onClick={() => setMonth(index)} >
-          <Typography style={{ fontSize: '10px' }}>{month}</Typography>
+          <Typography style={{ fontSize: '9px' }}>{month}</Typography>
         </ButtonBase>
       </div>
     )
@@ -84,7 +84,7 @@ const useStyles = makeStyles(() =>
       border: 'solid 1px',
       borderColor: '#ff0000',
       borderRadius: '5px',
-      backgroundColor: '#ffc2c4'
+      backgroundColor: '#ffc2c4',
     },
     blueStyle: {
       border: 'solid 1px',
