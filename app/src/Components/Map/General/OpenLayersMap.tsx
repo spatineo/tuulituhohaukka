@@ -65,7 +65,7 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
         projection: projection
       })
     })
-    map?.on('postrender', sendUpdateExtentAction)
+    map?.on('moveend', sendUpdateExtentAction)
     return map
   }, [mapRef])
 
@@ -116,6 +116,11 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
           band: band,
           min: 0,
           max: 1
+        }
+        // Show at least something...
+        if (datasetCatalog?.id === 'Tuulituhoriski') {
+          visualisationParameters.min = 5
+          visualisationParameters.max = 25
         }
       }
 
