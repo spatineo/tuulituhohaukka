@@ -16,6 +16,16 @@ const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
   const colorData = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
   const [clickedColorTile, setClickedColorTile] = React.useState('')
   const bands = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].derivedData.bands)
+  const selectedDataset = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].selectedDataset)
+
+  // ToDO
+  // 1. When selectedDataset changes check if
+  // 2. Check if bands are the same
+  // 3. If so, do nothing
+  // 4. If different, fire actions that will set R, G, B to empty string ""
+  // React.useEffect(() => {
+
+  // }, [selectedDataset])
 
   const setClicked = (value: string) => {
     setClickedColorTile(value)
