@@ -32,7 +32,18 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets 
     itemObject = getItemsForDatasetAndTime(selectedDataset, inspectionDate) as { items: any[] }
   }
 
+  const item = (itemObject && itemObject.items && itemObject.items.length) > 0 ? itemObject.items[0] : null;
+
   const datasetCatalog = getAllDatasets()?.find((c: any) => c.id === selectedDataset);
+
+  let dateStr = '';
+  if (item?.properties?.datetime) {
+    dateStr = new Date(item?.properties?.datetime).toISOString().split("T")[0];
+  } else if (item?.properties?.start_datetime) {
+    dateStr = new Date(item?.properties?.start_datetime).toISOString().split("T")[0] + ' - ' + new Date(item?.properties?.end_datetime).toISOString().split("T")[0];
+  } else if (!item) {
+    dateStr = 'N/A'
+  }
 
   return (
     <div className={classes.mapContainer}>
@@ -45,23 +56,17 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets 
         >
           -
         </Button>
-        <OpenLayersMap datasetCatalog={datasetCatalog} item={(itemObject && itemObject.items && itemObject.items.length) > 0 ? itemObject.items[0] : null} channelSettings={mapObject.channelSettings} />
+        <div
+          style={{ position: 'absolute', zIndex: 2, left: '0px', bottom: '0px', padding: '0.5em', color: '#ffffffaa', pointerEvents: 'none', filter: 'drop-shadow(0px 0px 5px black)' }}
+        >
+          {dateStr}
+        </div>
+        <OpenLayersMap datasetCatalog={datasetCatalog} item={item} channelSettings={mapObject.channelSettings} />
       </div>
       <div className={classes.footer}>
         <Grid container>
-          <Grid container item xs={4} justify='center' alignItems='center' spacing={1}>
-            <Grid item >
-              <div style={{ color: '#00a9f7', fontSize: '11px' }}>another date </div>
-            </Grid>
-            <Grid item>
-              <div style={{ color: '#ff0000', fontSize: '11px' }}>{editedDate}</div>
-            </Grid>
-          </Grid>
-          <Grid container item xs={4} justify='center' alignItems='center'>
-            <div style={{ fontSize: '14px' }}>Tuulituhotunnistus</div>
-          </Grid>
-          <Grid container item xs={4} justify='center'>
-            <div style={{ fontSize: '14px', border: 'solid black 1px', borderRadius: ' 5px', padding: '6px' }}>button</div>
+          <Grid container item xs={12} justify='center' alignItems='center'>
+            <div style={{ fontSize: '14px' }}>{datasetCatalog ? datasetCatalog.title : '-'}</div>
           </Grid>
         </Grid>
       </div>
