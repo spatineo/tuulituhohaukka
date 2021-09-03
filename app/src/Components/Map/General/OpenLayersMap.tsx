@@ -9,11 +9,6 @@ import * as ol from 'ol'
 import { MouseWheelZoom, defaults } from 'ol/interaction';
 import 'ol/ol.css'
 
-interface State {
-  showLens: boolean
-  map: any
-}
-
 const RED = 0;
 const GREEN = 1;
 const BLUE = 2;
@@ -35,16 +30,6 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
   const mapExtent = useSelector((state: any) => state.dataReducer.data.global.mapExtent)
   const sidebarIsOpen = useSelector((state: any) => state.dataReducer.data.global.sidebarIsOpen)
   const dispatch = useDispatch()
-
-  // const initialState = {
-  //   showLens: false,
-  //   map: null,
-  //   sources: []
-  // }
-
-
-
-
 
   const [map, setMap] = React.useState<any>()
   const mapRef = React.useRef<HTMLElement>()
@@ -109,8 +94,8 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
   React.useEffect(() => {
     const colors = [{ colorStr: 'R', color: RED }, { colorStr: 'G', color: GREEN }, { colorStr: 'B', color: BLUE }];
 
-    function getVisualisation(band : string) {
-      let visualisationParameters = datasetCatalog?.summaries?.visualisation_parameters?.bands?.find((b : any) => b.band === band);
+    function getVisualisation(band: string) {
+      let visualisationParameters = datasetCatalog?.summaries?.visualisation_parameters?.bands?.find((b: any) => b.band === band);
       if (!visualisationParameters) {
         visualisationParameters = {
           band: band,
