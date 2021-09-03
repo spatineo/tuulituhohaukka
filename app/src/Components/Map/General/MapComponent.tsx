@@ -10,7 +10,7 @@ import { Map } from '../../../types'
 import { removeMap } from '../../../Store/Actions/data'
 import DatasetList from '../ListComponents/Lists/DatasetList'
 import NormalVisualization from '../Visualization/NormalVisualization'
-import { getItemsForDatasetAndTime } from '../../../API/Api'
+import { getAllDatasets, getItemsForDatasetAndTime } from '../../../API/Api'
 
 interface Props {
   mapObject: Map,
@@ -32,6 +32,9 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets 
     itemObject = getItemsForDatasetAndTime(selectedDataset, inspectionDate) as { items: any[] }
   }
 
+  const datasetCatalog = getAllDatasets()?.find((c : any) => c.id === selectedDataset);
+
+
   return (
     <div className={classes.mapContainer}>
       <div className={classes.mapBox}>
@@ -43,7 +46,7 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets 
         >
           -
         </Button>
-        <OpenLayersMap item={itemObject.items[0]} channelSettings={mapObject.channelSettings} />
+        <OpenLayersMap datasetCatalog={datasetCatalog} item={(itemObject && itemObject.items && itemObject.items.length) > 0 ? itemObject.items[0] : null} channelSettings={mapObject.channelSettings} />
       </div>
       <div className={classes.footer}>
         <Grid container>

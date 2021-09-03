@@ -25,6 +25,8 @@ interface CreatedLinkObject {
   time_end: Date
 }
 
+const CATALOG_ROOT = 'https://s3.eu-west-1.amazonaws.com/directory.spatineo.com/tmp/tuulituhohaukka-stac/catalog/root2.json'
+
 // Helper function
 const getCatalogHelper = (url: string) => {
   console.log('API: Helper function called. Checking if catalog can be found for given url')
@@ -45,12 +47,12 @@ const getCatalogHelper = (url: string) => {
 export const getAllDatasets = (): any | undefined => {
   console.log('API: getAllDatasets Called')
   const ReduxState = store.getState()
-  const rootCatalog: RootCatalog = ReduxState.dataReducer.cache.catalog['https://s3.eu-west-1.amazonaws.com/directory.spatineo.com/tmp/tuulituhohaukka-stac/catalog/root2.json']
+  const rootCatalog: RootCatalog = ReduxState.dataReducer.cache.catalog[CATALOG_ROOT]
   console.log('RootCatalog from server: ', rootCatalog)
 
   if (rootCatalog && Object.keys(rootCatalog).length === 0 || rootCatalog == undefined) {
     console.log('API: Root catalog not found. Dispatching action to download root catalog')
-    store.dispatch(loadCatalog({ url: 'https://s3.eu-west-1.amazonaws.com/directory.spatineo.com/tmp/tuulituhohaukka-stac/catalog/root2.json' }))
+    store.dispatch(loadCatalog({ url: CATALOG_ROOT }))
     return []
   }
   else {

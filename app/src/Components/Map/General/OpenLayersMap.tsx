@@ -27,10 +27,11 @@ const mouseWheelZoomAnimationTime = 75;
 
 interface Props {
   item: any,
+  datasetCatalog: any,
   channelSettings: any
 }
 
-const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
+const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings }) => {
   const mapExtent = useSelector((state: any) => state.dataReducer.data.global.mapExtent)
   const sidebarIsOpen = useSelector((state: any) => state.dataReducer.data.global.sidebarIsOpen)
   const dispatch = useDispatch()
@@ -108,18 +109,29 @@ const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
   React.useEffect(() => {
     const colors = [{ colorStr: 'R', color: RED }, { colorStr: 'G', color: GREEN }, { colorStr: 'B', color: BLUE }];
 
-    const min = (item && item.id && item.id.indexOf('Sentinel-1') !== -1) ? -48 : 0;
-    const max = (item && item.id && item.id.indexOf('Sentinel-1') !== -1) ? 34 : 2000;
+    function getVisualisation(band : string) {
+      let visualisationParameters = datasetCatalog?.summaries?.visualisation_parameters?.bands?.find((b : any) => b.band === band);
+      if (!visualisationParameters) {
+        visualisationParameters = {
+          band: band,
+          min: 0,
+          max: 1
+        }
+      }
+
+      return visualisationParameters;
+    }
 
     const sources = colors
       .filter(c => channelSettings[c.colorStr])
       .filter(c => item && item.assets && item.assets[channelSettings[c.colorStr]])
       .map(c => {
+        const vis = getVisualisation(channelSettings[c.colorStr]);
         return {
           url: item.assets[channelSettings[c.colorStr]].sourceUrl,
           color: c.color,
-          min: min,
-          max: max
+          min: vis.min,
+          max: vis.max
         }
       });
 
@@ -164,11 +176,13 @@ const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
     })
     map?.addLayer(layer);
 
-  }, [item, channelSettings]);
+  }, [item, datasetCatalog, channelSettings]);
 
   const classes = useStyles()
   return (
-    <div ref={mapRef as any} className={classes.mapContainer} />
+    <div ref={mapRef as any} className={classes.mapContainer}>
+      <div className={classes.crossHair} />
+    </div>
   )
 }
 
@@ -179,6 +193,21 @@ const useStyles = makeStyles(() =>
       width: '100%',
       border: 'solid black 1px',
       background: 'black'
+    },
+    crossHair: {
+      pointerEvents: 'none',
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+      backgroundImage: 'url("crosshair.svg")',
+      backgroundSize: '80% 80%',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      margin: 0,
+      padding: 0,
+      zIndex: 10000,
+      position: 'absolute'
     }
   }))
 
