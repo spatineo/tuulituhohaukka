@@ -9,12 +9,23 @@ interface Props {
 
 const Circle: React.FC<Props> = ({ text, color, borderWidth }) => {
   const classes = useStyles({ color, borderWidth })
+
+  let textToDisplay = ''
+  let longText = false
+
+  if (text.length > 4) {
+    longText = true
+    textToDisplay = `${text.slice(0, 6)}..`
+  } else textToDisplay = text
+
   return (
     <div
       className={classes.circle}
       style={{ borderColor: `${color}`, borderWidth: `${borderWidth}` }}
     >
-      {text}
+      <div className={longText ? classes.longText : classes.shortText}>
+        {textToDisplay}
+      </div>
     </div>
   )
 }
@@ -25,7 +36,7 @@ const useStyles = makeStyles<Props>(() =>
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      height: '80%',
+      height: '100%',
       aspectRatio: '1/1',
       border: 'solid',
       borderRadius: '50%',
@@ -35,6 +46,12 @@ const useStyles = makeStyles<Props>(() =>
         cursor: 'pointer'
       }
     },
+    shortText: {
+      fontSize: '16px'
+    },
+    longText: {
+      fontSize: '11px'
+    }
   }))
 
 export default Circle
