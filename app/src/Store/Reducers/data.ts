@@ -9,7 +9,7 @@ const initialState: ReduxState = {
         resolution: 3550,
         rotation: 0
       },
-      selectedMonth: "",
+      sidebarIsOpen: false,
       inspectionDate: "",
       comparisonDate: "",
       fullScreen: "",
@@ -48,7 +48,7 @@ const dataReducer = createReducer(initialState, {
   SET_INITIAL_SETUP: (state, action) => {
     console.log('Reducer: Loading initial setup from JSON file and setting state in Redux')
     console.log('Reducer: Actions pay load in reducer: ', action.payload)
-    state.data.global.selectedMonth = new Date().toISOString()
+    // state.data.global.selectedMonth = new Date().toISOString()
     state.data.global.inspectionDate = new Date().toISOString()
     state.data.global.fullScreen = action.payload.data.global.fullScreen
     state.data.global.mapSize = action.payload.data.global.mapSize
@@ -77,7 +77,7 @@ const dataReducer = createReducer(initialState, {
   SET_SELECTED_MONTH: (state, action) => {
     console.log('Reducer: Setting selected month in reducer')
     console.log('Reducer: Action payload: ', action.payload)
-    state.data.global.selectedMonth = action.payload.selectedMonth
+    // state.data.global.selectonth = action.payload.selectedMonthedM
   },
   SET_INSPECTION_DATE: (state, action) => {
     console.log('Reducer: Setting inspection date in reducer')
@@ -120,6 +120,11 @@ const dataReducer = createReducer(initialState, {
     console.log('Reducer: Setting bands in Reducer')
     console.log('Reducer: Action payload: ', action.payload)
     state.data.maps[action.payload.mapComponentIndex].derivedData.bands = action.payload.bands
+  },
+  SET_SIDEBAR_STATE: (state, action) => {
+    console.log('Reducer: Setting sidebar state in Reducer')
+    console.log('Reducer: Action payload: ', action.payload)
+    state.data.global.sidebarIsOpen = action.payload.sidebarIsOpen
   }
 })
 
