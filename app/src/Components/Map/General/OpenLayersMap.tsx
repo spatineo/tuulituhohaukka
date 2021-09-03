@@ -32,6 +32,7 @@ interface Props {
 
 const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
   const mapExtent = useSelector((state: any) => state.dataReducer.data.global.mapExtent)
+  const sidebarIsOpen = useSelector((state: any) => state.dataReducer.data.global.sidebarIsOpen)
   const dispatch = useDispatch()
 
   // const initialState = {
@@ -40,9 +41,8 @@ const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
   //   sources: []
   // }
 
-  window.onresize = () => {
-    setTimeout(function () { map.updateSize(); }, 1000);
-  }
+
+
 
 
   const [map, setMap] = React.useState<any>()
@@ -85,9 +85,16 @@ const OpenLayersMap: React.FC<Props> = ({ item, channelSettings }) => {
     setMap(initializeOL())
   }, [])
 
-  // React.useEffect(() => {
+  // This function will resize map when page is manually resize
+  window.onresize = () => {
+    setTimeout(function () { map.updateSize(); }, 1000);
+  }
 
-  // }, [map])
+  // This function should resize map when sidebar is opened or closed
+  React.useEffect(() => {
+    map && map.updateSize()
+  }, [sidebarIsOpen])
+
 
   React.useEffect(() => {
     if (!map?.getView().getInteracting()) {
