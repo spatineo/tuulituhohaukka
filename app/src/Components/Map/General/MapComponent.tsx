@@ -27,23 +27,21 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets 
 
   let itemObject: { items: any[] } = { items: [] }
 
+  // UNCOMMENT THIS TO FETCH MAP ITEMS
   if (inspectionDate && selectedDataset) {
     itemObject = getItemsForDatasetAndTime(selectedDataset, inspectionDate) as { items: any[] }
   }
 
   const datasetCatalog = getAllDatasets()?.find((c : any) => c.id === selectedDataset);
 
-  // React.useEffect(() => {
-  //   if (inspectionDate && selectedDataset) {
-  //     itemObject = getItemsForDatasetAndTime(selectedDataset, inspectionDate) as { items: any[] }
-  //   }
-  // }, [inspectionDate, selectedDataset])
 
   return (
     <div className={classes.mapContainer}>
       <div className={classes.mapBox}>
         <Button
-          style={{ position: 'absolute', zIndex: 2, maxWidth: '35px', minWidth: '35px', maxHeight: '35px', minHeight: '35px', right: '0px' }} variant="contained" color="secondary"
+          style={{ position: 'absolute', zIndex: 2, maxWidth: '35px', minWidth: '35px', maxHeight: '35px', minHeight: '35px', right: '0px' }}
+          variant="contained"
+          color="secondary"
           onClick={() => dispatch(removeMap({ id: mapObject.id }))}
         >
           -
@@ -91,7 +89,7 @@ const useStyles = makeStyles(() =>
       flexDirection: 'column',
       justifyContent: 'flex-start',
       alignItems: 'center',
-      height: '350px',
+      width: '100%',
       aspectRatio: '4/3',
     },
     mapBox: {

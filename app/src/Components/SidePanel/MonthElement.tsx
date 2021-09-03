@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { ButtonBase, Typography } from '@material-ui/core'
-import { setInspectionDate, setComparisonDate } from '../../Store/Actions/data'
+import { setInspectionDate, setSelectedMonth } from '../../Store/Actions/data'
 import { RootState } from '../../App'
 
 interface Props {
@@ -12,8 +12,8 @@ interface Props {
 }
 
 const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
-  const inspectionDateFromRedux = useSelector((state: RootState) => state.dataReducer.data.global.inspectionDate)
-  const comparisonDateFromRedux = useSelector((state: RootState) => state.dataReducer.data.global.comparisonDate)
+
+  const inspectionDate = useSelector((state: RootState) => state.dataReducer.data.global.inspectionDate)
   const classes = useStyles()
   const dispatch = useDispatch()
 
@@ -21,25 +21,28 @@ const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
   let monthNumber: number
 
   if (selectedType === 'inspection') {
-    date = new Date(inspectionDateFromRedux)
+    date = new Date(inspectionDate)
     monthNumber = date.getMonth()
   } else {
-    date = new Date(comparisonDateFromRedux)
+    date = new Date(inspectionDate)
     monthNumber = date.getMonth()
   }
 
   const setMonth = (index: number) => {
     if (selectedType === 'inspection') {
       const editedDate = new Date(date.setMonth(index))
-      dispatch(setInspectionDate({ inspectionDate: editedDate }))
+      editedDate.setDate(1)
+      dispatch(setInspectionDate({ inspectionDate: editedDate.toISOString() }))
     } else if (selectedType === 'comparison') {
-      if (comparisonDateFromRedux === '') {
+      if (inspectionDate === '') {
         const date = new Date()
         const editedDate = new Date(date.setMonth(index))
-        dispatch(setComparisonDate({ comparisonDate: editedDate }))
+        editedDate.setDate(1)
+        dispatch(setInspectionDate({ inspectionDate: editedDate.toISOString() }))
       } else {
         const editedDate = new Date(date.setMonth(index))
-        dispatch(setComparisonDate({ comparisonDate: editedDate }))
+        editedDate.setDate(1)
+        dispatch(setInspectionDate({ inspectionDate: editedDate.toISOString() }))
       }
     }
   }
@@ -48,7 +51,7 @@ const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
     return (
       <div className={classes.redStyle}>
         <ButtonBase onClick={() => setMonth(index)}>
-          <Typography style={{ fontSize: '12px' }}>{month}</Typography>
+          <Typography style={{ fontSize: '9px' }}>{month}</Typography>
         </ButtonBase>
       </div>
     )
@@ -56,7 +59,7 @@ const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
     return (
       <div className={classes.blueStyle}>
         <ButtonBase onClick={() => console.log('I was clicked!')} >
-          <Typography style={{ fontSize: '12px' }}>{month}</Typography>
+          <Typography style={{ fontSize: '9px' }}>{month}</Typography>
         </ButtonBase>
       </div>
     )
@@ -64,7 +67,7 @@ const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
     return (
       <div className={classes.noStyle}>
         <ButtonBase onClick={() => setMonth(index)} >
-          <Typography style={{ fontSize: '12px' }}>{month}</Typography>
+          <Typography style={{ fontSize: '9px' }}>{month}</Typography>
         </ButtonBase>
       </div>
     )
@@ -76,10 +79,12 @@ const useStyles = makeStyles(() =>
     noStyle: {
     },
     redStyle: {
+      textAlign: 'center',
+      width: '100%',
       border: 'solid 1px',
       borderColor: '#ff0000',
       borderRadius: '5px',
-      backgroundColor: '#ffc2c4'
+      backgroundColor: '#ffc2c4',
     },
     blueStyle: {
       border: 'solid 1px',

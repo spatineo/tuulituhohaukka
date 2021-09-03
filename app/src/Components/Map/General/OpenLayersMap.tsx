@@ -33,14 +33,18 @@ interface Props {
 
 const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings }) => {
   const mapExtent = useSelector((state: any) => state.dataReducer.data.global.mapExtent)
-
+  const sidebarIsOpen = useSelector((state: any) => state.dataReducer.data.global.sidebarIsOpen)
   const dispatch = useDispatch()
 
-  const initialState = {
-    showLens: false,
-    map: null,
-    sources: []
-  }
+  // const initialState = {
+  //   showLens: false,
+  //   map: null,
+  //   sources: []
+  // }
+
+
+
+
 
   const [map, setMap] = React.useState<any>()
   const mapRef = React.useRef<HTMLElement>()
@@ -61,6 +65,7 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
         projection: projection
       })
     })
+    map?.on('postrender', sendUpdateExtentAction)
     return map
   }, [mapRef])
 
@@ -81,16 +86,23 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
     setMap(initializeOL())
   }, [])
 
+  // This function will resize map when page is manually resize
+  window.onresize = () => {
+    setTimeout(function () { map.updateSize(); }, 1000);
+  }
+
+  // This function should resize map when sidebar is opened or closed
   React.useEffect(() => {
-    map?.on('moveend', sendUpdateExtentAction)
-  }, [map])
+    map && map.updateSize()
+  }, [sidebarIsOpen])
+
 
   React.useEffect(() => {
-    //if (!map?.getView().getInteracting()) {
-    map?.getView().setCenter(mapExtent.center)
-    map?.getView().setResolution(mapExtent.resolution)
-    map?.getView().setRotation(mapExtent.rotation)
-    //}
+    if (!map?.getView().getInteracting()) {
+      map?.getView().setCenter(mapExtent.center)
+      map?.getView().setResolution(mapExtent.resolution)
+      map?.getView().setRotation(mapExtent.rotation)
+    }
   }, [mapExtent])
 
 

@@ -6,7 +6,7 @@ import MonthElement from './MonthElement'
 const SelectMonth: React.FC = () => {
   const [chartData, setChartData] = React.useState({})
   const [selectedType, setSelectedType] = React.useState('inspection')
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const months = ['Tam', 'Hel', 'Maal', 'Huht', 'Touk', 'Kesä', 'Hei', 'Elo', 'Syys', 'Loka', 'Mar', 'Jou']
 
   const chart = () => {
     setChartData({

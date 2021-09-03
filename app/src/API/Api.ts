@@ -96,6 +96,7 @@ export const getBandsForDataset = (id: string): any => {
 // 8. return data
 
 export const getItemsForDatasetAndTime = (datasetId: string, inspectionTime: string) => {
+  console.log('API: getItemsForDatasetAndTime called!')
 
   const createLinkObject = (link: Link) => {
     return {
@@ -119,6 +120,7 @@ export const getItemsForDatasetAndTime = (datasetId: string, inspectionTime: str
   console.log('API: ListOfSubCatalogs: ', listOfSubCatalogs)
 
   let index = listOfSubCatalogs.findIndex((object: any) => inspectionDate.getTime() < object.time_end.getTime())
+  console.log('API: found following: ', index)
 
   if (index === -1) {
     console.log('There are no catalogs after inspection time')
@@ -153,9 +155,8 @@ export const getItemsForDatasetAndTime = (datasetId: string, inspectionTime: str
       }
       console.log('API: Item not found, loop will run again 🔁')
     }
-
     return { items: [ /* items */] }
   }
-
+  return { items: [ /* items */] }
 }
 
