@@ -32,8 +32,7 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets 
     itemObject = getItemsForDatasetAndTime(selectedDataset, inspectionDate) as { items: any[] }
   }
 
-  const datasetCatalog = getAllDatasets()?.find((c : any) => c.id === selectedDataset);
-
+  const datasetCatalog = getAllDatasets()?.find((c: any) => c.id === selectedDataset);
 
   return (
     <div className={classes.mapContainer}>
