@@ -4,8 +4,6 @@ import { Grid, Paper } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline'
-import { createMuiTheme } from '@material-ui/core/styles'
-import { grey } from '@material-ui/core/colors'
 import { MuiThemeProvider } from '@material-ui/core'
 import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
@@ -13,6 +11,7 @@ import { setInspectionDate } from '../../Store/Actions/data'
 import { RootState } from '../../App'
 import locale from 'date-fns/locale/fi'
 import format from 'date-fns/format'
+import { customTheme } from '../../Theme/theme'
 
 if (locale && locale.options) {
   locale.options.weekStartsOn = 1
@@ -25,14 +24,6 @@ const SelectDay: React.FC = () => {
   const inspectionDateObject = new Date(inspectionDate)
   const windDamages = [1, 6, 10, 24, 15]
   const today = new Date()
-
-  const customTheme = createMuiTheme({
-    palette: {
-      primary: {
-        main: grey[200],
-      }
-    }
-  })
 
   const handleDateChange = (date: Date | null) => {
     dispatch(setInspectionDate({ inspectionDate: date?.toISOString() }))
