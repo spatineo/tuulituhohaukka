@@ -4,7 +4,7 @@ Tämä projekti sisältää Tuulituhohaukka-projektissa tuotetun stac-katalogin 
 
 ## Stac-katalogi
 
-Koodi löytyy kansiosta `builder/`
+Koodi löytyy omasta projektista (github.com/spatineo/tuulituhohaukka-catalog)
 
 ## Selainsovellus
 
