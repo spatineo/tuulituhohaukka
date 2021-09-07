@@ -72,12 +72,12 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets 
       </div>
       <div className={classes.menuContainer}>
         <div className={classes.dropDown}>
-          <SlimAccordion name={'Aineistot'}>
+          <SlimAccordion name={'Aineistot'} isExpanded={false}>
             <DatasetList datasets={datasets} mapComponentIndex={mapComponentIndex} />
           </SlimAccordion>
         </div>
         <div className={classes.dropDown}>
-          <SlimAccordion name={'Visualisointi'}>
+          <SlimAccordion name={'Visualisointi'} isExpanded={false}>
             <NormalVisualization channelSettings={mapObject.channelSettings} mapComponentIndex={mapComponentIndex} />
           </SlimAccordion>
         </div>
