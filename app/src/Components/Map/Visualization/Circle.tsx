@@ -13,9 +13,9 @@ const Circle: React.FC<Props> = ({ text, color, borderWidth }) => {
   let textToDisplay = ''
   let longText = false
 
-  if (text.length > 4) {
+  if (text.length >= 4) {
     longText = true
-    textToDisplay = `${text.slice(0, 6)}..`
+    textToDisplay = `${text.slice(0, 5)}..`
   } else textToDisplay = text
 
   return (
@@ -36,7 +36,7 @@ const useStyles = makeStyles<Props>(() =>
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      height: '100%',
+      height: '80%',
       aspectRatio: '1/1',
       border: 'solid',
       borderRadius: '50%',
