@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { Grid } from '@material-ui/core'
-
 import Circle from './Circle'
 
 interface Props {
@@ -16,11 +15,11 @@ const ChannelColorTile: React.FC<Props> = ({ text, letter, color, setClicked }) 
   return (
     <div>
       <Grid container direction='column' justify='center' alignItems='center'>
-        <Grid container item direction='row' xs={8}>
-          <Grid item xs={5}>
-            <div className={classes.letterContainer}>{letter}: </div>
+        <Grid container item direction='row' xs={8} style={{ width: '100%', aspectRatio: '10/12' }}>
+          <Grid container item xs={4} direction='column' justify='center' style={{ paddingTop: '5px' }} >
+            {letter + ':'}
           </Grid>
-          <Grid item xs={7}>
+          <Grid item xs={8} direction='column' justify='center' alignItems='center'>
             <div
               className={classes.ballContainer}
               onClick={() => setClicked(letter)}
@@ -30,23 +29,16 @@ const ChannelColorTile: React.FC<Props> = ({ text, letter, color, setClicked }) 
           </Grid>
         </Grid>
       </Grid>
-    </div>
+    </div >
   )
 }
 
 const useStyles = makeStyles(() =>
   createStyles({
-    letterContainer: {
-      display: 'flex',
-      height: '45px',
-      flexDirection: 'column',
-      justifyContent: 'center ',
-      alignItem: 'center',
-    },
     ballContainer: {
       display: 'flex',
-      height: '45px',
-      paddingLeft: '5px',
+      height: '100%',
+      padding: '5px',
       aspectRatio: '1/1',
       flexDirection: 'column',
       justifyContent: 'center',
