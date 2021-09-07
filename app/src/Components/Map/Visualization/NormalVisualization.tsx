@@ -62,7 +62,7 @@ const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
       case 'R': {
         return (
           <Grid item xs={10} >
-            <SlimAccordion name={'list'}>
+            <SlimAccordion name={'list'} isExpanded={true}>
               <BandList
                 bands={bands}
                 color={'red'}
@@ -74,7 +74,7 @@ const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
       case 'G': {
         return (
           <Grid item xs={10} >
-            <SlimAccordion name={'list'}>
+            <SlimAccordion name={'list'} isExpanded={true}>
               <BandList
                 bands={bands}
                 color={'green'}
@@ -86,7 +86,7 @@ const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
       case 'B': {
         return (
           <Grid item xs={10} >
-            <SlimAccordion name={'list'}>
+            <SlimAccordion name={'list'} isExpanded={true}>
               <BandList
                 bands={bands}
                 color={'blue'}
@@ -98,7 +98,7 @@ const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
       default: {
         return (
           <Grid item xs={10} >
-            <SlimAccordion name={'list'}>
+            <SlimAccordion name={'list'} isExpanded={true}>
               <BandList
                 bands={bands}
                 color={'red'}
