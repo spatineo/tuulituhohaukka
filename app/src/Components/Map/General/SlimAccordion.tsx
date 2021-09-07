@@ -53,10 +53,11 @@ const AccordionDetails = withStyles((theme) => ({
 interface Props {
   children: React.ReactNode
   name: string
+  isExpanded: boolean
 }
 
-const SlimAccordion: React.FC<Props> = ({ children, name }) => {
-  const [expanded, setExpanded] = React.useState<string | false>(false);
+const SlimAccordion: React.FC<Props> = ({ children, name, isExpanded }) => {
+  const [expanded, setExpanded] = React.useState<string | boolean>(isExpanded);
 
   const handleChange = (panel: string) => (event: React.ChangeEvent<Record<string, unknown>>, newExpanded: boolean) => {
     setExpanded(newExpanded ? panel : false);
@@ -64,7 +65,7 @@ const SlimAccordion: React.FC<Props> = ({ children, name }) => {
 
   return (
     <div>
-      <Accordion square expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+      <Accordion square expanded={expanded === 'panel1' || expanded === true} onChange={handleChange('panel1')}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header" >
           <Typography>{name}</Typography>
         </AccordionSummary>
