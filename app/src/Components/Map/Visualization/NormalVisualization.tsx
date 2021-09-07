@@ -111,7 +111,7 @@ const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
   }
 
   return (
-    <div style={{ width: '100%', paddingTop: '20px' }}>
+    <div style={{ width: '100%', paddingTop: '10px' }}>
       <Grid container direction='column' spacing={2}>
         <Grid container item direction='row' justify='space-evenly' style={{ paddingRight: '40px' }}>
           <Grid item xs={3}>
