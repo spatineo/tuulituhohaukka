@@ -16,7 +16,7 @@ const ChannelColorTile: React.FC<Props> = ({ text, letter, color, setClicked }) 
     <div>
       <Grid container direction='column' justify='center' alignItems='center'>
         <Grid container item direction='row' xs={8} style={{ width: '100%', aspectRatio: '10/12' }}>
-          <Grid container item xs={4} direction='column' justify='center' style={{ paddingTop: '5px' }} >
+          <Grid container item xs={4} direction='column' justify='center' style={{ paddingTop: '10px' }} >
             {letter + ':'}
           </Grid>
           <Grid item xs={8} direction='column' justify='center' alignItems='center'>
