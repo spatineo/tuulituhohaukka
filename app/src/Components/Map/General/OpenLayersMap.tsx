@@ -78,9 +78,8 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
 
   // This function should resize map when sidebar is opened or closed
   React.useEffect(() => {
-    map && map.updateSize()
+    setTimeout(function () { map?.updateSize(); }, 400);
   }, [sidebarIsOpen])
-
 
   React.useEffect(() => {
     if (!map?.getView().getInteracting()) {
@@ -89,7 +88,6 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
       map?.getView().setRotation(mapExtent.rotation)
     }
   }, [mapExtent])
-
 
   React.useEffect(() => {
     const colors = [{ colorStr: 'R', color: RED }, { colorStr: 'G', color: GREEN }, { colorStr: 'B', color: BLUE }];
@@ -108,7 +106,6 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
           visualisationParameters.max = 25
         }
       }
-
       return visualisationParameters;
     }
 
