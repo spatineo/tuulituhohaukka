@@ -3,7 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateMapExtent } from '../../../Store/Actions/data'
 import TileLayer from 'ol/layer/WebGLTile';
-import GeoTIFF, { SourceInfo } from 'ol/source/GeoTIFF';
+import GeoTIFF from 'ol/source/GeoTIFF';
 import Projection from 'ol/proj/Projection';
 import * as ol from 'ol'
 import { MouseWheelZoom, defaults } from 'ol/interaction';
@@ -35,7 +35,6 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
   const mapRef = React.useRef<HTMLElement>()
 
   const initializeOL = React.useCallback(() => {
-    console.log('Initialize!')
     const map = new ol.Map({
       interactions: defaults({ mouseWheelZoom: false }).extend([
         new MouseWheelZoom({
