@@ -11,16 +11,11 @@ interface LoadDataActionWithParam {
 // Once LOAD_ROOT_CATALOG action is detected, loadCatalogWorker is called
 export function* loadCatalogWatcher(): any {
   console.log('Saga: loadCatalogWatcher called!')
-  yield takeLatest(LOAD_CATALOG, loadCatalogWorker)
+  yield takeLatest(LOAD_CATALOG, getCatalog)
 }
 
-// Function will download the catalog if it is not found already from cache
-function* loadCatalogWorker(action: LoadDataActionWithParam): any {
-  console.log('Saga: loadCatalogWorker called!')
-  yield call(getCatalog, action.payload.url)
-}
-
-function* getCatalog(url: string): any {
+function* getCatalog(action: LoadDataActionWithParam): any {
+  const url = action.payload.url
   const fetchInProgress = yield select((state) => state.dataReducer.dataFetching.fetchInProgress[url])
   console.log('Saga: Check if fetch is in progress')
 
