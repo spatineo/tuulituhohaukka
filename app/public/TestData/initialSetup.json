@@ -42,7 +42,7 @@
         "channelSettings": {
           "R": "b04",
           "G": "b03",
-          "B": "b01"
+          "B": "b02"
         },
         "displayWindDamageVector": true,
         "displaySpyglass": false,
