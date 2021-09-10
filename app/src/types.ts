@@ -1,7 +1,6 @@
 export interface ReduxState {
   data: Data
   cache: Cache
-  dataFetching: DataFetching
 }
 
 export interface Data {
@@ -16,11 +15,6 @@ export interface Global {
   comparisonDate: string
   fullScreen: string
   mapSize: string
-}
-
-export interface DataFetching {
-  fetchInProgress: FetchInProgress
-  fetchErrors: FetchError
 }
 
 export interface MapExtent {

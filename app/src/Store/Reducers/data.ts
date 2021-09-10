@@ -21,10 +21,6 @@ const initialState: ReduxState = {
     catalog: {},
     datasets: [],
     windDamages: []
-  },
-  dataFetching: {
-    fetchInProgress: {},
-    fetchErrors: {},
   }
 }
 
@@ -32,21 +28,11 @@ const initialState: ReduxState = {
 const debug = function (...args: any[]) { /* NOP */ }
 
 const dataReducer = createReducer(initialState, {
-  CATALOG_FETCH_START: (state, action) => {
-    debug('Reducer: Catalog download started')
-    debug('Reducer: Action payload in reducer: ', action.payload)
-    state.dataFetching.fetchInProgress[action.payload.url] = action.payload.inProgress
-  },
   CATALOG_FETCH_FINISHED: (state, action) => {
     debug('Reducer: Loading Catalog finished! Setting state in Redux')
     debug('Reducer: Action payload in reducer: ', action.payload)
-    state.dataFetching.fetchInProgress[action.payload.url] = action.payload.inProgress
+    //state.dataFetching.fetchInProgress[action.payload.url] = action.payload.inProgress
     state.cache.catalog[action.payload.url] = action.payload.fetchedCatalog
-  },
-  CATALOG_FETCH_FAILED: (state, action) => {
-    debug('Reducer: Saving error to reducer!')
-    debug('Reducer: Action payload in reducer: ', action.payload)
-    state.dataFetching.fetchErrors[action.payload.url] = action.payload.error
   },
   SET_INITIAL_SETUP: (state, action) => {
     debug('Reducer: Loading initial setup from JSON file and setting state in Redux')
