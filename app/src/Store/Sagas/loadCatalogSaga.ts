@@ -1,7 +1,6 @@
 import { takeLatest, put, call, select } from '@redux-saga/core/effects'
-import axios from 'axios'
 import { LOAD_CATALOG } from '../Actions/data'
-import { catalogFetchStart, catalogFetchFailed, catalogFetchFinished } from '../Actions/data'
+import { catalogFetchFinished } from '../Actions/data'
 
 interface LoadDataActionWithParam {
   type: string,
@@ -14,23 +13,20 @@ export function* loadCatalogWatcher(): any {
   yield takeLatest(LOAD_CATALOG, getCatalog)
 }
 
+const PROGRESS : Record<string, Promise<Response> | undefined> = {}
+
+async function getWithFetch(url : string) {
+  let promise = PROGRESS[url];
+  if (promise === undefined) {
+    promise = fetch(url, { method: 'GET' }).then(r => r.json())
+    PROGRESS[url] = promise;
+  }
+
+  return await promise;
+}
+
 function* getCatalog(action: LoadDataActionWithParam): any {
   const url = action.payload.url
-  const fetchInProgress = yield select((state) => state.dataReducer.dataFetching.fetchInProgress[url])
-  console.log('Saga: Check if fetch is in progress')
-
-  if (!fetchInProgress || fetchInProgress === false) {
-    console.log('Saga: Fetch not in progress')
-    console.log('Saga: Starting to download catalog in Saga for url: ', url)
-    put(catalogFetchStart({ url, inProgress: true }))
-    try {
-      const response = yield axios.get(url)
-      const fetchedCatalog = response.data
-      console.log('Saga: Download finished in Saga! ✅  Sending action to update Redux: ', fetchedCatalog)
-      yield put(catalogFetchFinished({ url, fetchedCatalog, inProgress: false }))
-    } catch (error) {
-      console.log('Saga: Error while downloading catalog! ⛔️ ', error)
-      yield put(catalogFetchFailed({ url, error }))
-    }
-  }
+  const fetchedCatalog = yield call(getWithFetch, action.payload.url)
+  yield put(catalogFetchFinished({ url, fetchedCatalog, inProgress: false }))
 }
