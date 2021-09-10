@@ -115,7 +115,7 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
       .map(c => {
         const vis = getVisualisation(channelSettings[c.colorStr]);
         return {
-          url: item.assets[channelSettings[c.colorStr]].sourceUrl,
+          url: item.assets[channelSettings[c.colorStr]].href,
           color: c.color,
           min: vis.min,
           max: vis.max
