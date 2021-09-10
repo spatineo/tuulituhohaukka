@@ -37,7 +37,7 @@
         }
       },
       {
-        "id": 0,
+        "id": 1,
         "selectedDataset": "Sentinel-2_global_mosaic_dekadi",
         "channelSettings": {
           "R": "b04",
