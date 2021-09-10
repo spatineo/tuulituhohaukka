@@ -205,7 +205,7 @@ const useStyles = makeStyles(() =>
       backgroundPosition: 'center',
       margin: 0,
       padding: 0,
-      zIndex: 10000,
+      zIndex: 100,
       position: 'absolute'
     }
   }))
