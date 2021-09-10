@@ -56,7 +56,7 @@ const MainView: React.FC = (props: any) => {
       }
     }
     const objectAsString = JSON.stringify(newStateObject)
-    const URL = encodeURI(`http://localhost:3000/stateData/${objectAsString}`)
+    const URL = encodeURI(`${location.protocol}//${location.host}/stateData/${objectAsString}`)
     console.log('URL with state: ', URL)
     return URL
   }
