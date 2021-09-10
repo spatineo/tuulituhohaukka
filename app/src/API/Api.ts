@@ -25,19 +25,23 @@ interface CreatedLinkObject {
   time_end: Date
 }
 
+//const debug = console.log;
+const debug = function (...args: any[]) { /* NOP */ }
+
+
 const CATALOG_ROOT = 'https://s3.eu-west-1.amazonaws.com/directory.spatineo.com/tmp/tuulituhohaukka-stac/catalog/root2.json'
 
 // Helper function
 const getCatalogHelper = (url: string) => {
-  console.log('API: Helper function called. Checking if catalog can be found for given url')
+  debug('API: Helper function called. Checking if catalog can be found for given url')
   const ReduxState = store.getState()
   const catalog = ReduxState.dataReducer.cache.catalog[url]
   if (!catalog) {
-    console.log('API: No catalog found for given url from cache. Dispatching action to load more..')
+    debug('API: No catalog found for given url from cache. Dispatching action to load more..')
     store.dispatch(loadCatalog({ url: url }))
     return {}
   } else {
-    console.log('API: catalog found! returning catalog')
+    debug('API: catalog found! returning catalog')
     return catalog
   }
 }
@@ -45,13 +49,13 @@ const getCatalogHelper = (url: string) => {
 // 2. get all datasets catalog
 // 3. read id and title from each dataset catalog and return as an array of objects {datasets: [{id: 'foo', title: 'bar'}, {...}]}
 export const getAllDatasets = (): any | undefined => {
-  console.log('API: getAllDatasets Called')
+  debug('API: getAllDatasets Called')
   const ReduxState = store.getState()
   const rootCatalog: RootCatalog = ReduxState.dataReducer.cache.catalog[CATALOG_ROOT]
-  console.log('RootCatalog from server: ', rootCatalog)
+  debug('RootCatalog from server: ', rootCatalog)
 
   if (rootCatalog && Object.keys(rootCatalog).length === 0 || rootCatalog == undefined) {
-    console.log('API: Root catalog not found. Dispatching action to download root catalog')
+    debug('API: Root catalog not found. Dispatching action to download root catalog')
     store.dispatch(loadCatalog({ url: CATALOG_ROOT }))
     return []
   }
@@ -59,13 +63,13 @@ export const getAllDatasets = (): any | undefined => {
     if (rootCatalog.links) {
       const datasets = rootCatalog.links.filter((link: Link) => link.rel === 'child')
         .map((link: Link) => {
-          console.log('API: Looping to get next level inside catalog 🔁 ')
-          console.log('API: Current link to fetch is: ', link.href)
+          debug('API: Looping to get next level inside catalog 🔁 ')
+          debug('API: Current link to fetch is: ', link.href)
           const catalog = getCatalogHelper(link.href)
           return catalog
         })
         .filter((catalog) => catalog.id !== undefined)
-      console.log('Dataset returned from getAllDatasets: ', datasets)
+      debug('Dataset returned from getAllDatasets: ', datasets)
       return datasets
     }
   }
@@ -75,13 +79,13 @@ export const getAllDatasets = (): any | undefined => {
 // 2. find the dataset catalog with given id
 // 3. return bands from selecte dataset catalog contents
 export const getBandsForDataset = (id: string): any => {
-  console.log('API: getBandsForDatasets called!')
+  debug('API: getBandsForDatasets called!')
   const dataSets = getAllDatasets()
-  console.log('API: Datasets returned: ', dataSets)
+  debug('API: Datasets returned: ', dataSets)
   const dataSetById = dataSets?.find((dataset: Dataset) => dataset.id == id)
-  console.log('API: Dataset with given id: ', dataSetById)
+  debug('API: Dataset with given id: ', dataSetById)
   const bands = dataSetById.summaries.bands
-  console.log('API: Bands to return: ', bands)
+  debug('API: Bands to return: ', bands)
   return bands
 }
 
@@ -96,7 +100,7 @@ export const getBandsForDataset = (id: string): any => {
 // 8. return data
 
 export const getItemsForDatasetAndTime = (datasetId: string, inspectionTime: string) => {
-  console.log('API: getItemsForDatasetAndTime called!')
+  debug('API: getItemsForDatasetAndTime called!')
 
   const createLinkObject = (link: Link) => {
     return {
@@ -117,13 +121,13 @@ export const getItemsForDatasetAndTime = (datasetId: string, inspectionTime: str
 
   // sort list in timely order
   listOfSubCatalogs.sort(sortObjectByTime)
-  console.log('API: ListOfSubCatalogs: ', listOfSubCatalogs)
+  debug('API: ListOfSubCatalogs: ', listOfSubCatalogs)
 
   let index = listOfSubCatalogs.findIndex((object: any) => inspectionDate.getTime() < object.time_end.getTime())
-  console.log('API: found following: ', index)
+  debug('API: found following: ', index)
 
   if (index === -1) {
-    console.log('There are no catalogs after inspection time')
+    debug('There are no catalogs after inspection time')
   } else {
 
     // Loop untill wanted item is found
@@ -137,23 +141,23 @@ export const getItemsForDatasetAndTime = (datasetId: string, inspectionTime: str
 
       const items = datasetTimeCatalog.links.filter((link: Link) => link.rel === 'item').map(createLinkObject)
       items.sort(sortObjectByTime)
-      console.log('API: Sorted items ', items)
+      debug('API: Sorted items ', items)
 
       // Find item that starts after inspection time
       const foundItem = items.find((item: any) => inspectionDate.getTime() < item.time_start.getTime())
       if (foundItem) {
-        console.log('API: Item found! Starting to fetch next level in catalog..')
+        debug('API: Item found! Starting to fetch next level in catalog..')
         const fetchedItem = getCatalogHelper(foundItem.href)
 
         if (!fetchedItem.links) {
-          console.log('API: Item not yet downloaded')
+          debug('API: Item not yet downloaded')
           return { items: [ /* items */] }
         } else {
-          console.log('API: found the item ✅', fetchedItem)
+          debug('API: found the item ✅', fetchedItem)
           return { items: [fetchedItem] }
         }
       }
-      console.log('API: Item not found, loop will run again 🔁')
+      debug('API: Item not found, loop will run again 🔁')
     }
     return { items: [ /* items */] }
   }
