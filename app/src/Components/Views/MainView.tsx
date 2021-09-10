@@ -101,7 +101,7 @@ const MainView: React.FC = (props: any) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Tuulituhohaukka 🌪 💥 🦅
+            Tuulituhohaukka BETA
           </Typography>
         </Toolbar>
       </AppBar>
