@@ -68,6 +68,7 @@ const SelectMonth: React.FC = () => {
               <MonthElement index={index} month={month} selectedType={selectedType} />
             </Grid>
           ))}
+          {/*
           <Grid container item justify='space-around'>
             <Grid item xs={6}>
               <Button
@@ -86,6 +87,7 @@ const SelectMonth: React.FC = () => {
               </Button>
             </Grid>
           </Grid>
+          */}
         </Grid>
       </Card>
     </>
