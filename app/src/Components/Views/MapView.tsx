@@ -25,11 +25,11 @@ const MapView: React.FC = () => {
   const payload = {
     "mapObject": {
       "id": latestMapIndex + 1,
-      "selectedDataset": "Sentinel-2_global_mosaic_dekadi",
+      "selectedDataset": null,
       "channelSettings": {
-        "R": "b04",
-        "G": "b03",
-        "B": "b01"
+        "R": null,
+        "G": null,
+        "B": null
       },
       "displayWindDamageVector": true,
       "displaySpyglass": false,

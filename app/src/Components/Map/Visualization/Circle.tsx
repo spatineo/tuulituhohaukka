@@ -13,6 +13,10 @@ const Circle: React.FC<Props> = ({ text, color, borderWidth }) => {
   let textToDisplay = ''
   let longText = false
 
+  if (text === null || text === undefined) {
+    text = ""
+  }
+
   if (text.length >= 4) {
     longText = true
     textToDisplay = `${text.slice(0, 4)}..`
