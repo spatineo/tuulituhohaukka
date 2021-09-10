@@ -165,6 +165,18 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
 
   }, [item, datasetCatalog, channelSettings]);
 
+  React.useEffect(() => {
+    // Anything in here is fired on component mount.
+    //console.log('OL mount');
+    return () => {
+        // Anything in here is fired on component unmount.
+        console.log('OL unmount!');
+        const oldLayers = map?.getLayers() || [];
+        oldLayers.forEach((l: any) => { l.getSource().clear(); l.setSource(undefined); map?.removeLayer(l) })
+        map?.setTarget(null)
+    }
+  }, [])
+
   const classes = useStyles()
   return (
     <div ref={mapRef as any} className={classes.mapContainer}>
