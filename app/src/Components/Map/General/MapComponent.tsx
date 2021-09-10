@@ -45,6 +45,12 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets 
     dateStr = 'N/A'
   }
 
+  let temporalInterval = '';
+  if (datasetCatalog?.extent?.temporal?.interval) {
+    const interval = datasetCatalog?.extent?.temporal?.interval
+    temporalInterval = `(${interval[0].substring(0,10)} - ${interval[1].substring(0,10)})`
+  }
+
   return (
     <div className={classes.mapContainer}>
       <div className={classes.mapBox}>
@@ -67,6 +73,7 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets 
         <Grid container>
           <Grid container item xs={12} justify='center' alignItems='center'>
             <div style={{ fontSize: '14px' }}>{datasetCatalog ? datasetCatalog.title : '-'}</div>
+            <div style={{ fontSize: '14px', paddingLeft: '1em' }}>{temporalInterval}</div>
           </Grid>
         </Grid>
       </div>
