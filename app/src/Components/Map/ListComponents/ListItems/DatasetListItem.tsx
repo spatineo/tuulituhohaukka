@@ -24,6 +24,10 @@ const DatasetListItem: React.FC<ListChildComponentProps> = ({ data, index, style
   const classes = useStyles()
   const dispatch = useDispatch()
 
+  React.useEffect(() => {
+    dispatch(setBands({ bands: getBandsForDataset(selectedDataset), mapComponentIndex: mapComponentIndex }))
+  }, [selectedDataset, mapComponentIndex])
+
   return (
     <div className={classes.listItemContainer} style={style}>
       <GreenRadio
@@ -31,9 +35,7 @@ const DatasetListItem: React.FC<ListChildComponentProps> = ({ data, index, style
         onChange={() => {
           batch(() => {
             dispatch(setSelectedDataset({ mapComponentIndex: mapComponentIndex, selectedDataset: datasetId }))
-            dispatch(setBands({ bands: getBandsForDataset(datasetId), mapComponentIndex: mapComponentIndex }))
-          }
-          )
+          })
         }}
         value={datasetId}
       />

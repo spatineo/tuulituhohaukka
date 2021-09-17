@@ -83,10 +83,12 @@ export const getBandsForDataset = (id: string): any => {
   const dataSets = getAllDatasets()
   debug('API: Datasets returned: ', dataSets)
   const dataSetById = dataSets?.find((dataset: Dataset) => dataset.id == id)
-  debug('API: Dataset with given id: ', dataSetById)
-  const bands = dataSetById.summaries.bands
-  debug('API: Bands to return: ', bands)
-  return bands
+  if (dataSetById) {
+    debug('API: Dataset with given id: ', dataSetById)
+    const bands = dataSetById.summaries.bands
+    debug('API: Bands to return: ', bands)
+    return bands
+  }
 }
 
 

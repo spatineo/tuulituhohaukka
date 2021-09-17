@@ -38,7 +38,6 @@ const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
   }
 
   const previousBands = usePrevious(bands)
-  console.log('bands: ', bands, 'vs ', 'previous bands: ', previousBands)
 
   // If elements are not equal inside arrays, reset selections in color bubbles
   React.useEffect(() => {

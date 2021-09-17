@@ -16,7 +16,6 @@ const DatasetList: React.FC<Props> = ({ datasets, mapComponentIndex }) => {
   const selectedDataset = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].selectedDataset)
   const [searchText, setSearchText] = React.useState('')
 
-  console.log('datasets in DatasetList: ', datasets)
   const searchAndFilter = (input: string) => {
     const filteredDatasets = datasets.filter((dataset: Dataset) => {
       const sourceData = dataset.id?.toUpperCase()
