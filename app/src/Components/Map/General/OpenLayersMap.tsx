@@ -89,6 +89,9 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
   }, [mapExtent])
 
   React.useEffect(() => {
+    const oldLayers = map?.getLayers() || [];
+    oldLayers.forEach((l: any) => map?.removeLayer(l))
+
     const colors = [{ colorStr: 'R', color: RED }, { colorStr: 'G', color: GREEN }, { colorStr: 'B', color: BLUE }];
 
     function getVisualisation(band: string) {
@@ -121,6 +124,11 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
         }
       });
 
+    // Skip rest if no sources to draw
+    if (sources.length === 0) {
+      return;
+    }
+
     // adds bands together for a single color value
     function sumBands(sources: { url: string, color: number }[], targetColor: number) {
       return sources.reduce((memo, source, i) => {
@@ -135,8 +143,6 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
       }, 0 as any)
     }
 
-    const oldLayers = map?.getLayers() || [];
-    oldLayers.forEach((l: any) => map?.removeLayer(l))
 
     const layer = new TileLayer({
       style: {
@@ -166,7 +172,6 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
 
   React.useEffect(() => {
     // Anything in here is fired on component mount.
-    //console.log('OL mount');
     return () => {
         // Anything in here is fired on component unmount.
         console.log('OL unmount!');

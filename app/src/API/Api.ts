@@ -32,9 +32,9 @@ const debug = function (...args: any[]) { /* NOP */ }
 const CATALOG_ROOT = 'https://s3.eu-west-1.amazonaws.com/directory.spatineo.com/tmp/tuulituhohaukka-stac/catalog/root2.json'
 
 // Helper function
-const getCatalogHelper = (url: string) => {
+const getCatalogHelper = (url: string, ReduxState : any) => {
   debug('API: Helper function called. Checking if catalog can be found for given url')
-  const ReduxState = store.getState()
+  //const ReduxState = store.getState()
   const catalog = ReduxState.dataReducer.cache.catalog[url]
   if (!catalog) {
     debug('API: No catalog found for given url from cache. Dispatching action to load more..')
@@ -65,7 +65,7 @@ export const getAllDatasets = (): any | undefined => {
         .map((link: Link) => {
           debug('API: Looping to get next level inside catalog 🔁 ')
           debug('API: Current link to fetch is: ', link.href)
-          const catalog = getCatalogHelper(link.href)
+          const catalog = getCatalogHelper(link.href, ReduxState)
           return catalog
         })
         .filter((catalog) => catalog.id !== undefined)
@@ -122,6 +122,7 @@ const getItemsForDatasetAndTime_generic = (
   pickStartingCatalog: (object: any) => boolean,
   pickItem: (item: any) => boolean) => {
   debug('API: getItemsForDatasetAndTime called!')
+  const ReduxState = store.getState()
 
   const createLinkObject = (link: Link) => {
     return {
@@ -154,7 +155,7 @@ const getItemsForDatasetAndTime_generic = (
     // Loop untill wanted item is found
     for (; index < listOfSubCatalogs.length; index++) {
       const href = listOfSubCatalogs[index].href
-      const datasetTimeCatalog = getCatalogHelper(href) as any
+      const datasetTimeCatalog = getCatalogHelper(href, ReduxState) as any
 
       if (!datasetTimeCatalog.links) {
         return { items: [ /* items */] }
@@ -170,7 +171,7 @@ const getItemsForDatasetAndTime_generic = (
         debug('API: Item found! Finding neighbours (same start and endtime)..')
         const allRelevantItems = items.filter((i : any) => i.time_start?.getTime() === foundItem.time_start?.getTime() && i.time_end?.getTime() === foundItem.time_end?.getTime())
 
-        const fetchedItems = allRelevantItems.map((i : any) => getCatalogHelper(i.href)).filter((i : any) => !!i.links)
+        const fetchedItems = allRelevantItems.map((i : any) => getCatalogHelper(i.href, ReduxState)).filter((i : any) => !!i.links)
         debug('API: Found', allRelevantItems.length, 'fetched', fetchedItems.length)
 
         return { items: fetchedItems }
