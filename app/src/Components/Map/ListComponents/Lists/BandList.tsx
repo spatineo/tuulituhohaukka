@@ -22,7 +22,7 @@ const BandList: React.FC<Props> = ({ bands, color, mapComponentIndex }) => {
 
   const clonedBands = _.cloneDeep(bands)
   // If dataset is selected and bands are loaded -> add another item that allows unselecting
-  if (bands.length !== 0) {
+  if (bands && bands.length !== 0) {
     clonedBands.unshift({ name: 'poista valinta' })
   }
 
