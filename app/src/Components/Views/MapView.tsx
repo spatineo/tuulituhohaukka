@@ -10,21 +10,26 @@ import MapComponent from '../Map/General/MapComponent'
 import { getAllDatasets } from '../../API/Api'
 import { greenTheme } from '../../Theme/theme'
 
+function createMapId() {
+  return Math.random().toString(36).substr(2, 9);
+}
+
 const MapView: React.FC = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const mapData = useSelector((state: RootState) => state.dataReducer.data.maps)
-  const latestMapIndex = mapData.length - 1
-  const datasets = getAllDatasets() as Dataset[]
   const cache = useSelector((state: RootState) => state.dataReducer.cache)
-
+  const [datasets, setDatasets] = React.useState([] as Dataset[])
+  
   React.useEffect(() => {
-    getAllDatasets()
-  }, [cache])
+    setDatasets( () => {
+      return getAllDatasets()
+    });
+  }, [Object.keys(cache).length])
 
   const payload = {
     "mapObject": {
-      "id": latestMapIndex + 1,
+      "id": createMapId(),
       "selectedDataset": null,
       "channelSettings": {
         "R": null,

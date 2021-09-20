@@ -19,22 +19,33 @@ interface Props {
 }
 
 const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets }) => {
+  const cache = useSelector((state: RootState) => state.dataReducer.cache.catalog)
   const inspectionDate = useSelector((state: RootState): string => state.dataReducer.data.global.inspectionDate)
   const selectedDataset = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].selectedDataset)
   const editedDate = new Date(inspectionDate).toISOString().split("T")[0]
   const classes = useStyles()
   const dispatch = useDispatch()
+  const [itemObject, setItemObject] = React.useState({ items: [] } as { items: any });
+  const [allDatasets, setAllDatasets] = React.useState([] as any[]);
 
-  let itemObject: { items: any[] } = { items: [] }
+  React.useEffect(() => {
+    setAllDatasets(() => {
+      return getAllDatasets()
+    })
+  }, [Object.keys(cache).length])
+
+  const datasetCatalog = allDatasets.find((c: any) => c.id === selectedDataset) || {}
 
   // UNCOMMENT THIS TO FETCH MAP ITEMS
-  if (inspectionDate && selectedDataset) {
-    itemObject = getItemsForDatasetAndTime(selectedDataset, inspectionDate) as { items: any[] }
-  }
+  React.useEffect(() => {
+    if (inspectionDate && selectedDataset) {
+      setItemObject( () => {
+        return getItemsForDatasetAndTime(selectedDataset, inspectionDate)
+      })
+    }
+  }, [selectedDataset, inspectionDate, Object.keys(cache).length])
 
   const item = (itemObject && itemObject.items && itemObject.items.length) > 0 ? itemObject.items[0] : null;
-
-  const datasetCatalog = getAllDatasets()?.find((c: any) => c.id === selectedDataset);
 
   let dateStr = '';
   if (item?.properties?.datetime) {
