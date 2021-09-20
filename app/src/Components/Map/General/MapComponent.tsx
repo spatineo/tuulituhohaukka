@@ -11,6 +11,7 @@ import { removeMap } from '../../../Store/Actions/data'
 import DatasetList from '../ListComponents/Lists/DatasetList'
 import NormalVisualization from '../Visualization/NormalVisualization'
 import { getAllDatasets, getItemsForDatasetAndTime } from '../../../API/Api'
+import VisualizationAccordion from './VisualizationAccordion'
 
 interface Props {
   mapObject: Map,
@@ -72,14 +73,18 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets 
       </div>
       <div className={classes.menuContainer}>
         <div className={classes.dropDown}>
-          <SlimAccordion name={'Aineistot'} isExpanded={false}>
+          <SlimAccordion name={`${selectedDataset}`} isExpanded={false}>
             <DatasetList datasets={datasets} mapComponentIndex={mapComponentIndex} />
           </SlimAccordion>
         </div>
         <div className={classes.dropDown}>
-          <SlimAccordion name={'Visualisointi'} isExpanded={false}>
+          <VisualizationAccordion
+            isExpanded={false}
+            mapComponentIndex={mapComponentIndex}
+          />
+          {/* <SlimAccordion name={'Visualisointi'} isExpanded={false}>
             <NormalVisualization channelSettings={mapObject.channelSettings} mapComponentIndex={mapComponentIndex} />
-          </SlimAccordion>
+          </SlimAccordion> */}
         </div>
       </div>
     </div>
