@@ -53,6 +53,30 @@ const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
     }
   }, [selectedDataset])
 
+  // Function will set all bands selected automagically, when certain dataset is selected
+  React.useEffect(() => {
+    const specialDatasets = [{
+      name: 'Latvuskorkeusmalli',
+      value: 'latvuskorkeusmalli'
+    }, {
+      name: 'Myrskytuhoriskikartta',
+      value: 'myrskytuhoriski'
+    }, {
+      name: 'Tuulituhoriski',
+      value: 'tuulituhoriski'
+    }]
+
+    specialDatasets.forEach(({ name, value }) => {
+      if (name === selectedDataset) {
+        batch(() => {
+          dispatch(setRedChannel({ mapComponentIndex: mapComponentIndex, redChannelValue: value }))
+          dispatch(setGreenChannel({ mapComponentIndex: mapComponentIndex, greenChannelValue: value }))
+          dispatch(setBlueChannel({ mapComponentIndex: mapComponentIndex, blueChannelValue: value }))
+        })
+      }
+    })
+  }, [selectedDataset])
+
   const setClicked = (value: string) => {
     setClickedColorTile(value)
   }
