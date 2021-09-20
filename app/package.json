@@ -27,6 +27,7 @@
     "chart.js": "^3.5.0",
     "date-fns": "^2.23.0",
     "geotiff": "^1.0.4",
+    "lodash": "^4.17.21",
     "ol": "^6.6.2-dev.1629628221039",
     "react": "^17.0.2",
     "react-chartjs-2": "^3.0.4",
@@ -71,6 +72,7 @@
   },
   "devDependencies": {
     "@types/deep-equal": "^1.0.1",
+    "@types/lodash": "^4.14.173",
     "@types/react": "^17.0.11",
     "@types/react-router-dom": "^5.1.8",
     "@types/react-window": "^1.8.4",
