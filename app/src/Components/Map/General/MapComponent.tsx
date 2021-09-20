@@ -15,10 +15,9 @@ import { getAllDatasets, getItemsForDatasetAndTime } from '../../../API/Api'
 interface Props {
   mapObject: Map,
   mapComponentIndex: number
-  datasets: Dataset[]
 }
 
-const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets }) => {
+const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
   const cache = useSelector((state: RootState) => state.dataReducer.cache.catalog)
   const inspectionDate = useSelector((state: RootState): string => state.dataReducer.data.global.inspectionDate)
   const selectedDataset = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].selectedDataset)
@@ -91,7 +90,7 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets 
       <div className={classes.menuContainer}>
         <div className={classes.dropDown}>
           <SlimAccordion name={'Aineistot'} isExpanded={false}>
-            <DatasetList datasets={datasets} mapComponentIndex={mapComponentIndex} />
+            <DatasetList datasets={allDatasets} mapComponentIndex={mapComponentIndex} />
           </SlimAccordion>
         </div>
         <div className={classes.dropDown}>

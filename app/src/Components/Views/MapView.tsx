@@ -7,7 +7,6 @@ import { createStyles, makeStyles, ThemeProvider } from '@material-ui/core/style
 import { Button, Grid } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import MapComponent from '../Map/General/MapComponent'
-import { getAllDatasets } from '../../API/Api'
 import { greenTheme } from '../../Theme/theme'
 
 function createMapId() {
@@ -18,14 +17,6 @@ const MapView: React.FC = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const mapData = useSelector((state: RootState) => state.dataReducer.data.maps)
-  const cache = useSelector((state: RootState) => state.dataReducer.cache)
-  const [datasets, setDatasets] = React.useState([] as Dataset[])
-  
-  React.useEffect(() => {
-    setDatasets( () => {
-      return getAllDatasets()
-    });
-  }, [Object.keys(cache).length])
 
   const payload = {
     "mapObject": {
@@ -75,7 +66,6 @@ const MapView: React.FC = () => {
               <MapComponent
                 mapObject={mapObject}
                 mapComponentIndex={index}
-                datasets={datasets}
               />
             </Grid>)
         })}
