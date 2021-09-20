@@ -37,7 +37,7 @@ const dataReducer = createReducer(initialState, {
   SET_INITIAL_SETUP: (state, action) => {
     debug('Reducer: Loading initial setup from JSON file and setting state in Redux')
     debug('Reducer: Actions pay load in reducer: ', action.payload)
-    state.data.global.inspectionDate = new Date('2021-06-01').toISOString()
+    state.data.global.inspectionDate = new Date('2021-07-21').toISOString()
     state.data.global.fullScreen = action.payload.data.global.fullScreen
     state.data.global.mapSize = action.payload.data.global.mapSize
     state.data.maps = action.payload.data.maps
