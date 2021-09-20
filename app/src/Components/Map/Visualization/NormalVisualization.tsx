@@ -53,7 +53,7 @@ const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
     }
   }, [selectedDataset])
 
-  // Function will set all bands selected automagically, when certain dataset is selected
+  // Function will set all bands selected automagically, when one of the described datasets is selected
   React.useEffect(() => {
     const specialDatasets = [{
       name: 'Latvuskorkeusmalli',
