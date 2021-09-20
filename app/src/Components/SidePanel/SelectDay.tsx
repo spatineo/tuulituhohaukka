@@ -32,7 +32,7 @@ const SelectDay: React.FC = () => {
   const getDayElement = (day: any, selectedDate: any, isInCurrentMonth: any, dayComponent: any) => {
     const foundDamages = windDamages.includes(day.getDate());
     const isSelected = day.getDate() === selectedDate.getDate() && day.getMonth() === inspectionDateObject.getMonth();
-    const isToday = day.getDate() === today.getDate() && day.getMonth() === today.getMonth();
+    const isToday = day.getDate() === today.getDate() && day.getMonth() === today.getMonth() && day.getFullYear() === today.getFullYear();
 
     let dateTile
     if (isInCurrentMonth) { //conditionally return appropriate Element of date tile.
