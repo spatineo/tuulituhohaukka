@@ -63,11 +63,23 @@ const SlimAccordion: React.FC<Props> = ({ children, name, isExpanded }) => {
     setExpanded(newExpanded ? panel : false);
   };
 
+  /* 
+    Todo:
+
+    1. Create string shortening function (copy from color bubbles..?)
+    2. Add start and end time of the displayed content (see Sampo´s code how this was done..?)
+  
+  */
+
+
   return (
     <div>
       <Accordion square expanded={expanded === 'panel1' || expanded === true} onChange={handleChange('panel1')}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header" >
-          <Typography>{name}</Typography>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography style={{ fontSize: '14px' }}>{name}</Typography>
+            <Typography style={{ fontSize: '14px' }}>{name}</Typography>
+          </div>
         </AccordionSummary>
         <AccordionDetails>
           {children}
