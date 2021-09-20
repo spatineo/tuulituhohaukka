@@ -2,6 +2,8 @@ import { store } from '../App'
 import { loadCatalog } from '../Store/Actions/data'
 import { Dataset } from '../types'
 
+const CATALOG_ROOT = 'https://s3.eu-west-1.amazonaws.com/directory.spatineo.com/tmp/tuulituhohaukka-stac/catalog/root2.json'
+
 interface RootCatalog {
   type?: string,
   stack_version?: string,
@@ -28,67 +30,52 @@ interface CreatedLinkObject {
 //const debug = console.log;
 const debug = function (...args: any[]) { /* NOP */ }
 
+const CACHE : Record<string, Promise<Response> | undefined> = {}
 
-const CATALOG_ROOT = 'https://s3.eu-west-1.amazonaws.com/directory.spatineo.com/tmp/tuulituhohaukka-stac/catalog/root2.json'
-
-// Helper function
-const getCatalogHelper = (url: string, ReduxState : any) => {
-  debug('API: Helper function called. Checking if catalog can be found for given url')
-  //const ReduxState = store.getState()
-  const catalog = ReduxState.dataReducer.cache.catalog[url]
-  if (!catalog) {
-    debug('API: No catalog found for given url from cache. Dispatching action to load more..')
-    store.dispatch(loadCatalog({ url: url }))
-    return {}
-  } else {
-    debug('API: catalog found! returning catalog')
-    return catalog
+async function get(url : string) {
+  let promise = CACHE[url];
+  if (promise === undefined) {
+    promise = fetch(url, { method: 'GET' }).then(r => r.json())
+    CACHE[url] = promise;
   }
+
+  return await promise;
 }
+
 // 1. get root catalog
 // 2. get all datasets catalog
 // 3. read id and title from each dataset catalog and return as an array of objects {datasets: [{id: 'foo', title: 'bar'}, {...}]}
-export const getAllDatasets = (): any | undefined => {
-  debug('API: getAllDatasets Called')
-  const ReduxState = store.getState()
-  const rootCatalog: RootCatalog = ReduxState.dataReducer.cache.catalog[CATALOG_ROOT]
-  debug('RootCatalog from server: ', rootCatalog)
+export const getAllDatasets = (): Promise<any[]> => {
 
-  if (rootCatalog && Object.keys(rootCatalog).length === 0 || rootCatalog == undefined) {
-    debug('API: Root catalog not found. Dispatching action to download root catalog')
-    store.dispatch(loadCatalog({ url: CATALOG_ROOT }))
-    return []
-  }
-  else {
-    if (rootCatalog.links) {
-      const datasets = rootCatalog.links.filter((link: Link) => link.rel === 'child')
+  debug('API: getAllDatasets Called')
+  return new Promise((resolve, reject) => {
+    get(CATALOG_ROOT).then((rootCatalog : any) => {
+      const datasetPromises = rootCatalog.links.filter((link: Link) => link.rel === 'child')
         .map((link: Link) => {
           debug('API: Looping to get next level inside catalog 🔁 ')
           debug('API: Current link to fetch is: ', link.href)
-          const catalog = getCatalogHelper(link.href, ReduxState)
-          return catalog
-        })
-        .filter((catalog) => catalog.id !== undefined)
-      debug('Dataset returned from getAllDatasets: ', datasets)
-      return datasets
-    }
-  }
+          return get(link.href)
+        });
+      Promise.all(datasetPromises).then(resolve).catch(reject)
+    }).catch(reject)
+  });
 }
 
 // 1. get all dataset catalogs
 // 2. find the dataset catalog with given id
 // 3. return bands from selecte dataset catalog contents
-export const getBandsForDataset = (id: string): any => {
+export const getBandsForDataset = (id: string): Promise<any> => {
   debug('API: getBandsForDatasets called!')
-  const dataSets = getAllDatasets()
-  debug('API: Datasets returned: ', dataSets)
-  const dataSetById = dataSets?.find((dataset: Dataset) => dataset.id == id)
-  if (dataSetById) {
-    debug('API: Dataset with given id: ', dataSetById)
-    const bands = dataSetById.summaries.bands
-    debug('API: Bands to return: ', bands)
-    return bands
-  }
+  return new Promise((resolve, reject) => {
+    getAllDatasets().then((dataSets : any[]) => {
+        const dataSetById = dataSets.find((dataset: Dataset) => dataset.id == id)
+        if (dataSetById) {
+            resolve(dataSetById.summaries.bands)
+        } else {
+            reject('on such dataset: '+id)
+        }
+    }).catch(reject);
+  })
 }
 
 // Get item that is either spans inspectionTime or is the newest one before inspectionTime
@@ -122,63 +109,68 @@ const getItemsForDatasetAndTime_generic = (
   pickStartingCatalog: (object: any) => boolean,
   pickItem: (item: any) => boolean) => {
   debug('API: getItemsForDatasetAndTime called!')
-  const ReduxState = store.getState()
 
-  const createLinkObject = (link: Link) => {
-    return {
-      href: link.href,
-      time_start: link.time ? new Date(link.time.time_start) : null,
-      time_end: link.time ? new Date(link.time.time_end) : null
+  return new Promise((resolve, reject) => {
+
+    const createLinkObject = (link: Link) => {
+        return {
+        href: link.href,
+        time_start: link.time ? new Date(link.time.time_start) : null,
+        time_end: link.time ? new Date(link.time.time_end) : null
+        }
     }
-  }
 
-  const dataSets = getAllDatasets()
-  const dataSetById = dataSets?.find((dataSet: any) => dataSet.id == datasetId)
-  
-  const listOfSubCatalogs = dataSetById?.links.filter((link: Link) => link.rel === 'child').map(createLinkObject)
-  if (!listOfSubCatalogs) {
-    return { items: [ /* items */] }
-  }
+    getAllDatasets().then((dataSets) => {
 
-  // sort list in timely order
-  listOfSubCatalogs.sort(sortObjectComparison)
-  debug('API: ListOfSubCatalogs: ', listOfSubCatalogs)
+        const dataSetById = dataSets.find((dataSet: any) => dataSet.id == datasetId)
+        if (!dataSetById) {
+            return reject('No such dataset: '+datasetId)
+        }
+        const listOfSubCatalogs = dataSetById.links.filter((link: Link) => link.rel === 'child').map(createLinkObject)
 
-  // Find the first dataset-time catalog that might contain inspectionDate
-  let index = listOfSubCatalogs.findIndex(pickStartingCatalog)
-  debug('API: found following: ', index)
+        // sort list in timely order
+        listOfSubCatalogs.sort(sortObjectComparison)
+        debug('API: ListOfSubCatalogs: ', listOfSubCatalogs)
 
-  if (index === -1) {
-    debug('There are no catalogs after inspection time')
-  } else {
+        // Find the first dataset-time catalog that might contain inspectionDate
+        const index = listOfSubCatalogs.findIndex(pickStartingCatalog)
 
-    // Loop untill wanted item is found
-    for (; index < listOfSubCatalogs.length; index++) {
-      const href = listOfSubCatalogs[index].href
-      const datasetTimeCatalog = getCatalogHelper(href, ReduxState) as any
+        const workingList = index === -1 ? [] : listOfSubCatalogs.slice(index) as any[]
 
-      if (!datasetTimeCatalog.links) {
-        return { items: [ /* items */] }
-      }
+        const findCatalogAndItems = (workingList : any[]) => {
+            return new Promise((resolve, reject) => {
+                if (workingList.length == 0) {
+                    debug('There are no items matching what we wanted')
+                    return resolve({ items: [ /* items */] })
+                }
+                const obj = workingList.splice(0,1)[0]
+                get(obj.href).then((datasetTimeCatalog : any) => {
 
-      const items = datasetTimeCatalog.links.filter((link: Link) => link.rel === 'item').map(createLinkObject)
-      items.sort(sortObjectComparison)
-      debug('API: Sorted items ', items)
+                    const items = datasetTimeCatalog.links.filter((link: Link) => link.rel === 'item').map(createLinkObject)
+                    items.sort(sortObjectComparison)
+                    debug('API: Sorted items ', items)
 
-      // Find item that starts after inspection time
-      const foundItem = items.find(pickItem)
-      if (foundItem) {
-        debug('API: Item found! Finding neighbours (same start and endtime)..')
-        const allRelevantItems = items.filter((i : any) => i.time_start?.getTime() === foundItem.time_start?.getTime() && i.time_end?.getTime() === foundItem.time_end?.getTime())
+                    // Find item that starts after inspection time
+                    const foundItem = items.find(pickItem)
+                    if (foundItem) {
+                        debug('API: Item found! Finding neighbours (same start and endtime)..')
+                        const allRelevantItems = items.filter((i : any) => i.time_start?.getTime() === foundItem.time_start?.getTime() && i.time_end?.getTime() === foundItem.time_end?.getTime())
+                        debug('API: Found', allRelevantItems.length, 'items')
 
-        const fetchedItems = allRelevantItems.map((i : any) => getCatalogHelper(i.href, ReduxState)).filter((i : any) => !!i.links)
-        debug('API: Found', allRelevantItems.length, 'fetched', fetchedItems.length)
+                        const itemFetchPromises = allRelevantItems.map((i : any) => get(i.href))
+                        Promise.all(itemFetchPromises).then(items => {
+                            debug('API: Fetched', items.length, 'items')
+                            resolve({ items: items })
+                        }).catch(reject)
+                    } else {
+                        // Try the next catalog: note, the workingList has been spliced, so this call wll process the next item
+                        findCatalogAndItems(workingList).then(resolve).catch(reject)
+                    }
+                }).catch(reject)
+            })
+        }
+        findCatalogAndItems(workingList).then(resolve).catch(reject)
 
-        return { items: fetchedItems }
-      }
-      debug('API: Item not found, loop will run again 🔁')
-    }
-    return { items: [ /* items */] }
-  }
-  return { items: [ /* items */] }
+    }).catch(reject)
+  })
 }
