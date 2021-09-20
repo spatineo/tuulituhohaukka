@@ -29,7 +29,8 @@ const GreenListItem: React.FC<ListChildComponentProps> = ({ data, index, style }
       <GreenRadio
         checked={selectedValue === name}
         onChange={() => {
-          dispatch(setGreenChannel({ mapComponentIndex: mapComponentIndex, greenChannelValue: name }))
+          if (name === 'poista valinta') dispatch(setGreenChannel({ mapComponentIndex: mapComponentIndex, greenChannelValue: '' }))
+          else dispatch(setGreenChannel({ mapComponentIndex: mapComponentIndex, greenChannelValue: name }))
         }}
         value={isNamedExports}
       />

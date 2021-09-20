@@ -8,6 +8,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import RedListItem from '../ListItems/RedListItem'
 import GreenListItem from '../ListItems/GreenListItem'
 import BlueListItem from '../ListItems/BlueListItem'
+import _ from 'lodash'
 
 interface Props {
   bands: Band[],
@@ -19,9 +20,15 @@ const BandList: React.FC<Props> = ({ bands, color, mapComponentIndex }) => {
   const colorData = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
   const [searchText, setSearchText] = React.useState('')
 
+  const clonedBands = _.cloneDeep(bands)
+  // If dataset is selected and bands are loaded -> add another item that allows unselecting
+  if (bands.length !== 0) {
+    clonedBands.unshift({ name: 'poista valinta' })
+  }
+
   const searchAndFilter = (input: string) => {
     if (!bands) return []
-    const filteredBands = bands.filter((band: Band) => {
+    const filteredBands = clonedBands.filter((band: Band) => {
       const sourceData = band.name.toUpperCase()
       const searchText = input.toUpperCase()
       return sourceData.includes(searchText)

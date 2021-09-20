@@ -29,7 +29,8 @@ const RedListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) 
       <RedRadio
         checked={selectedValue === name}
         onChange={() => {
-          dispatch(setRedChannel({ mapComponentIndex: mapComponentIndex, redChannelValue: name }))
+          if (name === 'poista valinta') dispatch(setRedChannel({ mapComponentIndex: mapComponentIndex, redChannelValue: '' }))
+          else dispatch(setRedChannel({ mapComponentIndex: mapComponentIndex, redChannelValue: name }))
         }}
         value={isNamedExports}
       />

@@ -29,7 +29,8 @@ const BlueListItem: React.FC<ListChildComponentProps> = ({ data, index, style })
       <BlueRadio
         checked={selectedValue === name}
         onChange={() => {
-          dispatch(setBlueChannel({ mapComponentIndex: mapComponentIndex, blueChannelValue: name }))
+          if (name === 'poista valinta') dispatch(setBlueChannel({ mapComponentIndex: mapComponentIndex, blueChannelValue: '' }))
+          else dispatch(setBlueChannel({ mapComponentIndex: mapComponentIndex, blueChannelValue: name }))
         }}
         value={isNamedExports}
       />
