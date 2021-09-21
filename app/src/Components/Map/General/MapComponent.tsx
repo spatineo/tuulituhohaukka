@@ -66,7 +66,7 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
   }
 
   return (
-    <div className={classes.mapContainer}>
+    <div className={classes.mapContainer} id='MapContainer'>
       <div className={classes.mapBox}>
         <Button
           style={{ position: 'absolute', zIndex: 2, maxWidth: '35px', minWidth: '35px', maxHeight: '35px', minHeight: '35px', right: '0px' }}
