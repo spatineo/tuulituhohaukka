@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
+import { Grid, Typography, } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 interface Props {
@@ -34,10 +34,14 @@ const SlimAccordion: React.FC<Props> = ({ children, name, date, temporalInterval
     <div>
       <Accordion square expanded={expanded === 'panel1' || expanded === true} onChange={handleChange('panel1')}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header" >
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography style={{ fontSize: '14px' }}>{name}</Typography>
-            <Typography style={{ fontSize: '14px' }}>{temporalInterval}</Typography>
-          </div>
+          <Grid container direction='column' justify='center'>
+            <Grid item>
+              <Typography style={{ fontSize: '14px' }}>{name}</Typography>
+            </Grid>
+            <Grid item>
+              <Typography style={{ fontSize: '14px' }}>{temporalInterval}</Typography>
+            </Grid>
+          </Grid>
         </AccordionSummary>
         <AccordionDetails>
           {children}
