@@ -20,9 +20,12 @@ const GreenRadio = withStyles({
 const DatasetListItem: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
   const selectedDataset = data.selectedDataset
   const datasetId = data.datasets[index].id
+  const datasetTitle = data.datasets[index].title
   const mapComponentIndex = data.mapComponentIndex
   const classes = useStyles()
   const dispatch = useDispatch()
+
+  console.log(data.datasets[index])
 
   React.useEffect(() => {
     getBandsForDataset(selectedDataset).then((bands) => {
@@ -41,7 +44,7 @@ const DatasetListItem: React.FC<ListChildComponentProps> = ({ data, index, style
         }}
         value={datasetId}
       />
-      {datasetId}
+      {datasetTitle}
     </div>
   )
 }
