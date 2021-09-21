@@ -25,7 +25,6 @@ const VisualizationAccordion: React.FC<Props> = ({ isExpanded, mapComponentIndex
   const [clickedColorTile, setClickedColorTile] = React.useState('')
   const [expanded, setExpanded] = React.useState<string | boolean>(isExpanded);
 
-
   const handleChange = (panel: string) => (event: React.ChangeEvent<Record<string, unknown>>, newExpanded: boolean) => {
     setExpanded(newExpanded ? panel : false);
   };
