@@ -18,13 +18,13 @@ interface Props {
 }
 
 const VisualizationAccordion: React.FC<Props> = ({ isExpanded, mapComponentIndex }) => {
-  const [expanded, setExpanded] = React.useState<string | boolean>(isExpanded);
-
   const dispatch = useDispatch()
   const colorData = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
-  const [clickedColorTile, setClickedColorTile] = React.useState('')
-  const bands = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].derivedData.bands)
   const selectedDataset = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].selectedDataset)
+  const bands = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].derivedData.bands)
+  const [clickedColorTile, setClickedColorTile] = React.useState('')
+  const [expanded, setExpanded] = React.useState<string | boolean>(isExpanded);
+
 
   const handleChange = (panel: string) => (event: React.ChangeEvent<Record<string, unknown>>, newExpanded: boolean) => {
     setExpanded(newExpanded ? panel : false);
@@ -139,9 +139,9 @@ const VisualizationAccordion: React.FC<Props> = ({ isExpanded, mapComponentIndex
   return (
     <div>
       <Accordion square expanded={expanded === 'panel1' || expanded === true} onChange={handleChange('panel1')}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header" style={{ maxHeight: '100px' }}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header" style={{ maxHeight: '150px', minHeight: '50px' }}>
           <Grid container direction='column'>
-            <Grid container item direction='row' justify='space-evenly' >
+            <Grid container item direction='row' justify='space-evenly'>
               <Grid item xs={3}>
                 <ChannelColorTile text={colorData.R} letter={'R'} color={'red'} setClicked={setClicked} />
               </Grid>
