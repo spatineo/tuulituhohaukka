@@ -165,7 +165,7 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
             return {
               url: s.url,
               //nodata: 0, !!! Important!
-              bands: [0],
+              bands: [1],
               min: s.min,
               max: s.max
             }
