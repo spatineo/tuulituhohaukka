@@ -19,6 +19,7 @@ interface Props {
 const BandList: React.FC<Props> = ({ bands, color, mapComponentIndex }) => {
   const colorData = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
   const [searchText, setSearchText] = React.useState('')
+  const [listWidth, setListWidth] = React.useState(250)
 
   const clonedBands = _.cloneDeep(bands)
   // If dataset is selected and bands are loaded -> add another item that allows unselecting
@@ -38,6 +39,15 @@ const BandList: React.FC<Props> = ({ bands, color, mapComponentIndex }) => {
 
   const filteredBands = searchAndFilter(searchText)
 
+  // Calculate width of parent element
+
+  window.addEventListener('resize', handleResize)
+  function handleResize() {
+    const MapContainerWidth = document.getElementById('MapContainer')?.parentElement?.clientWidth as number
+    const CalculatedWidth = MapContainerWidth * 0.45
+    setListWidth(CalculatedWidth)
+  }
+
   const switchColorList = (color: string | undefined) => {
     switch (color) {
       case 'red': {
@@ -45,7 +55,7 @@ const BandList: React.FC<Props> = ({ bands, color, mapComponentIndex }) => {
           <Grid item xs={12}>
             <FixedSizeList
               height={200}
-              width={200}
+              width={listWidth}
               itemSize={30}
               itemCount={filteredBands.length}
               itemData={{
