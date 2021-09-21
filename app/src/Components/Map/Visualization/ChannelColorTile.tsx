@@ -17,7 +17,10 @@ const ChannelColorTile: React.FC<Props> = ({ text, letter, color, setClicked }) 
       <Grid item xs={12}>
         <div
           className={classes.ballContainer}
-          onClick={() => setClicked(letter)}
+          onClick={(event) => {
+            event.stopPropagation()
+            setClicked(letter)
+          }}
         >
           <Circle text={text} color={color} borderWidth={'1'} />
         </div>
