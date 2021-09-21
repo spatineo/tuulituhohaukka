@@ -139,8 +139,7 @@ const VisualizationAccordion: React.FC<Props> = ({ isExpanded, mapComponentIndex
   return (
     <div>
       <Accordion square expanded={expanded === 'panel1' || expanded === true} onChange={handleChange('panel1')}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header" >
-
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header" style={{ maxHeight: '100px' }}>
           <Grid container direction='column'>
             <Grid container item direction='row' justify='space-evenly' >
               <Grid item xs={3}>
@@ -154,7 +153,6 @@ const VisualizationAccordion: React.FC<Props> = ({ isExpanded, mapComponentIndex
               </Grid>
             </Grid>
           </Grid>
-
         </AccordionSummary>
         <AccordionDetails>
           {switchListColor(clickedColorTile)}
