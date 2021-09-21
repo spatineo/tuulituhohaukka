@@ -16,26 +16,39 @@ import VisualizationAccordion from './VisualizationAccordion'
 interface Props {
   mapObject: Map,
   mapComponentIndex: number
-  datasets: Dataset[]
 }
 
-const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets }) => {
+const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
   const inspectionDate = useSelector((state: RootState): string => state.dataReducer.data.global.inspectionDate)
   const selectedDataset = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].selectedDataset)
   const editedDate = new Date(inspectionDate).toISOString().split("T")[0]
   const classes = useStyles()
   const dispatch = useDispatch()
+  const [itemObject, setItemObject] = React.useState({ items: [] } as { items: any });
+  const [allDatasets, setAllDatasets] = React.useState([] as any[]);
 
-  let itemObject: { items: any[] } = { items: [] }
+  React.useEffect(() => {
+    getAllDatasets().then(allDatasets => {
+      setAllDatasets(() => {
+        return allDatasets;
+      })
+    })
+  }, [])
+
+  const datasetCatalog = allDatasets.find((c: any) => c.id === selectedDataset) || {}
 
   // UNCOMMENT THIS TO FETCH MAP ITEMS
-  if (inspectionDate && selectedDataset) {
-    itemObject = getItemsForDatasetAndTime(selectedDataset, inspectionDate) as { items: any[] }
-  }
+  React.useEffect(() => {
+    if (inspectionDate && selectedDataset) {
+      getItemsForDatasetAndTime(selectedDataset, inspectionDate).then((ret: any) => {
+        setItemObject(() => {
+          return ret
+        })
+      })
+    }
+  }, [selectedDataset, inspectionDate])
 
   const item = (itemObject && itemObject.items && itemObject.items.length) > 0 ? itemObject.items[0] : null;
-
-  const datasetCatalog = getAllDatasets()?.find((c: any) => c.id === selectedDataset);
 
   let dateStr = '';
   if (item?.properties?.datetime) {
@@ -44,6 +57,12 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets 
     dateStr = new Date(item?.properties?.start_datetime).toISOString().split("T")[0] + ' - ' + new Date(item?.properties?.end_datetime).toISOString().split("T")[0];
   } else if (!item) {
     dateStr = 'N/A'
+  }
+
+  let temporalInterval = '';
+  if (datasetCatalog?.extent?.temporal?.interval) {
+    const interval = datasetCatalog?.extent?.temporal?.interval
+    temporalInterval = `(${interval[0].substring(0, 10)} - ${interval[1].substring(0, 10)})`
   }
 
   return (
@@ -68,13 +87,14 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex, datasets 
         <Grid container>
           <Grid container item xs={12} justify='center' alignItems='center'>
             <div style={{ fontSize: '14px' }}>{datasetCatalog ? datasetCatalog.title : '-'}</div>
+            <div style={{ fontSize: '14px', paddingLeft: '1em' }}>{temporalInterval}</div>
           </Grid>
         </Grid>
       </div>
       <div className={classes.menuContainer}>
         <div className={classes.dropDown}>
-          <SlimAccordion name={`${selectedDataset}`} isExpanded={false}>
-            <DatasetList datasets={datasets} mapComponentIndex={mapComponentIndex} />
+          <SlimAccordion name={'Aineistot'} isExpanded={false}>
+            <DatasetList datasets={allDatasets} mapComponentIndex={mapComponentIndex} />
           </SlimAccordion>
         </div>
         <div className={classes.dropDown}>

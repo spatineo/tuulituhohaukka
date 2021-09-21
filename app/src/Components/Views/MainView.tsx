@@ -56,7 +56,7 @@ const MainView: React.FC = (props: any) => {
       }
     }
     const objectAsString = JSON.stringify(newStateObject)
-    const URL = encodeURI(`http://localhost:3000/stateData/${objectAsString}`)
+    const URL = encodeURI(`${location.protocol}//${location.host}/stateData/${objectAsString}`)
     console.log('URL with state: ', URL)
     return URL
   }
@@ -101,7 +101,7 @@ const MainView: React.FC = (props: any) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Tuulituhohaukka 🌪 💥 🦅
+            Tuulituhohaukka BETA
           </Typography>
         </Toolbar>
       </AppBar>
@@ -155,7 +155,7 @@ const MainView: React.FC = (props: any) => {
               </Button>
 
 
-              <Typography style={{ fontSize: '13px' }}>Inspection Date:</Typography>
+              <Typography style={{ fontSize: '13px' }}>Tarkastelupäivä</Typography>
               <Typography style={{ fontSize: '13px' }}>{inspectionDate.slice(0, 10)}</Typography>
 
             </div>
@@ -187,9 +187,9 @@ const MainView: React.FC = (props: any) => {
                   color='primary'
                   style={{ color: 'white' }}
                   onClick={() => {
-                    window.prompt('Copy the link from here ⬇️', createUrl())
+                    window.prompt('Kopioi linkki alta ⬇️', createUrl())
                   }}>
-                  Copy URL to clipboard
+                  Jaettava linkki
                 </Button>
 
               </ThemeProvider>

@@ -1,9 +1,3 @@
-export const LOAD_CATALOG = 'LOAD_ROOT_CATALOG'
-export const SET_ROOT_CATALOG = 'SET_ROOT_CATALOG'
-export const CATALOG_FETCH_START = 'CATALOG_FETCH_START'
-export const CATALOG_FETCH_FINISHED = 'CATALOG_FETCH_FINISHED'
-export const CATALOG_FETCH_FAILED = 'CATALOG_FETCH_FAILED'
-
 export const LOAD_INITIAL_SETUP = 'LOAD_INITIAL_SETUP'
 export const SET_INITIAL_SETUP = 'SET_INITIAL_SETUP'
 export const SET_STATE_FROM_URL = 'SET_STATE_FROM_URL'
@@ -31,27 +25,6 @@ interface SetDataAction {
   type: string
   payload: Record<string, unknown>
 }
-
-// _____ Catalog & Data
-export const loadCatalog = (data: Record<string, unknown>): SetDataAction => ({
-  type: LOAD_CATALOG,
-  payload: data
-})
-
-export const catalogFetchStart = (data: Record<string, unknown>): SetDataAction => ({
-  type: CATALOG_FETCH_START,
-  payload: data
-})
-
-export const catalogFetchFinished = (data: Record<string, unknown>): SetDataAction => ({
-  type: CATALOG_FETCH_FINISHED,
-  payload: data
-})
-
-export const catalogFetchFailed = (data: Record<string, unknown>): SetDataAction => ({
-  type: CATALOG_FETCH_FAILED,
-  payload: data
-})
 
 
 // _____ datasets && Bands

@@ -7,29 +7,25 @@ import { createStyles, makeStyles, ThemeProvider } from '@material-ui/core/style
 import { Button, Grid } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import MapComponent from '../Map/General/MapComponent'
-import { getAllDatasets } from '../../API/Api'
 import { greenTheme } from '../../Theme/theme'
+
+function createMapId() {
+  return Math.random().toString(36).substr(2, 9);
+}
 
 const MapView: React.FC = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const mapData = useSelector((state: RootState) => state.dataReducer.data.maps)
-  const latestMapIndex = mapData.length - 1
-  const datasets = getAllDatasets() as Dataset[]
-  const cache = useSelector((state: RootState) => state.dataReducer.cache)
-
-  React.useEffect(() => {
-    getAllDatasets()
-  }, [cache])
 
   const payload = {
     "mapObject": {
-      "id": latestMapIndex + 1,
-      "selectedDataset": "Sentinel-2_global_mosaic_dekadi",
+      "id": createMapId(),
+      "selectedDataset": null,
       "channelSettings": {
-        "R": "b04",
-        "G": "b03",
-        "B": "b01"
+        "R": null,
+        "G": null,
+        "B": null
       },
       "displayWindDamageVector": true,
       "displaySpyglass": false,
@@ -70,7 +66,6 @@ const MapView: React.FC = () => {
               <MapComponent
                 mapObject={mapObject}
                 mapComponentIndex={index}
-                datasets={datasets}
               />
             </Grid>)
         })}

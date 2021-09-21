@@ -3,7 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateMapExtent } from '../../../Store/Actions/data'
 import TileLayer from 'ol/layer/WebGLTile';
-import GeoTIFF, { SourceInfo } from 'ol/source/GeoTIFF';
+import GeoTIFF from 'ol/source/GeoTIFF';
 import Projection from 'ol/proj/Projection';
 import * as ol from 'ol'
 import { MouseWheelZoom, defaults } from 'ol/interaction';
@@ -35,7 +35,6 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
   const mapRef = React.useRef<HTMLElement>()
 
   const initializeOL = React.useCallback(() => {
-    console.log('Initialize!')
     const map = new ol.Map({
       interactions: defaults({ mouseWheelZoom: false }).extend([
         new MouseWheelZoom({
@@ -90,6 +89,15 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
   }, [mapExtent])
 
   React.useEffect(() => {
+    const oldLayers = map?.getLayers() || [];
+    oldLayers.forEach((l: any) => map?.removeLayer(l))
+
+    console.log('DATASET',datasetCatalog?.id)
+    if ((datasetCatalog?.id || '').indexOf('Sentinel-2_global_tile') !== -1) {
+      console.log('not showing ya!')
+      return;
+    }
+
     const colors = [{ colorStr: 'R', color: RED }, { colorStr: 'G', color: GREEN }, { colorStr: 'B', color: BLUE }];
 
     function getVisualisation(band: string) {
@@ -115,12 +123,17 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
       .map(c => {
         const vis = getVisualisation(channelSettings[c.colorStr]);
         return {
-          url: item.assets[channelSettings[c.colorStr]].sourceUrl,
+          url: item.assets[channelSettings[c.colorStr]].href,
           color: c.color,
           min: vis.min,
           max: vis.max
         }
       });
+
+    // Skip rest if no sources to draw
+    if (sources.length === 0) {
+      return;
+    }
 
     // adds bands together for a single color value
     function sumBands(sources: { url: string, color: number }[], targetColor: number) {
@@ -136,8 +149,6 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
       }, 0 as any)
     }
 
-    const oldLayers = map?.getLayers() || [];
-    oldLayers.forEach((l: any) => map?.removeLayer(l))
 
     const layer = new TileLayer({
       style: {
@@ -164,6 +175,17 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
     map?.addLayer(layer);
 
   }, [item, datasetCatalog, channelSettings]);
+
+  React.useEffect(() => {
+    // Anything in here is fired on component mount.
+    return () => {
+        // Anything in here is fired on component unmount.
+        console.log('OL unmount!');
+        const oldLayers = map?.getLayers() || [];
+        oldLayers.forEach((l: any) => { l.getSource().clear(); l.setSource(undefined); map?.removeLayer(l) })
+        map?.setTarget(null)
+    }
+  }, [])
 
   const classes = useStyles()
   return (
@@ -193,7 +215,7 @@ const useStyles = makeStyles(() =>
       backgroundPosition: 'center',
       margin: 0,
       padding: 0,
-      zIndex: 10000,
+      zIndex: 100,
       position: 'absolute'
     }
   }))

@@ -1,6 +1,6 @@
-import { store } from '../App'
-import { loadCatalog } from '../Store/Actions/data'
 import { Dataset } from '../types'
+
+const CATALOG_ROOT = 'https://s3.eu-west-1.amazonaws.com/directory.spatineo.com/tmp/tuulituhohaukka-stac/catalog/root2.json'
 
 interface RootCatalog {
   type?: string,
@@ -25,138 +25,150 @@ interface CreatedLinkObject {
   time_end: Date
 }
 
-const CATALOG_ROOT = 'https://s3.eu-west-1.amazonaws.com/directory.spatineo.com/tmp/tuulituhohaukka-stac/catalog/root2.json'
+//const debug = console.log;
+const debug = function (...args: any[]) { /* NOP */ }
 
-// Helper function
-const getCatalogHelper = (url: string) => {
-  console.log('API: Helper function called. Checking if catalog can be found for given url')
-  const ReduxState = store.getState()
-  const catalog = ReduxState.dataReducer.cache.catalog[url]
-  if (!catalog) {
-    console.log('API: No catalog found for given url from cache. Dispatching action to load more..')
-    store.dispatch(loadCatalog({ url: url }))
-    return {}
-  } else {
-    console.log('API: catalog found! returning catalog')
-    return catalog
+const CACHE : Record<string, Promise<Response> | undefined> = {}
+
+async function get(url : string) {
+  let promise = CACHE[url];
+  if (promise === undefined) {
+    promise = fetch(url, { method: 'GET' }).then(r => r.json())
+    CACHE[url] = promise;
   }
+
+  return await promise;
 }
+
 // 1. get root catalog
 // 2. get all datasets catalog
 // 3. read id and title from each dataset catalog and return as an array of objects {datasets: [{id: 'foo', title: 'bar'}, {...}]}
-export const getAllDatasets = (): any | undefined => {
-  console.log('API: getAllDatasets Called')
-  const ReduxState = store.getState()
-  const rootCatalog: RootCatalog = ReduxState.dataReducer.cache.catalog[CATALOG_ROOT]
-  console.log('RootCatalog from server: ', rootCatalog)
+export const getAllDatasets = (): Promise<any[]> => {
 
-  if (rootCatalog && Object.keys(rootCatalog).length === 0 || rootCatalog == undefined) {
-    console.log('API: Root catalog not found. Dispatching action to download root catalog')
-    store.dispatch(loadCatalog({ url: CATALOG_ROOT }))
-    return []
-  }
-  else {
-    if (rootCatalog.links) {
-      const datasets = rootCatalog.links.filter((link: Link) => link.rel === 'child')
+  debug('API: getAllDatasets Called')
+  return new Promise((resolve, reject) => {
+    get(CATALOG_ROOT).then((rootCatalog : any) => {
+      const datasetPromises = rootCatalog.links.filter((link: Link) => link.rel === 'child')
         .map((link: Link) => {
-          console.log('API: Looping to get next level inside catalog 🔁 ')
-          console.log('API: Current link to fetch is: ', link.href)
-          const catalog = getCatalogHelper(link.href)
-          return catalog
-        })
-        .filter((catalog) => catalog.id !== undefined)
-      console.log('Dataset returned from getAllDatasets: ', datasets)
-      return datasets
-    }
-  }
+          debug('API: Looping to get next level inside catalog 🔁 ')
+          debug('API: Current link to fetch is: ', link.href)
+          return get(link.href)
+        });
+      Promise.all(datasetPromises).then(resolve).catch(reject)
+    }).catch(reject)
+  });
 }
 
 // 1. get all dataset catalogs
 // 2. find the dataset catalog with given id
 // 3. return bands from selecte dataset catalog contents
-export const getBandsForDataset = (id: string): any => {
-  console.log('API: getBandsForDatasets called!')
-  const dataSets = getAllDatasets()
-  console.log('API: Datasets returned: ', dataSets)
-  const dataSetById = dataSets?.find((dataset: Dataset) => dataset.id == id)
-  console.log('API: Dataset with given id: ', dataSetById)
-  const bands = dataSetById.summaries.bands
-  console.log('API: Bands to return: ', bands)
-  return bands
-}
-
-
-// 1. get root catalog
-// 2. get all dataset catalogs
-// 3. find the dataset catalog with given id
-// 4. identify dataset-time catalog that overlap with "inspectionTime" and the next dataset-time catalog (in time order)
-// 5. get dataset-time catalogs that were identified in step 4
-// 6. get all items in the two dataset-time catalogs identified in step 4
-// 7. place items from step 6 in order (per time) and select the first item where startdate (or time) is after inspectionTime 
-// 8. return data
-
-export const getItemsForDatasetAndTime = (datasetId: string, inspectionTime: string) => {
-  console.log('API: getItemsForDatasetAndTime called!')
-
-  const createLinkObject = (link: Link) => {
-    return {
-      href: link.href,
-      time_start: link.time ? new Date(link.time.time_start) : null,
-      time_end: link.time ? new Date(link.time.time_end) : null
-    }
-  }
-
-  const sortObjectByTime = (a: CreatedLinkObject, b: CreatedLinkObject) => a.time_start.getTime() - b.time_start.getTime()
-  const dataSets = getAllDatasets()
-  const dataSetById = dataSets?.find((dataSet: any) => dataSet.id == datasetId)
-  const inspectionDate = new Date(inspectionTime)
-  const listOfSubCatalogs = dataSetById?.links.filter((link: Link) => link.rel === 'child').map(createLinkObject)
-  if (!listOfSubCatalogs) {
-    return { items: [ /* items */] }
-  }
-
-  // sort list in timely order
-  listOfSubCatalogs.sort(sortObjectByTime)
-  console.log('API: ListOfSubCatalogs: ', listOfSubCatalogs)
-
-  let index = listOfSubCatalogs.findIndex((object: any) => inspectionDate.getTime() < object.time_end.getTime())
-  console.log('API: found following: ', index)
-
-  if (index === -1) {
-    console.log('There are no catalogs after inspection time')
-  } else {
-
-    // Loop untill wanted item is found
-    for (; index < listOfSubCatalogs.length; index++) {
-      const href = listOfSubCatalogs[index].href
-      const datasetTimeCatalog = getCatalogHelper(href) as any
-
-      if (!datasetTimeCatalog.links) {
-        return { items: [ /* items */] }
-      }
-
-      const items = datasetTimeCatalog.links.filter((link: Link) => link.rel === 'item').map(createLinkObject)
-      items.sort(sortObjectByTime)
-      console.log('API: Sorted items ', items)
-
-      // Find item that starts after inspection time
-      const foundItem = items.find((item: any) => inspectionDate.getTime() < item.time_start.getTime())
-      if (foundItem) {
-        console.log('API: Item found! Starting to fetch next level in catalog..')
-        const fetchedItem = getCatalogHelper(foundItem.href)
-
-        if (!fetchedItem.links) {
-          console.log('API: Item not yet downloaded')
-          return { items: [ /* items */] }
+export const getBandsForDataset = (id: string): Promise<any> => {
+  debug('API: getBandsForDatasets called!')
+  return new Promise((resolve, reject) => {
+    getAllDatasets().then((dataSets : any[]) => {
+        const dataSetById = dataSets.find((dataset: Dataset) => dataset.id == id)
+        if (dataSetById) {
+            resolve(dataSetById.summaries.bands)
         } else {
-          console.log('API: found the item ✅', fetchedItem)
-          return { items: [fetchedItem] }
+            reject('on such dataset: '+id)
         }
-      }
-      console.log('API: Item not found, loop will run again 🔁')
-    }
-    return { items: [ /* items */] }
-  }
-  return { items: [ /* items */] }
+    }).catch(reject);
+  })
 }
 
+// Get item that is either spans inspectionTime or is the newest one before inspectionTime
+const getItemsForDatasetAndTime_currentOrPrevious = (datasetId: string, inspectionTime: string) => {
+  const inspectionDate = new Date(inspectionTime)
+  return getItemsForDatasetAndTime_generic(
+    datasetId, 
+    inspectionDate,
+    (a: CreatedLinkObject, b: CreatedLinkObject) => -(a.time_start.getTime() - b.time_start.getTime()),
+    (object: any) => object.time_start.getTime() <= inspectionDate.getTime(),
+    (item: any) => item.time_start.getTime() <= inspectionDate.getTime())
+}
+
+const getItemsForDatasetAndTime_next = (datasetId: string, inspectionTime: string) => {
+  const inspectionDate = new Date(inspectionTime)
+  return getItemsForDatasetAndTime_generic(
+    datasetId, 
+    inspectionDate,
+    (a: CreatedLinkObject, b: CreatedLinkObject) => a.time_start.getTime() - b.time_start.getTime(),
+    (object: any) => inspectionDate.getTime() < object.time_end.getTime(),
+    (item: any) => inspectionDate.getTime() < item.time_start.getTime())
+}
+
+// Currently the default mode is to get the currentOrPrevious
+export const getItemsForDatasetAndTime = getItemsForDatasetAndTime_currentOrPrevious
+
+const getItemsForDatasetAndTime_generic = (
+  datasetId: string, 
+  inspectionDate: Date, 
+  sortObjectComparison: (a: CreatedLinkObject, b: CreatedLinkObject) => number,
+  pickStartingCatalog: (object: any) => boolean,
+  pickItem: (item: any) => boolean) => {
+  debug('API: getItemsForDatasetAndTime called!')
+
+  return new Promise((resolve, reject) => {
+
+    const createLinkObject = (link: Link) => {
+        return {
+        href: link.href,
+        time_start: link.time ? new Date(link.time.time_start) : null,
+        time_end: link.time ? new Date(link.time.time_end) : null
+        }
+    }
+
+    getAllDatasets().then((dataSets) => {
+
+        const dataSetById = dataSets.find((dataSet: any) => dataSet.id == datasetId)
+        if (!dataSetById) {
+            return reject('No such dataset: '+datasetId)
+        }
+        const listOfSubCatalogs = dataSetById.links.filter((link: Link) => link.rel === 'child').map(createLinkObject)
+
+        // sort list in timely order
+        listOfSubCatalogs.sort(sortObjectComparison)
+        debug('API: ListOfSubCatalogs: ', listOfSubCatalogs)
+
+        // Find the first dataset-time catalog that might contain inspectionDate
+        const index = listOfSubCatalogs.findIndex(pickStartingCatalog)
+
+        const workingList = index === -1 ? [] : listOfSubCatalogs.slice(index) as any[]
+
+        const findCatalogAndItems = (workingList : any[]) => {
+            return new Promise((resolve, reject) => {
+                if (workingList.length == 0) {
+                    debug('There are no items matching what we wanted')
+                    return resolve({ items: [ /* items */] })
+                }
+                const obj = workingList.splice(0,1)[0]
+                get(obj.href).then((datasetTimeCatalog : any) => {
+
+                    const items = datasetTimeCatalog.links.filter((link: Link) => link.rel === 'item').map(createLinkObject)
+                    items.sort(sortObjectComparison)
+                    debug('API: Sorted items ', items)
+
+                    // Find item that starts after inspection time
+                    const foundItem = items.find(pickItem)
+                    if (foundItem) {
+                        debug('API: Item found! Finding neighbours (same start and endtime)..')
+                        const allRelevantItems = items.filter((i : any) => i.time_start?.getTime() === foundItem.time_start?.getTime() && i.time_end?.getTime() === foundItem.time_end?.getTime())
+                        debug('API: Found', allRelevantItems.length, 'items')
+
+                        const itemFetchPromises = allRelevantItems.map((i : any) => get(i.href))
+                        Promise.all(itemFetchPromises).then(items => {
+                            debug('API: Fetched', items.length, 'items')
+                            resolve({ items: items })
+                        }).catch(reject)
+                    } else {
+                        // Try the next catalog: note, the workingList has been spliced, so this call wll process the next item
+                        findCatalogAndItems(workingList).then(resolve).catch(reject)
+                    }
+                }).catch(reject)
+            })
+        }
+        findCatalogAndItems(workingList).then(resolve).catch(reject)
+
+    }).catch(reject)
+  })
+}
