@@ -2,76 +2,40 @@ import * as React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { ButtonBase, Typography } from '@material-ui/core'
-import { setInspectionDate, setSelectedMonth } from '../../Store/Actions/data'
+import { setInspectionDate } from '../../Store/Actions/data'
 import { RootState } from '../../App'
 
 interface Props {
-  month: string
   selectedType: string
-  index: number
+  dateToSelect: Date
 }
 
-const MonthElement: React.FC<Props> = ({ month, selectedType, index }) => {
+const MonthElement: React.FC<Props> = ({ selectedType, dateToSelect }) => {
 
-  const inspectionDate = useSelector((state: RootState) => state.dataReducer.data.global.inspectionDate)
+  const inspectionDate = useSelector((state: RootState) => new Date(state.dataReducer.data.global.inspectionDate))
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  let date: Date
-  let monthNumber: number
+  const months = ['Tam', 'Hel', 'Maal', 'Huht', 'Touk', 'Kesä', 'Hei', 'Elo', 'Syys', 'Loka', 'Mar', 'Jou']
 
-  if (selectedType === 'inspection') {
-    date = new Date(inspectionDate)
-    monthNumber = date.getMonth()
-  } else {
-    date = new Date(inspectionDate)
-    monthNumber = date.getMonth()
+  const month = months[dateToSelect.getMonth()]
+
+  const setMonth = (dateToSelect: Date) => {
+    console.log('Setting inspectionDate', dateToSelect, month)
+    dispatch(setInspectionDate({ inspectionDate: dateToSelect.toISOString() }))
   }
 
-  const setMonth = (index: number) => {
-    if (selectedType === 'inspection') {
-      const editedDate = new Date(date.setMonth(index))
-      editedDate.setDate(1)
-      dispatch(setInspectionDate({ inspectionDate: editedDate.toISOString() }))
-    } else if (selectedType === 'comparison') {
-      if (inspectionDate === '') {
-        const date = new Date()
-        const editedDate = new Date(date.setMonth(index))
-        editedDate.setDate(1)
-        dispatch(setInspectionDate({ inspectionDate: editedDate.toISOString() }))
-      } else {
-        const editedDate = new Date(date.setMonth(index))
-        editedDate.setDate(1)
-        dispatch(setInspectionDate({ inspectionDate: editedDate.toISOString() }))
-      }
-    }
-  }
+  const isSelectedMonth = 
+      dateToSelect.getFullYear() === inspectionDate.getFullYear() && 
+      dateToSelect.getMonth()    === inspectionDate.getMonth()
 
-  if (monthNumber === index && selectedType === 'inspection') {
-    return (
-      <div className={classes.redStyle}>
-        <ButtonBase onClick={() => setMonth(index)}>
-          <Typography style={{ fontSize: '9px' }}>{month}</Typography>
-        </ButtonBase>
-      </div>
-    )
-  } else if (monthNumber === index && selectedType === 'comparison') {
-    return (
-      <div className={classes.blueStyle}>
-        <ButtonBase onClick={() => console.log('I was clicked!')} >
-          <Typography style={{ fontSize: '9px' }}>{month}</Typography>
-        </ButtonBase>
-      </div>
-    )
-  } else {
-    return (
-      <div className={classes.noStyle}>
-        <ButtonBase onClick={() => setMonth(index)} >
-          <Typography style={{ fontSize: '9px' }}>{month}</Typography>
-        </ButtonBase>
-      </div>
-    )
-  }
+  return (
+    <div className={isSelectedMonth ? classes.redStyle : classes.noStyle}>
+      <ButtonBase onClick={() => setMonth(dateToSelect)}>
+        <Typography style={{ fontSize: '9px' }}>{month}</Typography>
+      </ButtonBase>
+    </div>
+  )
 }
 
 const useStyles = makeStyles(() =>
