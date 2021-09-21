@@ -25,9 +25,11 @@ const DatasetListItem: React.FC<ListChildComponentProps> = ({ data, index, style
   const dispatch = useDispatch()
 
   React.useEffect(() => {
-    getBandsForDataset(selectedDataset).then((bands) => {
-      dispatch(setBands({ bands: bands, mapComponentIndex: mapComponentIndex }))
-    })
+    if (selectedDataset !== null && selectedDataset !== undefined) {
+      getBandsForDataset(selectedDataset).then((bands) => {
+        dispatch(setBands({ bands: bands, mapComponentIndex: mapComponentIndex }))
+      })
+    }
   }, [selectedDataset, mapComponentIndex])
 
   return (
