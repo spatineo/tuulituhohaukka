@@ -12,6 +12,15 @@ const debug = function (...args: any[]) { console.log('Tuulituhot:', ...args) }
 
 const SMK_FEATURE_SERVICE = 'https://aineistot.metsakeskus.fi/metsakeskus/rest/services/Metsatieto/MKItuhot/FeatureServer/0/query/'
 
+function simplifyTime(time : number) {
+    const date = new Date(time)
+    date.setHours(0)
+    date.setMinutes(0)
+    date.setMinutes(0)
+    date.setMilliseconds(0)
+    return date.getTime()
+}
+
 export function getTuulituhotDaily(time_start : Date, time_end : Date) : Promise<TuulituhoResult> {
     return new Promise((resolve, reject) => {
         const url = new URL(SMK_FEATURE_SERVICE)
@@ -27,7 +36,7 @@ export function getTuulituhotDaily(time_start : Date, time_end : Date) : Promise
         fetch(url.toString(), { method: 'GET' }).then(response => {
             response.json().then(data => {
                 resolve({
-                    data : data.features.map((f : any) => ({ time : f.attributes.mki_saapumispvm, count : f.attributes.stats }))
+                    data : data.features.map((f : any) => ({ time : simplifyTime(f.attributes.mki_saapumispvm), count : f.attributes.stats }))
                 })
             }).catch(reject)
         }).catch(reject)

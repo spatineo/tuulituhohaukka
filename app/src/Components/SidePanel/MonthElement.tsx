@@ -21,7 +21,6 @@ const MonthElement: React.FC<Props> = ({ selectedType, dateToSelect }) => {
   const month = months[dateToSelect.getMonth()]
 
   const setMonth = (dateToSelect: Date) => {
-    console.log('Setting inspectionDate', dateToSelect, month)
     dispatch(setInspectionDate({ inspectionDate: dateToSelect.toISOString() }))
   }
 
