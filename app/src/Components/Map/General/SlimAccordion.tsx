@@ -6,6 +6,47 @@ import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
+interface Props {
+  children: React.ReactNode
+  name: string
+  date?: string
+  temporalInterval?: string
+  isExpanded: boolean
+}
+
+const SlimAccordion: React.FC<Props> = ({ children, name, date, temporalInterval, isExpanded }) => {
+  const [expanded, setExpanded] = React.useState<string | boolean>(isExpanded);
+
+  const handleChange = (panel: string) => (event: React.ChangeEvent<Record<string, unknown>>, newExpanded: boolean) => {
+    setExpanded(newExpanded ? panel : false);
+  };
+
+  /* 
+    Todo:
+
+    1. Create string shortening function (copy from color bubbles..?)
+    2. Add start and end time of the displayed content (see Sampo´s code how this was done..?)
+  
+  */
+
+
+  return (
+    <div>
+      <Accordion square expanded={expanded === 'panel1' || expanded === true} onChange={handleChange('panel1')}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header" >
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography style={{ fontSize: '14px' }}>{name}</Typography>
+            <Typography style={{ fontSize: '14px' }}>{temporalInterval}</Typography>
+          </div>
+        </AccordionSummary>
+        <AccordionDetails>
+          {children}
+        </AccordionDetails>
+      </Accordion>
+    </div>
+  );
+}
+
 const Accordion = withStyles({
   root: {
     boxSizing: 'border-box',
@@ -49,44 +90,5 @@ const AccordionDetails = withStyles((theme) => ({
     padding: theme.spacing(0),
   },
 }))(MuiAccordionDetails);
-
-interface Props {
-  children: React.ReactNode
-  name: string
-  isExpanded: boolean
-}
-
-const SlimAccordion: React.FC<Props> = ({ children, name, isExpanded }) => {
-  const [expanded, setExpanded] = React.useState<string | boolean>(isExpanded);
-
-  const handleChange = (panel: string) => (event: React.ChangeEvent<Record<string, unknown>>, newExpanded: boolean) => {
-    setExpanded(newExpanded ? panel : false);
-  };
-
-  /* 
-    Todo:
-
-    1. Create string shortening function (copy from color bubbles..?)
-    2. Add start and end time of the displayed content (see Sampo´s code how this was done..?)
-  
-  */
-
-
-  return (
-    <div>
-      <Accordion square expanded={expanded === 'panel1' || expanded === true} onChange={handleChange('panel1')}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header" >
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography style={{ fontSize: '14px' }}>{name}</Typography>
-            <Typography style={{ fontSize: '14px' }}>{name}</Typography>
-          </div>
-        </AccordionSummary>
-        <AccordionDetails>
-          {children}
-        </AccordionDetails>
-      </Accordion>
-    </div>
-  );
-}
 
 export default SlimAccordion
