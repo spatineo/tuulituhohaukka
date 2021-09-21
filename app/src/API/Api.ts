@@ -1,5 +1,3 @@
-import { store } from '../App'
-import { loadCatalog } from '../Store/Actions/data'
 import { Dataset } from '../types'
 
 const CATALOG_ROOT = 'https://s3.eu-west-1.amazonaws.com/directory.spatineo.com/tmp/tuulituhohaukka-stac/catalog/root2.json'

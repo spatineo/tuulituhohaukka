@@ -1,6 +1,3 @@
-export const LOAD_CATALOG = 'LOAD_CATALOG'
-export const CATALOG_FETCH_FINISHED = 'CATALOG_FETCH_FINISHED'
-
 export const LOAD_INITIAL_SETUP = 'LOAD_INITIAL_SETUP'
 export const SET_INITIAL_SETUP = 'SET_INITIAL_SETUP'
 export const SET_STATE_FROM_URL = 'SET_STATE_FROM_URL'
@@ -29,16 +26,6 @@ interface SetDataAction {
   payload: Record<string, unknown>
 }
 
-// _____ Catalog & Data
-export const loadCatalog = (data: Record<string, unknown>): SetDataAction => ({
-  type: LOAD_CATALOG,
-  payload: data
-})
-
-export const catalogFetchFinished = (data: Record<string, unknown>): SetDataAction => ({
-  type: CATALOG_FETCH_FINISHED,
-  payload: data
-})
 
 // _____ datasets && Bands
 export const setAllDatasets = (data: Record<string, unknown>): SetDataAction => ({

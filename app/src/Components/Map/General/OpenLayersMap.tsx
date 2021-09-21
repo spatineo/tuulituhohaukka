@@ -92,6 +92,12 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
     const oldLayers = map?.getLayers() || [];
     oldLayers.forEach((l: any) => map?.removeLayer(l))
 
+    console.log('DATASET',datasetCatalog?.id)
+    if ((datasetCatalog?.id || '').indexOf('Sentinel-2_global_tile') !== -1) {
+      console.log('not showing ya!')
+      return;
+    }
+
     const colors = [{ colorStr: 'R', color: RED }, { colorStr: 'G', color: GREEN }, { colorStr: 'B', color: BLUE }];
 
     function getVisualisation(band: string) {
