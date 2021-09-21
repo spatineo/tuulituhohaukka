@@ -95,7 +95,7 @@ const VisualizationAccordion: React.FC<Props> = ({ isExpanded, mapComponentIndex
     switch (clickedColorTile) {
       case 'R': {
         return (
-          <Grid item xs={10} >
+          <Grid item xs={12} >
             <BandList
               bands={bands}
               color={'red'}
@@ -105,7 +105,7 @@ const VisualizationAccordion: React.FC<Props> = ({ isExpanded, mapComponentIndex
       }
       case 'G': {
         return (
-          <Grid item xs={10} >
+          <Grid item xs={12} >
             <BandList
               bands={bands}
               color={'green'}
@@ -115,7 +115,7 @@ const VisualizationAccordion: React.FC<Props> = ({ isExpanded, mapComponentIndex
       }
       case 'B': {
         return (
-          <Grid item xs={10} >
+          <Grid item xs={12} >
             <BandList
               bands={bands}
               color={'blue'}
@@ -125,7 +125,7 @@ const VisualizationAccordion: React.FC<Props> = ({ isExpanded, mapComponentIndex
       }
       default: {
         return (
-          <Grid item xs={10} >
+          <Grid item xs={12} >
             <BandList
               bands={bands}
               color={'red'}
