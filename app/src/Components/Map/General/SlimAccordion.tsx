@@ -21,15 +21,6 @@ const SlimAccordion: React.FC<Props> = ({ children, name, date, temporalInterval
     setExpanded(newExpanded ? panel : false);
   };
 
-  /* 
-    Todo:
-
-    1. Create string shortening function (copy from color bubbles..?)
-    2. Add start and end time of the displayed content (see Sampo´s code how this was done..?)
-  
-  */
-
-
   return (
     <div>
       <Accordion square expanded={expanded === 'panel1' || expanded === true} onChange={handleChange('panel1')}>
