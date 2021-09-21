@@ -49,7 +49,7 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
         projection: projection
       })
     })
-    map?.on('moveend', sendUpdateExtentAction)
+    map.on('moveend', sendUpdateExtentAction)
     return map
   }, [mapRef])
 
@@ -81,22 +81,20 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
   }, [sidebarIsOpen])
 
   React.useEffect(() => {
-    if (!map?.getView().getInteracting()) {
-      map?.getView().setCenter(mapExtent.center)
-      map?.getView().setResolution(mapExtent.resolution)
-      map?.getView().setRotation(mapExtent.rotation)
+    if (!map) return;
+
+    if (!map.getView().getInteracting()) {
+      map.getView().setCenter(mapExtent.center)
+      map.getView().setResolution(mapExtent.resolution)
+      map.getView().setRotation(mapExtent.rotation)
     }
   }, [mapExtent])
 
   React.useEffect(() => {
-    const oldLayers = map?.getLayers() || [];
-    oldLayers.forEach((l: any) => map?.removeLayer(l))
+    if (!map) return;
 
-    console.log('DATASET',datasetCatalog?.id)
-    if ((datasetCatalog?.id || '').indexOf('Sentinel-2_global_tile') !== -1) {
-      console.log('not showing ya!')
-      return;
-    }
+    const oldLayers = map.getLayers() || [];
+    oldLayers.forEach((l: any) => map.removeLayer(l))
 
     const colors = [{ colorStr: 'R', color: RED }, { colorStr: 'G', color: GREEN }, { colorStr: 'B', color: BLUE }];
 
@@ -172,7 +170,7 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
           })
       })
     })
-    map?.addLayer(layer);
+    map.addLayer(layer);
 
   }, [item, datasetCatalog, channelSettings]);
 
