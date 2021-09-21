@@ -15,6 +15,7 @@ interface Props {
 const DatasetList: React.FC<Props> = ({ datasets, mapComponentIndex }) => {
   const selectedDataset = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].selectedDataset)
   const [searchText, setSearchText] = React.useState('')
+  const [listWidth, setListWidth] = React.useState(250)
 
   const searchAndFilter = (input: string) => {
     const filteredDatasets = datasets.filter((dataset: Dataset) => {
@@ -27,8 +28,16 @@ const DatasetList: React.FC<Props> = ({ datasets, mapComponentIndex }) => {
 
   const filteredDatasets = searchAndFilter(searchText)
 
+  // Calculate width of parent element
+  window.addEventListener('resize', handleResize)
+  function handleResize() {
+    const MapContainerWidth = document.getElementById('MapContainer')?.parentElement?.clientWidth as number
+    const CalculatedWidth = MapContainerWidth * 0.45
+    setListWidth(CalculatedWidth)
+  }
+
   return (
-    <div style={{ width: '100%' }}>
+    <div style={{ width: '100%' }} >
       <Grid container direction='column' spacing={2}>
         <Grid container item direction='row' xs={12} justify='center'>
           <Input
@@ -43,7 +52,7 @@ const DatasetList: React.FC<Props> = ({ datasets, mapComponentIndex }) => {
           <Grid item xs={12}>
             <FixedSizeList
               height={200}
-              width={200}
+              width={listWidth}
               itemSize={30}
               itemCount={filteredDatasets?.length}
               itemData={{
