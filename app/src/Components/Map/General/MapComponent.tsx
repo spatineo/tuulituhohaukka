@@ -83,17 +83,9 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
         </div>
         <OpenLayersMap datasetCatalog={datasetCatalog} item={item} channelSettings={mapObject.channelSettings} />
       </div>
-      <div className={classes.footer}>
-        <Grid container>
-          <Grid container item xs={12} justify='center' alignItems='center'>
-            <div style={{ fontSize: '14px' }}>{datasetCatalog ? datasetCatalog.title : '-'}</div>
-            <div style={{ fontSize: '14px', paddingLeft: '1em' }}>{temporalInterval}</div>
-          </Grid>
-        </Grid>
-      </div>
       <div className={classes.menuContainer}>
         <div className={classes.dropDown}>
-          <SlimAccordion name={'Aineistot'} isExpanded={false}>
+          <SlimAccordion name={datasetCatalog ? datasetCatalog.title : '-'} date={dateStr} temporalInterval={temporalInterval} isExpanded={false}>
             <DatasetList datasets={allDatasets} mapComponentIndex={mapComponentIndex} />
           </SlimAccordion>
         </div>
@@ -102,9 +94,6 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
             isExpanded={false}
             mapComponentIndex={mapComponentIndex}
           />
-          {/* <SlimAccordion name={'Visualisointi'} isExpanded={false}>
-            <NormalVisualization channelSettings={mapObject.channelSettings} mapComponentIndex={mapComponentIndex} />
-          </SlimAccordion> */}
         </div>
       </div>
     </div>
@@ -119,7 +108,7 @@ const useStyles = makeStyles(() =>
       justifyContent: 'flex-start',
       alignItems: 'center',
       width: '100%',
-      aspectRatio: '4/3',
+      aspectRatio: '11/10',
     },
     mapBox: {
       display: 'flex',
