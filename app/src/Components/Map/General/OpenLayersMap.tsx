@@ -173,7 +173,7 @@ const OpenLayersMap: React.FC<Props> = ({ items, datasetCatalog, channelSettings
         })
       })
       return layer;
-    }).forEach(layer => map.addLayer(layer))
+    }).filter(layer => !!layer).forEach(layer => map.addLayer(layer))
 
   }, [items, datasetCatalog, channelSettings]);
 
