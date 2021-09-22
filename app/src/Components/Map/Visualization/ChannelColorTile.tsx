@@ -2,16 +2,18 @@ import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { Grid } from '@material-ui/core'
 import Circle from './Circle'
+import { useDispatch } from 'react-redux'
+import { setClickedColorTile } from '../../../Store/Actions/data'
 
 interface Props {
   text: string
   letter: string
   color: string
-  setClicked: any
 }
 
-const ChannelColorTile: React.FC<Props> = ({ text, letter, color, setClicked }) => {
+const ChannelColorTile: React.FC<Props> = ({ text, letter, color }) => {
   const classes = useStyles()
+  const dispatch = useDispatch()
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -19,7 +21,7 @@ const ChannelColorTile: React.FC<Props> = ({ text, letter, color, setClicked }) 
           className={classes.ballContainer}
           onClick={(event) => {
             event.stopPropagation()
-            setClicked(letter)
+            dispatch(setClickedColorTile({ clickedColorTile: letter }))
           }}
         >
           <Circle text={text} color={color} borderWidth={'1'} />
@@ -33,7 +35,8 @@ const useStyles = makeStyles(() =>
   createStyles({
     ballContainer: {
       display: 'flex',
-      height: '100%',
+      maxHeight: '70px',
+      aspectRatio: '1/1',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItem: 'center',
