@@ -21,12 +21,12 @@ const projection = new Projection({
 const mouseWheelZoomAnimationTime = 75;
 
 interface Props {
-  item: any,
+  items: any[],
   datasetCatalog: any,
   channelSettings: any
 }
 
-const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings }) => {
+const OpenLayersMap: React.FC<Props> = ({ items, datasetCatalog, channelSettings }) => {
   const mapExtent = useSelector((state: any) => state.dataReducer.data.global.mapExtent)
   const sidebarIsOpen = useSelector((state: any) => state.dataReducer.data.global.sidebarIsOpen)
   const dispatch = useDispatch()
@@ -96,82 +96,88 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
     const oldLayers = map.getLayers() || [];
     oldLayers.forEach((l: any) => map.removeLayer(l))
 
-    const colors = [{ colorStr: 'R', color: RED }, { colorStr: 'G', color: GREEN }, { colorStr: 'B', color: BLUE }];
+    items.forEach(item => {
 
-    function getVisualisation(band: string) {
-      let visualisationParameters = datasetCatalog?.summaries?.visualisation_parameters?.bands?.find((b: any) => b.band === band);
-      if (!visualisationParameters) {
-        visualisationParameters = {
-          band: band,
-          min: 0,
-          max: 1
+      const colors = [{ colorStr: 'R', color: RED }, { colorStr: 'G', color: GREEN }, { colorStr: 'B', color: BLUE }];
+
+      function getVisualisation(band: string) {
+        let visualisationParameters = datasetCatalog?.summaries?.visualisation_parameters?.bands?.find((b: any) => b.band === band);
+        if (!visualisationParameters) {
+          visualisationParameters = {
+            band: band,
+            min: 0,
+            max: 1
+          }
+          // Show at least something...
+          if (datasetCatalog?.id === 'Tuulituhoriski') {
+            visualisationParameters.min = 5
+            visualisationParameters.max = 25
+          }
         }
-        // Show at least something...
-        if (datasetCatalog?.id === 'Tuulituhoriski') {
-          visualisationParameters.min = 5
-          visualisationParameters.max = 25
-        }
+        return visualisationParameters;
       }
-      return visualisationParameters;
-    }
 
-    const sources = colors
-      .filter(c => channelSettings[c.colorStr])
-      .filter(c => item && item.assets && item.assets[channelSettings[c.colorStr]])
-      .map(c => {
-        const vis = getVisualisation(channelSettings[c.colorStr]);
-        return {
-          url: item.assets[channelSettings[c.colorStr]].href,
-          color: c.color,
-          min: vis.min,
-          max: vis.max
-        }
-      });
+      
+      const sources = colors
+        .filter(c => channelSettings[c.colorStr])
+        .filter(c => item && item.assets && item.assets[channelSettings[c.colorStr]])
+        .map(c => {
+          const vis = getVisualisation(channelSettings[c.colorStr]);
+          return {
+            url: item.assets[channelSettings[c.colorStr]].href,
+            color: c.color,
+            min: vis.min,
+            max: vis.max
+          }
+        });
 
-    // Skip rest if no sources to draw
-    if (sources.length === 0) {
-      return;
-    }
+        // Skip rest if no sources to draw
+      if (sources.length === 0) {
+        return;
+      }
 
-    // adds bands together for a single color value
-    function sumBands(sources: { url: string, color: number }[], targetColor: number) {
-      return sources.reduce((memo, source, i) => {
-        if (source.color !== targetColor) { return memo; }
-        const item = ['band', i + 1]
-        if (memo === 0) {
-          memo = item;
-        } else {
-          memo = ['+', memo, item]
-        }
-        return memo;
-      }, 0 as any)
-    }
+      // adds bands together for a single color value
+      function sumBands(sources: { url: string, color: number }[], targetColor: number) {
+        return sources.reduce((memo, source, i) => {
+          if (source.color !== targetColor) { return memo; }
+          const item = ['band', i + 1]
+          if (memo === 0) {
+            memo = item;
+          } else {
+            memo = ['+', memo, item]
+          }
+          return memo;
+        }, 0 as any)
+      }
 
-    const layer = new TileLayer({
-      style: {
-        color:
-          ['color',
-            ['*', 255, ['clamp', sumBands(sources, RED), 0, 1]],
-            ['*', 255, ['clamp', sumBands(sources, GREEN), 0, 1]],
-            ['*', 255, ['clamp', sumBands(sources, BLUE), 0, 1]]
-          ]
-      },
-      source: new GeoTIFF({
-        sources:
-          sources.map(s => {
-            return {
-              url: s.url,
-              nodata: 0,
-              bands: [1],
-              min: s.min,
-              max: s.max
-            }
-          })
+      const layer = new TileLayer({
+        style: {
+          color:
+            ['color',
+              ['*', 255, ['clamp', sumBands(sources, RED), 0, 1]],
+              ['*', 255, ['clamp', sumBands(sources, GREEN), 0, 1]],
+              ['*', 255, ['clamp', sumBands(sources, BLUE), 0, 1]],
+              ['band', sources.length+1] // sources.lenth
+            ]
+        },
+        source: new GeoTIFF({
+          sources:
+            sources.map(s => {
+              return {
+                url: s.url,
+                nodata: 0,
+                bands: [1],
+                min: s.min,
+                max: s.max
+              }
+            }),
+          opaque: false
+        })
       })
+      map.addLayer(layer);
     })
-    map.addLayer(layer);
 
-  }, [item, datasetCatalog, channelSettings]);
+  }, [items, datasetCatalog, channelSettings]);
 
   React.useEffect(() => {
     // Anything in here is fired on component mount.

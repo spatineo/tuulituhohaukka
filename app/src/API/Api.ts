@@ -87,6 +87,19 @@ const getItemsForDatasetAndTime_currentOrPrevious = (datasetId: string, inspecti
     (item: any) => item.time_start.getTime() <= inspectionDate.getTime())
 }
 
+// Pick items that start within the 24h period starting from inspection time 
+const getItemsForDatasetAndTime_currentOrPrevious24h = (datasetId: string, inspectionTime: string) => {
+  const inspectionDate = new Date(inspectionTime)
+  const inspectionDate24h = new Date(inspectionDate.getTime()+24*60*60*1000)
+  return getItemsForDatasetAndTime_generic(
+    datasetId, 
+    inspectionDate,
+    (a: CreatedLinkObject, b: CreatedLinkObject) => -(a.time_start.getTime() - b.time_start.getTime()),
+    (object: any) => object.time_start.getTime() <= inspectionDate.getTime(),
+    (item: any) => item.time_start.getTime() <= inspectionDate24h.getTime() && inspectionDate.getTime() < item.time_end.getTime()
+  )
+}
+
 const getItemsForDatasetAndTime_next = (datasetId: string, inspectionTime: string) => {
   const inspectionDate = new Date(inspectionTime)
   return getItemsForDatasetAndTime_generic(
@@ -98,7 +111,7 @@ const getItemsForDatasetAndTime_next = (datasetId: string, inspectionTime: strin
 }
 
 // Currently the default mode is to get the currentOrPrevious
-export const getItemsForDatasetAndTime = getItemsForDatasetAndTime_currentOrPrevious
+export const getItemsForDatasetAndTime = getItemsForDatasetAndTime_currentOrPrevious24h
 
 const getItemsForDatasetAndTime_generic = (
   datasetId: string, 
@@ -149,13 +162,11 @@ const getItemsForDatasetAndTime_generic = (
                     debug('API: Sorted items ', items)
 
                     // Find item that starts after inspection time
-                    const foundItem = items.find(pickItem)
-                    if (foundItem) {
-                        debug('API: Item found! Finding neighbours (same start and endtime)..')
-                        const allRelevantItems = items.filter((i : any) => i.time_start?.getTime() === foundItem.time_start?.getTime() && i.time_end?.getTime() === foundItem.time_end?.getTime())
-                        debug('API: Found', allRelevantItems.length, 'items')
-
-                        const itemFetchPromises = allRelevantItems.map((i : any) => get(i.href))
+                    const foundItems = items.filter(pickItem)
+                    if (foundItems.length > 0) {
+                        debug('API:',foundItems.length,'item(s) found!')
+                        
+                        const itemFetchPromises = foundItems.map((i : any) => get(i.href))
                         Promise.all(itemFetchPromises).then(items => {
                             debug('API: Fetched', items.length, 'items')
                             resolve({ items: items })

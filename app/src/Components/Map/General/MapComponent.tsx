@@ -47,15 +47,19 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
     }
   }, [selectedDataset, inspectionDate])
 
-  const item = (itemObject && itemObject.items && itemObject.items.length) > 0 ? itemObject.items[0] : null;
+//  const item = (itemObject && itemObject.items && itemObject.items.length) > 0 ? itemObject.items[0] : null;
 
   let dateStr = '';
-  if (item?.properties?.datetime) {
-    dateStr = new Date(item?.properties?.datetime).toISOString().split("T")[0];
-  } else if (item?.properties?.start_datetime) {
-    dateStr = new Date(item?.properties?.start_datetime).toISOString().split("T")[0] + ' - ' + new Date(item?.properties?.end_datetime).toISOString().split("T")[0];
-  } else if (!item) {
-    dateStr = 'N/A'
+  if (itemObject.items.length > 0) {
+    // TODO!!!
+    const item = itemObject.items[0]
+    if (item.properties?.datetime) {
+      dateStr = new Date(item.properties?.datetime).toISOString().split("T")[0];
+    } else if (itemObject.items[0].properties?.start_datetime) {
+      dateStr = new Date(item.properties?.start_datetime).toISOString().split("T")[0] + ' - ' + new Date(item.properties?.end_datetime).toISOString().split("T")[0];
+    } else if (!item) {
+      dateStr = 'N/A'
+    }
   }
 
   let temporalInterval = '';
@@ -80,7 +84,7 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
         >
           {dateStr}
         </div>
-        <OpenLayersMap datasetCatalog={datasetCatalog} item={item} channelSettings={mapObject.channelSettings} />
+        <OpenLayersMap datasetCatalog={datasetCatalog} items={itemObject.items} channelSettings={mapObject.channelSettings} />
       </div>
       <div className={classes.footer}>
         <Grid container>
