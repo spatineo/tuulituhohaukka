@@ -30,12 +30,32 @@ interface WindDamages {
   monthly: MonthlyDamage[]
 }
 
+interface DayProps {
+  isSelected: boolean,
+  isToday: boolean,
+  day: Date,
+  damagesPerEpochDay: boolean[]
+}
+
+const DayWidget: React.FC<DayProps> = ({isSelected, isToday, day, damagesPerEpochDay}) => {
+  const classes = useStyles()
+  return (
+    <Paper className={isSelected ? classes.selectedDayPaper : isToday ? classes.todayPaper : classes.normalDayPaper}>
+      <Grid item><ErrorOutlineIcon style={{ color: "red", fontSize: 'medium', display: damagesPerEpochDay[Math.floor(day.getTime()/1000/60/60/24)] ? 'block' : 'none' }} /></Grid>
+      <Grid item justify='center' alignItems='center'>
+        {day.getDate()}
+      </Grid>
+    </Paper>)
+}
+
+
 const SelectDay: React.FC = () => {
   const dispatch = useDispatch()
   const classes = useStyles()
   const inspectionDate = useSelector((state: RootState): string => state.dataReducer.data.global.inspectionDate)
   const inspectionDateObject = new Date(inspectionDate)
   const [windDamages, setWindDamages] = React.useState({ monthly: [] as MonthlyDamage[] } as WindDamages)
+  const [damagesPerEpochDay, setDamagesPerEpochDay] = React.useState([] as boolean[])
 
   const today = new Date()
 
@@ -63,10 +83,31 @@ const SelectDay: React.FC = () => {
         md.damages.push(d)
       }
       md.avgDamages = md.damages.reduce((m,n) => m+n, 0) / md.damages.length
-      setWindDamages(windDamages)
+
+      let i
+      for (let m = new Date(start_of_month), i = 0; m.getMonth() === start_of_month.getMonth(); m.setDate(m.getDate()+1), i++) {
+        const hasDamages = md.damages[i] > md.avgDamages;
+      }
+      setWindDamages({monthly: windDamages.monthly})
     })
     return md
   }
+
+  React.useEffect(() => {
+     let months = 0;
+     let damages = 0;
+     const damagesPerEpochDay = windDamages.monthly.filter(m => !m.pending).reduce((memo, md) => {
+        months++;
+        let i
+        for (let d = new Date(md.year, md.month, 1), i = 0; d.getMonth() === md.month; d.setDate(d.getDate()+1), i++) {
+          damages += md.damages[i]
+          const hasDamages = md.damages[i] > md.avgDamages;
+          memo[Math.floor(d.getTime()/1000/60/60/24)] = hasDamages;
+        }
+      return memo
+     }, [] as boolean[])
+    setDamagesPerEpochDay(damagesPerEpochDay)
+  }, [windDamages])
 
   const ensureDamagesForDate = (date : Date) => {
     let md : MonthlyDamage | undefined = windDamages.monthly.find(m => m.year === date.getFullYear() && m.month == date.getMonth())
@@ -78,28 +119,13 @@ const SelectDay: React.FC = () => {
 
 
   const getDayElement = (day: any, selectedDate: any, isInCurrentMonth: any, dayComponent: any) => {
-    const md = ensureDamagesForDate(day)
-    const foundDamages = md.pending ? false : md.damages[day.getDate()-1] > md.avgDamages
+    ensureDamagesForDate(day) // triggers API request if this month has not been retrieved yet
     const isSelected = day.getDate() === selectedDate.getDate() && day.getMonth() === inspectionDateObject.getMonth();
-    const isToday = day.getDate() === today.getDate() && day.getMonth() === today.getMonth();
+    const isToday = day.getDate() === today.getDate() && day.getMonth() === today.getMonth() && day.getFullYear() === today.getFullYear();
 
     let dateTile
     if (isInCurrentMonth) { //conditionally return appropriate Element of date tile.
-      if (foundDamages) {
-        dateTile = (
-          <Paper className={isSelected ? classes.selectedDayPaper : isToday ? classes.todayPaper : classes.normalDayPaper}>
-            <Grid item><ErrorOutlineIcon style={{ color: "red", fontSize: 'medium' }} /></Grid>
-            <Grid item justify='center' alignItems='center'>
-              {day.getDate()}
-            </Grid>
-          </Paper>)
-      } else {
-        dateTile = (
-          <Paper className={isSelected ? classes.selectedDayPaper : isToday ? classes.todayPaper : classes.normalDayPaper}>
-            <Grid item><br /></Grid>
-            <Grid item > {day.getDate()}</Grid>
-          </Paper>)
-      }
+      return <DayWidget isSelected={isSelected} isToday={isToday} day={day} damagesPerEpochDay={damagesPerEpochDay} />
     } else {
       dateTile = (<Paper className={classes.notInThisMonthDayPaper}>
         <Grid item><br /></Grid>
