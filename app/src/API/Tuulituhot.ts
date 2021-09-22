@@ -7,8 +7,8 @@ export interface TuulituhoResult {
     data: TuulituhoResultUnit[]
 }
 
-const debug = function (...args: any[]) { console.log('Tuulituhot:', ...args) }
-//const debug = function (...args: any[]) { /* NOP */ }
+//const debug = function (...args: any[]) { console.log('Tuulituhot:', ...args) }
+const debug = function (...args: any[]) { /* NOP */ }
 
 const SMK_FEATURE_SERVICE = 'https://aineistot.metsakeskus.fi/metsakeskus/rest/services/Metsatieto/MKItuhot/FeatureServer/0/query/'
 
