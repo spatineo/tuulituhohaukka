@@ -74,6 +74,7 @@ export interface PanelBarSettings {
 }
 
 export interface ChannelSettings {
+  [key: string]: string
   R: string
   G: string
   B: string
