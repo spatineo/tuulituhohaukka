@@ -138,13 +138,13 @@ const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
       <Grid container direction='column' spacing={2}>
         <Grid container item direction='row' justify='space-evenly' style={{ paddingRight: '40px' }}>
           <Grid item xs={3}>
-            <ChannelColorTile text={colorData.R} letter={'R'} color={'red'} setClicked={setClicked} />
+            <ChannelColorTile text={colorData.R} letter={'R'} color={'red'} />
           </Grid>
           <Grid item xs={3}>
-            <ChannelColorTile text={colorData.G} letter={'G'} color={'rgb(70,198,25)'} setClicked={setClicked} />
+            <ChannelColorTile text={colorData.G} letter={'G'} color={'rgb(70,198,25)'} />
           </Grid>
           <Grid item xs={3}>
-            <ChannelColorTile text={colorData.B} letter={'B'} color={'rgb(0,143,225)'} setClicked={setClicked} />
+            <ChannelColorTile text={colorData.B} letter={'B'} color={'rgb(0,143,225)'} />
           </Grid>
         </Grid>
         <Grid container item direction='row' justify='center' >
