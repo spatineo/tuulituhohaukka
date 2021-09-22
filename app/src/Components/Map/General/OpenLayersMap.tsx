@@ -96,28 +96,40 @@ const OpenLayersMap: React.FC<Props> = ({ items, datasetCatalog, channelSettings
     const oldLayers = map.getLayers() || [];
     oldLayers.forEach((l: any) => map.removeLayer(l))
 
-    items.forEach(item => {
+    const colors = [{ colorStr: 'R', color: RED }, { colorStr: 'G', color: GREEN }, { colorStr: 'B', color: BLUE }];
 
-      const colors = [{ colorStr: 'R', color: RED }, { colorStr: 'G', color: GREEN }, { colorStr: 'B', color: BLUE }];
-
-      function getVisualisation(band: string) {
-        let visualisationParameters = datasetCatalog?.summaries?.visualisation_parameters?.bands?.find((b: any) => b.band === band);
-        if (!visualisationParameters) {
-          visualisationParameters = {
-            band: band,
-            min: 0,
-            max: 1
-          }
-          // Show at least something...
-          if (datasetCatalog?.id === 'Tuulituhoriski') {
-            visualisationParameters.min = 5
-            visualisationParameters.max = 25
-          }
+    function getVisualisation(band: string) {
+      let visualisationParameters = datasetCatalog?.summaries?.visualisation_parameters?.bands?.find((b: any) => b.band === band);
+      if (!visualisationParameters) {
+        visualisationParameters = {
+          band: band,
+          min: 0,
+          max: 1
         }
-        return visualisationParameters;
+        // Show at least something...
+        if (datasetCatalog?.id === 'Tuulituhoriski') {
+          visualisationParameters.min = 5
+          visualisationParameters.max = 25
+        }
       }
+      return visualisationParameters;
+    }
 
-      
+    // adds bands together for a single color value
+    function sumBands(sources: { url: string, color: number }[], targetColor: number) {
+      return sources.reduce((memo, source, i) => {
+        if (source.color !== targetColor) { return memo; }
+        const item = ['band', i + 1]
+        if (memo === 0) {
+          memo = item;
+        } else {
+          memo = ['+', memo, item]
+        }
+        return memo;
+      }, 0 as any)
+    }
+
+    const layers = items.map(item => {
       const sources = colors
         .filter(c => channelSettings[c.colorStr])
         .filter(c => item && item.assets && item.assets[channelSettings[c.colorStr]])
@@ -134,20 +146,6 @@ const OpenLayersMap: React.FC<Props> = ({ items, datasetCatalog, channelSettings
         // Skip rest if no sources to draw
       if (sources.length === 0) {
         return;
-      }
-
-      // adds bands together for a single color value
-      function sumBands(sources: { url: string, color: number }[], targetColor: number) {
-        return sources.reduce((memo, source, i) => {
-          if (source.color !== targetColor) { return memo; }
-          const item = ['band', i + 1]
-          if (memo === 0) {
-            memo = item;
-          } else {
-            memo = ['+', memo, item]
-          }
-          return memo;
-        }, 0 as any)
       }
 
       const layer = new TileLayer({
@@ -174,8 +172,8 @@ const OpenLayersMap: React.FC<Props> = ({ items, datasetCatalog, channelSettings
           opaque: false
         })
       })
-      map.addLayer(layer);
-    })
+      return layer;
+    }).forEach(layer => map.addLayer(layer))
 
   }, [items, datasetCatalog, channelSettings]);
 
