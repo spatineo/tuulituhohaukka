@@ -6,6 +6,9 @@ import { green } from '@material-ui/core/colors';
 import { Radio, RadioProps } from '@material-ui/core'
 import { ListChildComponentProps } from 'react-window'
 import { isNamedExports } from 'typescript';
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../../App';
+import { setClickedColorTile } from '../../../../Store/Actions/data';
 
 const GreenRadio = withStyles({
   root: {
@@ -23,12 +26,24 @@ const GreenListItem: React.FC<ListChildComponentProps> = ({ data, index, style }
   const mapComponentIndex = data.mapComponentIndex
   const classes = useStyles()
   const dispatch = useDispatch()
+  const channelSettings = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
+
+
+
+  const changeToNextList = () => {
+    const key = Object.keys(channelSettings).find(key => channelSettings[key] === '' && key !== 'G')
+    console.log('key in red list item: ', key)
+    if (key) {
+      dispatch(setClickedColorTile({ clickedColorTile: key }))
+    }
+  }
 
   return (
     <div className={classes.listItemContainer} style={style}>
       <GreenRadio
         checked={selectedValue === name}
         onChange={() => {
+          changeToNextList()
           if (name === 'poista valinta') dispatch(setGreenChannel({ mapComponentIndex: mapComponentIndex, greenChannelValue: '' }))
           else dispatch(setGreenChannel({ mapComponentIndex: mapComponentIndex, greenChannelValue: name }))
         }}
