@@ -70,7 +70,9 @@ const dataReducer = createReducer(initialState, {
   SET_INSPECTION_DATE: (state, action) => {
     debug('Reducer: Setting inspection date in reducer')
     debug('Reducer: Action payload: ', action.payload)
-    state.data.global.inspectionDate = action.payload.inspectionDate
+    const d = action.payload.inspectionDate;
+    const dateUtc = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    state.data.global.inspectionDate = dateUtc.toISOString()
   },
   SET_COMPARISON_DATE: (state, action) => {
     debug('Reducer: Setting comparison date in reducer')

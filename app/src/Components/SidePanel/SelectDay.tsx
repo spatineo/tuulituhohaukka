@@ -60,7 +60,7 @@ const SelectDay: React.FC = () => {
   const today = new Date()
 
   const handleDateChange = (date: Date | null) => {
-    dispatch(setInspectionDate({ inspectionDate: date?.toISOString() }))
+    dispatch(setInspectionDate({ inspectionDate: date }))
   }
 
   const createAndGetMonthlyDamage = (date : Date) => {
