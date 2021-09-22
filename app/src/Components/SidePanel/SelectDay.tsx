@@ -39,9 +39,10 @@ interface DayProps {
 
 const DayWidget: React.FC<DayProps> = ({isSelected, isToday, day, damagesPerEpochDay}) => {
   const classes = useStyles()
+  const showDamages = damagesPerEpochDay[Math.floor(day.getTime()/1000/60/60/24)];
   return (
     <Paper className={isSelected ? classes.selectedDayPaper : isToday ? classes.todayPaper : classes.normalDayPaper}>
-      <Grid item><ErrorOutlineIcon style={{ color: "red", fontSize: 'medium', display: damagesPerEpochDay[Math.floor(day.getTime()/1000/60/60/24)] ? 'block' : 'none' }} /></Grid>
+      <Grid item style={{ zoom: '66%' }}><ErrorOutlineIcon style={{ color: showDamages ? 'red' : 'transparent', fontSize: 'medium' }} /></Grid>
       <Grid item justify='center' alignItems='center'>
         {day.getDate()}
       </Grid>
@@ -213,7 +214,7 @@ const useStyles = makeStyles(() =>
       borderWidth: "3px",
       borderColor: "white",
       cursor: "pointer",
-      color: " white",
+      color: "white",
     }
   })
 )
