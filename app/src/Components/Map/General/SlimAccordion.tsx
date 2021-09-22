@@ -24,7 +24,7 @@ const SlimAccordion: React.FC<Props> = ({ children, name, date, temporalInterval
   return (
     <div>
       <Accordion square expanded={expanded === 'panel1' || expanded === true} onChange={handleChange('panel1')}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header" >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header" style={{ height: '85px' }}>
           <Grid container direction='column' justify='center'>
             <Grid item>
               <Typography style={{ fontSize: '14px' }}>{name}</Typography>
