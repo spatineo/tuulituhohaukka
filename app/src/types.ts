@@ -11,6 +11,7 @@ export interface Data {
 export interface Global {
   mapExtent: MapExtent
   sidebarIsOpen: boolean
+  clickedColorTile: string
   inspectionDate: string
   comparisonDate: string
   fullScreen: string
