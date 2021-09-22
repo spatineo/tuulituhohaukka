@@ -10,6 +10,7 @@ const initialState: ReduxState = {
         rotation: 0
       },
       sidebarIsOpen: false,
+      clickedColorTile: '',
       inspectionDate: "",
       comparisonDate: "",
       fullScreen: "",
@@ -113,6 +114,11 @@ const dataReducer = createReducer(initialState, {
     debug('Reducer: Setting sidebar state in Reducer')
     debug('Reducer: Action payload: ', action.payload)
     state.data.global.sidebarIsOpen = action.payload.sidebarIsOpen
+  },
+  SET_CLICKED_COLOR_TILE: (state, action) => {
+    debug('Reducer: Setting clicked color tile state in Reducer')
+    debug('Reducer: Action payload: ', action.payload)
+    state.data.global.clickedColorTile = action.payload.clickedColorTile
   }
 })
 
