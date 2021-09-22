@@ -3,7 +3,6 @@ import { withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { useDispatch, useSelector, batch } from 'react-redux'
 import { RootState } from '../../../App'
@@ -11,6 +10,8 @@ import { setRedChannel, setGreenChannel, setBlueChannel } from '../../../Store/A
 import { Grid } from '@material-ui/core'
 import ChannelColorTile from '../Visualization/ChannelColorTile'
 import BandList from '../ListComponents/Lists/BandList'
+import { getBandsForDataset } from '../../../API/Api'
+import { setBands } from '../../../Store/Actions/data'
 
 interface Props {
   mapComponentIndex: number
@@ -19,23 +20,16 @@ interface Props {
 
 const VisualizationAccordion: React.FC<Props> = ({ isExpanded, mapComponentIndex }) => {
   const dispatch = useDispatch()
-  const colorData = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
+  const channelSettings = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
   const selectedDataset = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].selectedDataset)
+  const clickedColorTile = useSelector((state: RootState) => state.dataReducer.data.global.clickedColorTile)
   const bands = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].derivedData.bands)
-  const [clickedColorTile, setClickedColorTile] = React.useState('')
+  // const [clickedColorTile, setClickedColorTile] = React.useState('')
   const [expanded, setExpanded] = React.useState<string | boolean>(isExpanded);
 
   const handleChange = (panel: string) => (event: React.ChangeEvent<Record<string, unknown>>, newExpanded: boolean) => {
     setExpanded(newExpanded ? panel : false);
   };
-
-  // Will compare arrays and elements whether they are equal
-  const arrayEquals = (array1: any, array2: any) => {
-    return Array.isArray(array1)
-      && Array.isArray(array2)
-      && array1.length === array2.length
-      && array1.every((object, index) => object.name === array2[index].name)
-  }
 
   // Stores and gives access to previous state
   const usePrevious = (value: any) => {
@@ -47,20 +41,22 @@ const VisualizationAccordion: React.FC<Props> = ({ isExpanded, mapComponentIndex
   }
 
   const previousBands = usePrevious(bands)
-  console.log('bands: ', bands, 'vs ', 'previous bands: ', previousBands)
 
-  // If elements are not equal inside arrays, reset selections in color bubbles
+  // Check if values in color bubbles are the same as in current bands, if not -> clear bands
   React.useEffect(() => {
+    // This is needed for initial run
     if (previousBands === undefined) return
 
-    if (!arrayEquals(previousBands, bands)) {
-      batch(() => {
-        dispatch(setRedChannel({ mapComponentIndex: mapComponentIndex, redChannelValue: '' }))
-        dispatch(setGreenChannel({ mapComponentIndex: mapComponentIndex, greenChannelValue: '' }))
-        dispatch(setBlueChannel({ mapComponentIndex: mapComponentIndex, blueChannelValue: '' }))
-      })
-    }
-  }, [selectedDataset])
+    Object.keys(channelSettings).forEach((key) => {
+      if (!bands.find((object: any) => object.name === channelSettings[key])) {
+        batch(() => {
+          dispatch(setRedChannel({ mapComponentIndex: mapComponentIndex, redChannelValue: '' }))
+          dispatch(setGreenChannel({ mapComponentIndex: mapComponentIndex, greenChannelValue: '' }))
+          dispatch(setBlueChannel({ mapComponentIndex: mapComponentIndex, blueChannelValue: '' }))
+        })
+      }
+    })
+  }, [bands])
 
   // Function will set all bands selected automagically, when one of the described datasets is selected
   React.useEffect(() => {
@@ -86,9 +82,11 @@ const VisualizationAccordion: React.FC<Props> = ({ isExpanded, mapComponentIndex
     })
   }, [selectedDataset])
 
-  const setClicked = (value: string) => {
-    setClickedColorTile(value)
-  }
+
+
+  // const setClicked = (value: string) => {
+  //   setClickedColorTile(value)
+  // }
 
   const switchListColor = (clickedColorTile: string) => {
     switch (clickedColorTile) {
@@ -138,17 +136,17 @@ const VisualizationAccordion: React.FC<Props> = ({ isExpanded, mapComponentIndex
   return (
     <div>
       <Accordion square expanded={expanded === 'panel1' || expanded === true} onChange={handleChange('panel1')}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header" style={{ maxHeight: '150px', minHeight: '50px' }}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header" style={{ height: '85px' }}>
           <Grid container direction='column'>
             <Grid container item direction='row' justify='space-evenly'>
               <Grid item xs={3}>
-                <ChannelColorTile text={colorData.R} letter={'R'} color={'red'} setClicked={setClicked} />
+                <ChannelColorTile text={channelSettings.R} letter={'R'} color={'red'} />
               </Grid>
               <Grid item xs={3}>
-                <ChannelColorTile text={colorData.G} letter={'G'} color={'rgb(70,198,25)'} setClicked={setClicked} />
+                <ChannelColorTile text={channelSettings.G} letter={'G'} color={'rgb(70,198,25)'} />
               </Grid>
               <Grid item xs={3}>
-                <ChannelColorTile text={colorData.B} letter={'B'} color={'rgb(0,143,225)'} setClicked={setClicked} />
+                <ChannelColorTile text={channelSettings.B} letter={'B'} color={'rgb(0,143,225)'} />
               </Grid>
             </Grid>
           </Grid>
