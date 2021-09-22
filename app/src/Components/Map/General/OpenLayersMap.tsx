@@ -147,7 +147,6 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
       }, 0 as any)
     }
 
-
     const layer = new TileLayer({
       style: {
         color:
@@ -162,7 +161,7 @@ const OpenLayersMap: React.FC<Props> = ({ item, datasetCatalog, channelSettings 
           sources.map(s => {
             return {
               url: s.url,
-              //nodata: 0, !!! Important!
+              nodata: 0,
               bands: [1],
               min: s.min,
               max: s.max
