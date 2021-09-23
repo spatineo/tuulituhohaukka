@@ -18,7 +18,7 @@ interface Props {
   mapComponentIndex: number
 }
 
-function getDateStr(itemObject : any) {
+function calculateItemsTemporalInterval(itemObject : any) {
   let dateStr
 
   const minMaxDates = itemObject.items.reduce((memo : (null|number)[], item : any) => {
@@ -79,12 +79,12 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
     }
   }, [selectedDataset, inspectionDate])
 
-  let dateStr = getDateStr(itemObject)
+  const itemsTemporalInterval = calculateItemsTemporalInterval(itemObject)
 
-  let temporalInterval = '';
+  let catalogTemporalInterval = '';
   if (datasetCatalog?.extent?.temporal?.interval) {
     const interval = datasetCatalog?.extent?.temporal?.interval
-    temporalInterval = `(${interval[0].substring(0, 10)} - ${interval[1].substring(0, 10)})`
+    catalogTemporalInterval = `(${interval[0].substring(0, 10)} - ${interval[1].substring(0, 10)})`
   }
 
   return (
@@ -101,13 +101,13 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
         <div
           style={{ position: 'absolute', zIndex: 2, left: '0px', bottom: '0px', padding: '0.5em', color: '#ffffffaa', pointerEvents: 'none', filter: 'drop-shadow(0px 0px 5px black)' }}
         >
-          {dateStr}
+          {itemsTemporalInterval}
         </div>
         <OpenLayersMap datasetCatalog={datasetCatalog} items={itemObject.items} channelSettings={mapObject.channelSettings} />
       </div>
       <div className={classes.menuContainer}>
         <div className={classes.dropDown}>
-          <SlimAccordion name={datasetCatalog ? datasetCatalog.title : '-'} date={dateStr} temporalInterval={temporalInterval} isExpanded={false}>
+          <SlimAccordion name={datasetCatalog ? datasetCatalog.title : '-'} date={itemsTemporalInterval} temporalInterval={catalogTemporalInterval} isExpanded={false}>
             <DatasetList datasets={allDatasets} mapComponentIndex={mapComponentIndex} />
           </SlimAccordion>
         </div>
