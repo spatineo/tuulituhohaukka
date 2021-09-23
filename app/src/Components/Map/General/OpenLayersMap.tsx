@@ -33,6 +33,8 @@ const OpenLayersMap: React.FC<Props> = ({ items, datasetCatalog, channelSettings
   const dispatch = useDispatch()
 
   const [map, setMap] = React.useState<any>()
+  const [layerConfig, setLayerConfig] = React.useState({ sources: [] as any[] })
+
   const mapRef = React.useRef<HTMLElement>()
 
   const initializeOL = React.useCallback(() => {
@@ -92,13 +94,6 @@ const OpenLayersMap: React.FC<Props> = ({ items, datasetCatalog, channelSettings
   }, [mapExtent])
 
   React.useEffect(() => {
-    if (!map) return;
-
-    // Remove previous layers
-    const previousLayers = [] as Layer<any>[]
-    map.getLayers().forEach((l : Layer<any>) => previousLayers.push(l))
-    map.getLayers().clear();
-    previousLayers.forEach(l => l.dispose())
 
     const colors = [{ colorStr: 'R', color: RED }, { colorStr: 'G', color: GREEN }, { colorStr: 'B', color: BLUE }];
 
@@ -119,6 +114,37 @@ const OpenLayersMap: React.FC<Props> = ({ items, datasetCatalog, channelSettings
       return visualisationParameters;
     }
 
+    const sources = items.map(item => {
+      return colors
+        .filter(c => channelSettings[c.colorStr])
+        .filter(c => item && item.assets && item.assets[channelSettings[c.colorStr]])
+        .map(c => {
+          const vis = getVisualisation(channelSettings[c.colorStr]);
+          return {
+            url: item.assets[channelSettings[c.colorStr]].href,
+            color: c.color,
+            min: vis.min,
+            max: vis.max
+          }
+        });
+    }).filter(s => s.length > 0);
+     
+    if (JSON.stringify(layerConfig.sources) !== JSON.stringify(sources)) {
+      console.log('Setting layers')
+      setLayerConfig({sources: sources})
+    }
+
+  }, [items, datasetCatalog, channelSettings])
+
+  React.useEffect(() => {
+    if (!map) return;
+
+    // Remove previous layers
+    const previousLayers = [] as Layer<any>[]
+    map.getLayers().forEach((l : Layer<any>) => previousLayers.push(l))
+    map.getLayers().clear();
+    previousLayers.forEach(l => l.dispose())
+
     // adds bands together for a single color value
     function sumBands(sources: { url: string, color: number }[], targetColor: number) {
       return sources.reduce((memo, source, i) => {
@@ -133,26 +159,8 @@ const OpenLayersMap: React.FC<Props> = ({ items, datasetCatalog, channelSettings
       }, 0 as any)
     }
 
-    const layers = items.map(item => {
-      const sources = colors
-        .filter(c => channelSettings[c.colorStr])
-        .filter(c => item && item.assets && item.assets[channelSettings[c.colorStr]])
-        .map(c => {
-          const vis = getVisualisation(channelSettings[c.colorStr]);
-          return {
-            url: item.assets[channelSettings[c.colorStr]].href,
-            color: c.color,
-            min: vis.min,
-            max: vis.max
-          }
-        });
-
-        // Skip rest if no sources to draw
-      if (sources.length === 0) {
-        return;
-      }
-
-      const layer = new TileLayer({
+    const layers = layerConfig.sources.map(sources => {
+      return new TileLayer({
         style: {
           color:
             ['color',
@@ -163,8 +171,9 @@ const OpenLayersMap: React.FC<Props> = ({ items, datasetCatalog, channelSettings
             ]
         },
         source: new GeoTIFF({
+          transition: 0,
           sources:
-            sources.map(s => {
+            sources.map((s : any) => {
               return {
                 url: s.url,
                 nodata: 0,
@@ -176,12 +185,10 @@ const OpenLayersMap: React.FC<Props> = ({ items, datasetCatalog, channelSettings
           opaque: false
         })
       })
-      return layer;
-    }).filter(layer => !!layer)
-    
+    })
     map.getLayers().extend(layers)
 
-  }, [items, datasetCatalog, channelSettings]);
+  }, [map, layerConfig]);
 
   React.useEffect(() => {
     // Anything in here is fired on component mount.
