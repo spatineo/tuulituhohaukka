@@ -18,6 +18,37 @@ interface Props {
   mapComponentIndex: number
 }
 
+function getDateStr(itemObject : any) {
+  let dateStr
+
+  const minMaxDates = itemObject.items.reduce((memo : (null|number)[], item : any) => {
+    const dates = [item.properties?.datetime, item.properties?.start_datetime, item.properties?.end_datetime].filter(date => !!date)
+
+    dates.forEach(date => {
+      if (memo[0] === null || memo[0] > date) {
+        memo[0] = date
+      }
+      if (memo[1] === null || memo[1] < date) {
+        memo[1] = date;
+      }
+    })
+    return memo
+  }, [null, null] as (null|number)[])
+
+  if (minMaxDates[0] !== null) {
+    const minDay = minMaxDates[0].split("T")[0]
+    const maxDay = minMaxDates[1].split("T")[0]
+    if (minDay === maxDay) {
+      dateStr = minDay
+    } else {
+      dateStr = `${minDay} - ${maxDay}`
+    }
+  } else {
+    dateStr = 'N/A'
+  }
+  return dateStr
+}
+
 const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
   const inspectionDate = useSelector((state: RootState): string => state.dataReducer.data.global.inspectionDate)
   const selectedDataset = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].selectedDataset)
@@ -48,20 +79,7 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
     }
   }, [selectedDataset, inspectionDate])
 
-//  const item = (itemObject && itemObject.items && itemObject.items.length) > 0 ? itemObject.items[0] : null;
-
-  let dateStr = '';
-  if (itemObject.items.length > 0) {
-    // TODO!!!
-    const item = itemObject.items[0]
-    if (item.properties?.datetime) {
-      dateStr = new Date(item.properties?.datetime).toISOString().split("T")[0];
-    } else if (itemObject.items[0].properties?.start_datetime) {
-      dateStr = new Date(item.properties?.start_datetime).toISOString().split("T")[0] + ' - ' + new Date(item.properties?.end_datetime).toISOString().split("T")[0];
-    } else if (!item) {
-      dateStr = 'N/A'
-    }
-  }
+  let dateStr = getDateStr(itemObject)
 
   let temporalInterval = '';
   if (datasetCatalog?.extent?.temporal?.interval) {
