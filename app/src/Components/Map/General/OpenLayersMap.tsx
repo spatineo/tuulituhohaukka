@@ -2,6 +2,7 @@ import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateMapExtent } from '../../../Store/Actions/data'
+import { Layer } from 'ol/layer';
 import TileLayer from 'ol/layer/WebGLTile';
 import GeoTIFF from 'ol/source/GeoTIFF';
 import Projection from 'ol/proj/Projection';
@@ -93,8 +94,11 @@ const OpenLayersMap: React.FC<Props> = ({ items, datasetCatalog, channelSettings
   React.useEffect(() => {
     if (!map) return;
 
-    const oldLayers = map.getLayers() || [];
-    oldLayers.forEach((l: any) => map.removeLayer(l))
+    // Remove previous layers
+    const previousLayers = [] as Layer<any>[]
+    map.getLayers().forEach((l : Layer<any>) => previousLayers.push(l))
+    map.getLayers().clear();
+    previousLayers.forEach(l => l.dispose())
 
     const colors = [{ colorStr: 'R', color: RED }, { colorStr: 'G', color: GREEN }, { colorStr: 'B', color: BLUE }];
 
@@ -173,7 +177,9 @@ const OpenLayersMap: React.FC<Props> = ({ items, datasetCatalog, channelSettings
         })
       })
       return layer;
-    }).filter(layer => !!layer).forEach(layer => map.addLayer(layer))
+    }).filter(layer => !!layer)
+    
+    map.getLayers().extend(layers)
 
   }, [items, datasetCatalog, channelSettings]);
 
