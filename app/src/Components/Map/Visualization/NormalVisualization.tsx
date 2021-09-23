@@ -52,6 +52,30 @@ const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
     }
   }, [selectedDataset])
 
+  // Function will set all bands selected automagically, when one of the described datasets is selected
+  React.useEffect(() => {
+    const specialDatasets = [{
+      name: 'Latvuskorkeusmalli',
+      value: 'latvuskorkeusmalli'
+    }, {
+      name: 'Myrskytuhoriskikartta',
+      value: 'myrskytuhoriski'
+    }, {
+      name: 'Tuulituhoriski',
+      value: 'tuulituhoriski'
+    }]
+
+    specialDatasets.forEach(({ name, value }) => {
+      if (name === selectedDataset) {
+        batch(() => {
+          dispatch(setRedChannel({ mapComponentIndex: mapComponentIndex, redChannelValue: value }))
+          dispatch(setGreenChannel({ mapComponentIndex: mapComponentIndex, greenChannelValue: value }))
+          dispatch(setBlueChannel({ mapComponentIndex: mapComponentIndex, blueChannelValue: value }))
+        })
+      }
+    })
+  }, [selectedDataset])
+
   const setClicked = (value: string) => {
     setClickedColorTile(value)
   }
@@ -114,13 +138,13 @@ const NormalVisualization: React.FC<Props> = ({ mapComponentIndex }) => {
       <Grid container direction='column' spacing={2}>
         <Grid container item direction='row' justify='space-evenly' style={{ paddingRight: '40px' }}>
           <Grid item xs={3}>
-            <ChannelColorTile text={colorData.R} letter={'R'} color={'red'} setClicked={setClicked} />
+            <ChannelColorTile text={colorData.R} letter={'R'} color={'red'} />
           </Grid>
           <Grid item xs={3}>
-            <ChannelColorTile text={colorData.G} letter={'G'} color={'rgb(70,198,25)'} setClicked={setClicked} />
+            <ChannelColorTile text={colorData.G} letter={'G'} color={'rgb(70,198,25)'} />
           </Grid>
           <Grid item xs={3}>
-            <ChannelColorTile text={colorData.B} letter={'B'} color={'rgb(0,143,225)'} setClicked={setClicked} />
+            <ChannelColorTile text={colorData.B} letter={'B'} color={'rgb(0,143,225)'} />
           </Grid>
         </Grid>
         <Grid container item direction='row' justify='center' >

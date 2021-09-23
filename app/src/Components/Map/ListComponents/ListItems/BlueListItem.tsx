@@ -6,6 +6,9 @@ import { blue } from '@material-ui/core/colors';
 import { Radio, RadioProps } from '@material-ui/core'
 import { ListChildComponentProps } from 'react-window'
 import { isNamedExports } from 'typescript';
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../../App';
+import { setClickedColorTile } from '../../../../Store/Actions/data';
 
 const BlueRadio = withStyles({
   root: {
@@ -23,13 +26,24 @@ const BlueListItem: React.FC<ListChildComponentProps> = ({ data, index, style })
   const mapComponentIndex = data.mapComponentIndex
   const classes = useStyles()
   const dispatch = useDispatch()
+  const channelSettings = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
+
+  const changeToNextList = () => {
+    const key = Object.keys(channelSettings).find(key => channelSettings[key] === '' && key !== 'B')
+    console.log('key in red list item: ', key)
+    if (key) {
+      dispatch(setClickedColorTile({ clickedColorTile: key }))
+    }
+  }
 
   return (
     <div className={classes.listItemContainer} style={style}>
       <BlueRadio
         checked={selectedValue === name}
         onChange={() => {
-          dispatch(setBlueChannel({ mapComponentIndex: mapComponentIndex, blueChannelValue: name }))
+          changeToNextList()
+          if (name === 'poista valinta') dispatch(setBlueChannel({ mapComponentIndex: mapComponentIndex, blueChannelValue: '' }))
+          else dispatch(setBlueChannel({ mapComponentIndex: mapComponentIndex, blueChannelValue: name }))
         }}
         value={isNamedExports}
       />

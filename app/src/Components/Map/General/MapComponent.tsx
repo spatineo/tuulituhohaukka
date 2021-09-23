@@ -11,6 +11,7 @@ import { removeMap } from '../../../Store/Actions/data'
 import DatasetList from '../ListComponents/Lists/DatasetList'
 import NormalVisualization from '../Visualization/NormalVisualization'
 import { getAllDatasets, getItemsForDatasetAndTime } from '../../../API/Api'
+import VisualizationAccordion from './VisualizationAccordion'
 
 interface Props {
   mapObject: Map,
@@ -30,7 +31,7 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
     getAllDatasets().then(allDatasets => {
       setAllDatasets(() => {
         return allDatasets;
-      })  
+      })
     })
   }, [])
 
@@ -39,10 +40,10 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
   // UNCOMMENT THIS TO FETCH MAP ITEMS
   React.useEffect(() => {
     if (inspectionDate && selectedDataset) {
-      getItemsForDatasetAndTime(selectedDataset, inspectionDate).then((ret : any) => {
+      getItemsForDatasetAndTime(selectedDataset, inspectionDate).then((ret: any) => {
         setItemObject(() => {
           return ret
-        })  
+        })
       })
     }
   }, [selectedDataset, inspectionDate])
@@ -65,11 +66,11 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
   let temporalInterval = '';
   if (datasetCatalog?.extent?.temporal?.interval) {
     const interval = datasetCatalog?.extent?.temporal?.interval
-    temporalInterval = `(${interval[0].substring(0,10)} - ${interval[1].substring(0,10)})`
+    temporalInterval = `(${interval[0].substring(0, 10)} - ${interval[1].substring(0, 10)})`
   }
 
   return (
-    <div className={classes.mapContainer}>
+    <div className={classes.mapContainer} id='MapContainer'>
       <div className={classes.mapBox}>
         <Button
           style={{ position: 'absolute', zIndex: 2, maxWidth: '35px', minWidth: '35px', maxHeight: '35px', minHeight: '35px', right: '0px' }}
@@ -86,24 +87,17 @@ const MapComponent: React.FC<Props> = ({ mapObject, mapComponentIndex }) => {
         </div>
         <OpenLayersMap datasetCatalog={datasetCatalog} items={itemObject.items} channelSettings={mapObject.channelSettings} />
       </div>
-      <div className={classes.footer}>
-        <Grid container>
-          <Grid container item xs={12} justify='center' alignItems='center'>
-            <div style={{ fontSize: '14px' }}>{datasetCatalog ? datasetCatalog.title : '-'}</div>
-            <div style={{ fontSize: '14px', paddingLeft: '1em' }}>{temporalInterval}</div>
-          </Grid>
-        </Grid>
-      </div>
       <div className={classes.menuContainer}>
         <div className={classes.dropDown}>
-          <SlimAccordion name={'Aineistot'} isExpanded={false}>
+          <SlimAccordion name={datasetCatalog ? datasetCatalog.title : '-'} date={dateStr} temporalInterval={temporalInterval} isExpanded={false}>
             <DatasetList datasets={allDatasets} mapComponentIndex={mapComponentIndex} />
           </SlimAccordion>
         </div>
         <div className={classes.dropDown}>
-          <SlimAccordion name={'Visualisointi'} isExpanded={false}>
-            <NormalVisualization channelSettings={mapObject.channelSettings} mapComponentIndex={mapComponentIndex} />
-          </SlimAccordion>
+          <VisualizationAccordion
+            isExpanded={false}
+            mapComponentIndex={mapComponentIndex}
+          />
         </div>
       </div>
     </div>
@@ -118,7 +112,7 @@ const useStyles = makeStyles(() =>
       justifyContent: 'flex-start',
       alignItems: 'center',
       width: '100%',
-      aspectRatio: '4/3',
+      aspectRatio: '11/10',
     },
     mapBox: {
       display: 'flex',

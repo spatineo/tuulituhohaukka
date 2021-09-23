@@ -3,8 +3,44 @@ import { withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
+import { Grid, Typography, } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+
+interface Props {
+  children: React.ReactNode
+  name: string
+  date?: string
+  temporalInterval?: string
+  isExpanded: boolean
+}
+
+const SlimAccordion: React.FC<Props> = ({ children, name, date, temporalInterval, isExpanded }) => {
+  const [expanded, setExpanded] = React.useState<string | boolean>(isExpanded);
+
+  const handleChange = (panel: string) => (event: React.ChangeEvent<Record<string, unknown>>, newExpanded: boolean) => {
+    setExpanded(newExpanded ? panel : false);
+  };
+
+  return (
+    <div>
+      <Accordion square expanded={expanded === 'panel1' || expanded === true} onChange={handleChange('panel1')}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header" style={{ height: '85px' }}>
+          <Grid container direction='column' justify='center'>
+            <Grid item>
+              <Typography style={{ fontSize: '14px' }}>{name}</Typography>
+            </Grid>
+            <Grid item>
+              <Typography style={{ fontSize: '14px' }}>{temporalInterval}</Typography>
+            </Grid>
+          </Grid>
+        </AccordionSummary>
+        <AccordionDetails>
+          {children}
+        </AccordionDetails>
+      </Accordion>
+    </div>
+  );
+}
 
 const Accordion = withStyles({
   root: {
@@ -49,32 +85,5 @@ const AccordionDetails = withStyles((theme) => ({
     padding: theme.spacing(0),
   },
 }))(MuiAccordionDetails);
-
-interface Props {
-  children: React.ReactNode
-  name: string
-  isExpanded: boolean
-}
-
-const SlimAccordion: React.FC<Props> = ({ children, name, isExpanded }) => {
-  const [expanded, setExpanded] = React.useState<string | boolean>(isExpanded);
-
-  const handleChange = (panel: string) => (event: React.ChangeEvent<Record<string, unknown>>, newExpanded: boolean) => {
-    setExpanded(newExpanded ? panel : false);
-  };
-
-  return (
-    <div>
-      <Accordion square expanded={expanded === 'panel1' || expanded === true} onChange={handleChange('panel1')}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header" >
-          <Typography>{name}</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          {children}
-        </AccordionDetails>
-      </Accordion>
-    </div>
-  );
-}
 
 export default SlimAccordion

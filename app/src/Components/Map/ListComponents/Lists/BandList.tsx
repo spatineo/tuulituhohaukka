@@ -8,6 +8,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import RedListItem from '../ListItems/RedListItem'
 import GreenListItem from '../ListItems/GreenListItem'
 import BlueListItem from '../ListItems/BlueListItem'
+import _ from 'lodash'
 
 interface Props {
   bands: Band[],
@@ -17,11 +18,19 @@ interface Props {
 
 const BandList: React.FC<Props> = ({ bands, color, mapComponentIndex }) => {
   const colorData = useSelector((state: RootState) => state.dataReducer.data.maps[mapComponentIndex].channelSettings)
+  const sidePanelIsOpen = useSelector((state: RootState) => state.dataReducer.data.global.sidebarIsOpen)
   const [searchText, setSearchText] = React.useState('')
+  const [listWidth, setListWidth] = React.useState(250)
+
+  const clonedBands = _.cloneDeep(bands)
+  // If dataset is selected and bands are loaded -> add another item that allows unselecting
+  if (bands && bands.length !== 0) {
+    clonedBands.unshift({ name: 'poista valinta' })
+  }
 
   const searchAndFilter = (input: string) => {
     if (!bands) return []
-    const filteredBands = bands.filter((band: Band) => {
+    const filteredBands = clonedBands.filter((band: Band) => {
       const sourceData = band.name.toUpperCase()
       const searchText = input.toUpperCase()
       return sourceData.includes(searchText)
@@ -31,6 +40,22 @@ const BandList: React.FC<Props> = ({ bands, color, mapComponentIndex }) => {
 
   const filteredBands = searchAndFilter(searchText)
 
+
+  // Resizes the List depending on Map Size
+  window.addEventListener('resize', handleResize)
+  function handleResize() {
+    const MapContainerWidth = document.getElementById('MapContainer')?.parentElement?.clientWidth as number
+    const CalculatedWidth = MapContainerWidth * 0.45
+    setListWidth(CalculatedWidth)
+  }
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      handleResize()
+    }, 100)
+  }, [sidePanelIsOpen])
+
+
   const switchColorList = (color: string | undefined) => {
     switch (color) {
       case 'red': {
@@ -38,7 +63,7 @@ const BandList: React.FC<Props> = ({ bands, color, mapComponentIndex }) => {
           <Grid item xs={12}>
             <FixedSizeList
               height={200}
-              width={200}
+              width={listWidth}
               itemSize={30}
               itemCount={filteredBands.length}
               itemData={{

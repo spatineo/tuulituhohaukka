@@ -11,6 +11,7 @@ export interface Data {
 export interface Global {
   mapExtent: MapExtent
   sidebarIsOpen: boolean
+  clickedColorTile: string
   inspectionDate: string
   comparisonDate: string
   fullScreen: string
@@ -74,6 +75,7 @@ export interface PanelBarSettings {
 }
 
 export interface ChannelSettings {
+  [key: string]: string
   R: string
   G: string
   B: string
