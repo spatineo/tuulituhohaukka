@@ -97,7 +97,7 @@ const getItemsForDatasetAndTime_currentOrPrevious24h = (datasetId: string, inspe
     inspectionDate,
     (a: CreatedLinkObject, b: CreatedLinkObject) => -(a.time_start.getTime() - b.time_start.getTime()),
     (object: any) => object.time_start.getTime() <= inspectionDate.getTime(),
-    (item: any) => item.time_start.getTime() <= inspectionDate24h.getTime() && inspectionDate.getTime() < item.time_end.getTime()
+    (item: any) => item.time_start.getTime() <= inspectionDate24h.getTime()
   )
 }
 
@@ -126,9 +126,9 @@ const getItemsForDatasetAndTime_generic = (
 
     const createLinkObject = (link: Link) => {
         return {
-        href: link.href,
-        time_start: link.time ? new Date(link.time.time_start) : null,
-        time_end: link.time ? new Date(link.time.time_end) : null
+          href: link.href,
+          time_start: link.time ? new Date(link.time.time_start) : null,
+          time_end: link.time ? new Date(link.time.time_end) : null
         }
     }
 
@@ -163,19 +163,24 @@ const getItemsForDatasetAndTime_generic = (
                     debug('API: Sorted items ', items)
 
                     // Find item that starts after inspection time
-                    const foundItems = items.filter(pickItem)
-                    if (foundItems.length > 0) {
-                        debug('API:',foundItems.length,'item(s) found!')
-                        
-                        const itemFetchPromises = foundItems.map((i : any) => get(i.href))
-                        Promise.all(itemFetchPromises).then(items => {
-                            debug('API: Fetched', items.length, 'items')
-                            resolve({ items: items })
-                        }).catch(reject)
-                    } else {
+                    const foundFirstItem = items.find(pickItem)
+                    if (!foundFirstItem) {
                         // Try the next catalog: note, the workingList has been spliced, so this call wll process the next item
-                        findCatalogAndItems(workingList).then(resolve).catch(reject)
+                        return findCatalogAndItems(workingList).then(resolve).catch(reject)
                     }
+
+                    const start_of_day = new Date(Date.UTC(foundFirstItem.time_start.getFullYear(), foundFirstItem.time_start.getMonth(), foundFirstItem.time_start.getDate()))
+                    const end_of_day = new Date(start_of_day.getTime()+24*60*60*1000)
+
+                    const foundItems = items.filter((item: any) => item.time_start.getTime() <= end_of_day.getTime() && start_of_day.getTime() <= item.time_end.getTime())
+                    debug('API:',foundItems.length,'item(s) found! that span',start_of_day, '-',end_of_day)
+                    
+                    const itemFetchPromises = foundItems.map((i : any) => get(i.href))
+                    Promise.all(itemFetchPromises).then(items => {
+                        debug('API: Fetched', items.length, 'items')
+                        resolve({ items: items })
+                    }).catch(reject)
+
                 }).catch(reject)
             })
         }
