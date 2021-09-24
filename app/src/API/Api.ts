@@ -1,7 +1,7 @@
 import { Dataset } from '../types'
 
-const CATALOG_ROOT = 'https://s3.eu-west-1.amazonaws.com/directory.spatineo.com/tmp/tuulituhohaukka-stac/catalog/root2.json'
-//const CATALOG_ROOT = 'https://pta.data.lit.fmi.fi/stac/root.json'
+//const CATALOG_ROOT = 'https://s3.eu-west-1.amazonaws.com/directory.spatineo.com/tmp/tuulituhohaukka-stac/catalog/root2.json'
+const CATALOG_ROOT = 'https://pta.data.lit.fmi.fi/stac/root.json'
 
 interface Link {
   rel: string
