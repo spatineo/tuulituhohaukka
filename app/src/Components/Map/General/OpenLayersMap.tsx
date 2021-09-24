@@ -130,7 +130,6 @@ const OpenLayersMap: React.FC<Props> = ({ items, datasetCatalog, channelSettings
     }).filter(s => s.length > 0);
      
     if (JSON.stringify(layerConfig.sources) !== JSON.stringify(sources)) {
-      console.log('Setting layers')
       setLayerConfig({sources: sources})
     }
 
