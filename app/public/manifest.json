@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Tuulituho",
+  "name": "Visualisation tool for wind damage model results and other data & imagery",
   "icons": [
     {
       "src": "favicon.ico",
