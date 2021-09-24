@@ -1,14 +1,7 @@
 import { Dataset } from '../types'
 
 const CATALOG_ROOT = 'https://s3.eu-west-1.amazonaws.com/directory.spatineo.com/tmp/tuulituhohaukka-stac/catalog/root2.json'
-//https://pta.data.lit.fmi.fi/stac/root.json
-
-interface RootCatalog {
-  type?: string,
-  stack_version?: string,
-  description?: string,
-  links?: []
-}
+//const CATALOG_ROOT = 'https://pta.data.lit.fmi.fi/stac/root.json'
 
 interface Link {
   rel: string
@@ -27,6 +20,7 @@ interface CreatedLinkObject {
 }
 
 //const debug = console.log;
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const debug = function (...args: any[]) { /* NOP */ }
 
 const CACHE : Record<string, Promise<Response> | undefined> = {}
@@ -77,42 +71,28 @@ export const getBandsForDataset = (id: string): Promise<any> => {
   })
 }
 
-// Get item that is either spans inspectionTime or is the newest one before inspectionTime
+
+const daysSinceEpoch = (date : Date) : number => {
+  return Math.floor(date.getTime()/(24*60*60*1000));
+}
+
 const getItemsForDatasetAndTime_currentOrPrevious = (datasetId: string, inspectionTime: string) => {
   const inspectionDate = new Date(inspectionTime)
+  const fullDaysSinceEpoch = daysSinceEpoch(inspectionDate)
   return getItemsForDatasetAndTime_generic(
     datasetId, 
     inspectionDate,
     (a: CreatedLinkObject, b: CreatedLinkObject) => -(a.time_start.getTime() - b.time_start.getTime()),
     (object: any) => object.time_start.getTime() <= inspectionDate.getTime(),
-    (item: any) => item.time_start.getTime() <= inspectionDate.getTime())
+    (item: any) => daysSinceEpoch(item.time_start) <= fullDaysSinceEpoch)
 }
 
-// Pick items that start within the 24h period starting from inspection time 
-const getItemsForDatasetAndTime_currentOrPrevious24h = (datasetId: string, inspectionTime: string) => {
-  const inspectionDate = new Date(inspectionTime)
-  const inspectionDate24h = new Date(inspectionDate.getTime()+24*60*60*1000)
-  return getItemsForDatasetAndTime_generic(
-    datasetId, 
-    inspectionDate,
-    (a: CreatedLinkObject, b: CreatedLinkObject) => -(a.time_start.getTime() - b.time_start.getTime()),
-    (object: any) => object.time_start.getTime() <= inspectionDate.getTime(),
-    (item: any) => item.time_start.getTime() <= inspectionDate24h.getTime()
-  )
-}
-
-const getItemsForDatasetAndTime_next = (datasetId: string, inspectionTime: string) => {
-  const inspectionDate = new Date(inspectionTime)
-  return getItemsForDatasetAndTime_generic(
-    datasetId, 
-    inspectionDate,
-    (a: CreatedLinkObject, b: CreatedLinkObject) => a.time_start.getTime() - b.time_start.getTime(),
-    (object: any) => inspectionDate.getTime() < object.time_end.getTime(),
-    (item: any) => inspectionDate.getTime() < item.time_start.getTime())
+function startOfUTCDay(date : Date) {
+  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
 }
 
 // Currently the default mode is to get the currentOrPrevious
-export const getItemsForDatasetAndTime = getItemsForDatasetAndTime_currentOrPrevious24h
+export const getItemsForDatasetAndTime = getItemsForDatasetAndTime_currentOrPrevious
 
 const getItemsForDatasetAndTime_generic = (
   datasetId: string, 
@@ -168,11 +148,19 @@ const getItemsForDatasetAndTime_generic = (
                         // Try the next catalog: note, the workingList has been spliced, so this call wll process the next item
                         return findCatalogAndItems(workingList).then(resolve).catch(reject)
                     }
-
-                    const start_of_day = new Date(Date.UTC(foundFirstItem.time_start.getFullYear(), foundFirstItem.time_start.getMonth(), foundFirstItem.time_start.getDate()))
+                  
+                    // if inspectionTime is within foundFirstItem.time_start and time_end 
+                    //    then) start_of_day = start of inspectionTime day
+                    //    else) start_of_day  = start of foundFirstItem.time_start
+                    let start_of_day : Date
+                    if (foundFirstItem.time_start.getTime() <= inspectionDate.getTime() && inspectionDate.getTime() < foundFirstItem.time_end.getTime()) {
+                      start_of_day = startOfUTCDay(inspectionDate)
+                    } else {
+                      start_of_day = startOfUTCDay(foundFirstItem.time_start)
+                    }
                     const end_of_day = new Date(start_of_day.getTime()+24*60*60*1000)
 
-                    const foundItems = items.filter((item: any) => item.time_start.getTime() <= end_of_day.getTime() && start_of_day.getTime() <= item.time_end.getTime())
+                    const foundItems = items.filter((item: any) => item.time_start.getTime() < end_of_day.getTime() && start_of_day.getTime() <= item.time_end.getTime())
                     debug('API:',foundItems.length,'item(s) found! that span',start_of_day, '-',end_of_day)
                     
                     const itemFetchPromises = foundItems.map((i : any) => get(i.href))
