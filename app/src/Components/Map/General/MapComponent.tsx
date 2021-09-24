@@ -39,9 +39,12 @@ function calculateItemsTemporalInterval(itemObject : any) {
     const minDay = minMaxDates[0].split("T")[0]
     const maxDay = minMaxDates[1].split("T")[0]
     if (minDay === maxDay) {
-      dateStr = minDay
+      dateStr = `${minDay}`
     } else {
       dateStr = `${minDay} - ${maxDay}`
+    }
+    if (itemObject.items.length > 1) {
+      dateStr += ` (${itemObject.items.length})`
     }
   } else {
     dateStr = 'N/A'
