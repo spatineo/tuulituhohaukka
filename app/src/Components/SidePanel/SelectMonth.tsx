@@ -29,6 +29,7 @@ const SelectMonth: React.FC = () => {
 
 
   React.useEffect(() => {
+    if (!inspectionDate) return;
     const inspDate = new Date(inspectionDate);
     const visible_time_start = new Date(inspDate.getFullYear(), inspDate.getMonth()-6, 1)
     const visible_time_end = new Date(inspDate.getFullYear(), inspDate.getMonth()+6, 0)
