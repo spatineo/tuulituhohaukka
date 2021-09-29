@@ -43,8 +43,8 @@ Sivupaneelin kalenterinäkymä sisältää aikavalitsimen, tuholistan ja indeksi
 - tuhoalueittain
 
 - Vuosinäkymästä voi tarkastella, minä kuukausina on arvion mukaan tapahtunut merkittävimpiä tuulituhoja: tolpan korkeus kuvaa tuulituhojen arvioitua laajuutta
-- Kuukausinäkymässä korostetaan eri värillä ne päivät, joina analyysin mukaan on merkittäviä tuhoja. Valittuaan tarkasteluajan, tuulituhoja voi etsiä ja selata karttanäkymien avulla, mutta myös maakuntakohtaisesta
-- tuholistasta, johon on nostettu merkittävimmät tuhot. Tästä valikosta käyttäjä voi valita kiinnostavan tuulituhoalueen näytettäväksi kartalla 
+- Kuukausinäkymässä korostetaan eri värillä ne päivät, joina analyysin mukaan on merkittäviä tuhoja
+- Valittuaan tarkasteluajan, tuulituhoja voi etsiä ja selata karttanäkymien avulla, mutta myös maakuntakohtaisesta tuholistasta, johon on nostettu merkittävimmät tuhot. Tästä valikosta käyttäjä voi valita kiinnostavan tuulituhoalueen näytettäväksi kartalla 
 
 Valinnan tehtyään kaikki karttanäkymät tarkentavat automaattisesti esittämään kyseisen alueen tietoja. Aineistojen päivämäärät esitetään karttanäkymien alalaidassa
 
