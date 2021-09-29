@@ -23,11 +23,12 @@ Tässä kuvataan tavoiteltu lopputulos. Kuvaus sovelluksen MVP:stä löytyy doku
 ### Kalenterinäkymä
 
 Sivupaneelin kalenterinäkymä sisältää aikavalitsimen, tuholistan ja indeksikartan. Kalenterinäkymästä voi tarkastella tuulituhoja kolmella eri tarkkuustasolla:
+
 1. kuukausittain
 <img width="309" alt="image" src="https://user-images.githubusercontent.com/14890301/135270304-b89dafdf-2733-458d-8b7a-ccdd1fbba4a5.png">
 
 2. päivittäin
-<img width="324" alt="image" src="https://user-images.githubusercontent.com/14890301/135270487-3cfdc49d-93ad-42dd-9ac6-d1d3b5c10a28.png">
+<img width="309" alt="image" src="https://user-images.githubusercontent.com/14890301/135270487-3cfdc49d-93ad-42dd-9ac6-d1d3b5c10a28.png">
 
 3. tuhoalueittain
 - Vuosinäkymästä voi tarkastella, minä kuukausina on arvion mukaan tapahtunut merkittävimpiä tuulituhoja: tolpan korkeus kuvaa tuulituhojen arvioitua laajuutta
