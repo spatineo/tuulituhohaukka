@@ -50,8 +50,7 @@ Karttaikkunat sisältävät kanavavalitsin-työkalun, jolla on mahdollista valit
 - Käyttäjä voi määrittää eri kanavien väriyhdistelmiä asettamalla punaiselle, vihreälle ja siniselle eri kanavat 
 - Valinta tapahtuu valitsemalla haluttu kanava punaisen, vihreän tai sinisen värin kohdalle
 - Kanavavalitsin on aineisto- ja karttanäkymäkohtainen
-
-Kanavavalitsin avautuu Visualisointi -pudotusvalikosta.
+- Kanavavalitsin avautuu Visualisointi -pudotusvalikosta
 
 ### Aikasarja
 
