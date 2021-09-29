@@ -64,6 +64,11 @@ Karttaikkunat sisältävät kanavavalitsin-työkalun, jolla on mahdollista valit
 - Kanavavalitsin avautuu Visualisointi -pudotusvalikosta
 <img width="259" alt="image" src="https://user-images.githubusercontent.com/14890301/135272842-87098a67-3804-4cf8-a71f-38d006742dbc.png">
 
+### Jakaminen
+
+Voit halutessasi jakaa näkymäsi linkillä jolloin valittu päivä, valitut aineistot sekä visualisointiasetukset säilyvät.
+<img width="294" alt="image" src="https://user-images.githubusercontent.com/14890301/135275705-4f6ec857-9180-47b8-9220-a541da390b70.png">
+
 ### Aikasarja
 
 Aikasarja-työkalulla käyttäjä voi tarkastella karttanäkymässä kunkin tuotteen pikselin/alueen arvojen aikasarjaa 
