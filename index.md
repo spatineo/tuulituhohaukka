@@ -47,7 +47,7 @@ Käyttäjä voi valita näkyviin eri aineistoja tarpeensa mukaan:
 <img width="80" alt="image" src="https://user-images.githubusercontent.com/14890301/135270602-d434b922-b3ac-4728-9f0c-1979924cb82c.png">
 
 - Karttanäkymiä voi vähentää poistettavan karttanäkymän poistonapista
-<img width="81" alt="image" src="https://user-images.githubusercontent.com/14890301/135271004-a2509dd0-5fb7-42be-8cde-748a3765d424.png">
+<img width="80" alt="image" src="https://user-images.githubusercontent.com/14890301/135271004-a2509dd0-5fb7-42be-8cde-748a3765d424.png">
 
 - Kussakin karttanäkymässä näytetään yhtä aineistoa kerrallaan selkeyden vuoksi
 - Karttanäkymiä voi lisätä kanvaasille niin monta kuin haluaa, jolloin saman aineiston tarkastelu eri visualisointivalinnoilla on mahdollista
@@ -62,7 +62,7 @@ Karttaikkunat sisältävät kanavavalitsin-työkalun, jolla on mahdollista valit
 - Jos aineistossa on vain yksi visualisoitava kanava, sovellus valitsee sen automaattisesti
 - Kanavavalitsin on aineisto- ja karttanäkymäkohtainen
 - Kanavavalitsin avautuu Visualisointi -pudotusvalikosta
-<img width="276" alt="image" src="https://user-images.githubusercontent.com/14890301/135272842-87098a67-3804-4cf8-a71f-38d006742dbc.png">
+<img width="259" alt="image" src="https://user-images.githubusercontent.com/14890301/135272842-87098a67-3804-4cf8-a71f-38d006742dbc.png">
 
 ### Aikasarja
 
