@@ -25,10 +25,11 @@ Tässä kuvataan tavoiteltu lopputulos. Kuvaus sovelluksen MVP:stä löytyy doku
 Sivupaneelin kalenterinäkymä sisältää aikavalitsimen, tuholistan ja indeksikartan. Kalenterinäkymästä voi tarkastella tuulituhoja kolmella eri tarkkuustasolla:
 1. kuukausittain
 <img width="309" alt="image" src="https://user-images.githubusercontent.com/14890301/135270304-b89dafdf-2733-458d-8b7a-ccdd1fbba4a5.png">
+
 2. päivittäin
 <img width="324" alt="image" src="https://user-images.githubusercontent.com/14890301/135270487-3cfdc49d-93ad-42dd-9ac6-d1d3b5c10a28.png">
-3. tuhoalueittain
 
+3. tuhoalueittain
 - Vuosinäkymästä voi tarkastella, minä kuukausina on arvion mukaan tapahtunut merkittävimpiä tuulituhoja: tolpan korkeus kuvaa tuulituhojen arvioitua laajuutta
 - Kuukausinäkymässä korostetaan eri värillä ne päivät, joina analyysin mukaan on merkittäviä tuhoja
 - Valittuaan tarkasteluajan, tuulituhoja voi etsiä ja selata karttanäkymien avulla, mutta myös maakuntakohtaisesta tuholistasta, johon on nostettu merkittävimmät tuhot. Tästä valikosta käyttäjä voi valita kiinnostavan tuulituhoalueen näytettäväksi kartalla 
@@ -56,12 +57,13 @@ Käyttäjä voi valita näkyviin eri aineistoja tarpeensa mukaan:
 ### Visualisointi
 
 Karttaikkunat sisältävät kanavavalitsin-työkalun, jolla on mahdollista valita eri kanavien väriyhdistelmiä.
-- Käyttäjä voi määrittää eri kanavien väriyhdistelmiä asettamalla punaiselle, vihreälle ja siniselle eri kanavat 
-- Valinta tapahtuu valitsemalla haluttu kanava punaisen, vihreän tai sinisen värin kohdalle
+- Käyttäjä voi määrittää eri kanavien väriyhdistelmiä asettamalla punaiselle, vihreälle ja siniselle eri kanavat
+- Valinta tapahtuu valitsemalla haluttu kanava punaisen, vihreän tai sinisen värin kohdalle (RGB)
+- Jos aineistossa on vain yksi visualisoitava kanava, sovellus valitsee sen automaattisesti
 - Kanavavalitsin on aineisto- ja karttanäkymäkohtainen
 - Kanavavalitsin avautuu Visualisointi -pudotusvalikosta
 
-<img width="286" alt="image" src="https://user-images.githubusercontent.com/14890301/135271151-de1c7a5e-b410-4290-ba27-39c6bd7caeda.png">
+<img width="276" alt="image" src="https://user-images.githubusercontent.com/14890301/135272842-87098a67-3804-4cf8-a71f-38d006742dbc.png">
 
 
 ### Aikasarja
