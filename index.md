@@ -18,6 +18,7 @@ Tällä hetkellä sovelluksessa on käytössä seuraavia aineistoja:
 
 ## Karttasovellus
 ### Yleistä
+Tässä kuvataan tavoiteltu lopputulos. Kuvaus sovelluksen MVP:stä löytyy dokumentin lopusta. Tällä hetkellä sovelluksesta on toteutettu MVP.
 
 ### Sovelluksen käyttö ###
 
@@ -94,4 +95,19 @@ Linssi-työkalun avulla käyttäjä voi tarkastella kiinnostavasta kohteesta kah
 - Linssin avulla käyttäjä voi helposti vertailla esim. kahden peräkkäisen kuvausajankohdan Sentinel-2 kuvia nähdäkseen, onko merkittävää muutosta tapahtunut kuvien välillä (esim. myrskytuhoja)
 - Linssin näyttämän aineiston vertailuajankohta on oletuksena valittua tuulituhohetkeä edeltävä ajankohta, mutta ajankohtaa voi myös muuttaa aikajanan avulla
 
+## MVP
+Tällä hetkellä sovelluksesta on toteutettu MVP (minimum viable product). 
+MVP:ssä on toteutettu seuraavat ominaisuudet:
+- Kalenterinäkymä
+- Karttanäkymät + visualisointi
+- Kanavavalitsin
 
+Sovelluksessa ei voi tarkastella rasterimuotoisia tuhoalueita tai tuholistaa. 
+
+Sovelluksen käyttö alkaa kalenterinäkymästä:
+1. Valitaan kuukausi vuosinäkymästä
+-> Kalenterinäkymä päivittyy
+2. Valitaan päivä kuukausinäkymästä
+-> Tuholista päivittyy
+-> Karttojen aineistot päivittyvät
+3. Tarkastellaan ja vertaillaan eri aineistojen karttanäkymiä.
