@@ -48,7 +48,7 @@ Käyttäjä voi valita näkyviin eri aineistoja tarpeensa mukaan:
 <img width="81" alt="image" src="https://user-images.githubusercontent.com/14890301/135271004-a2509dd0-5fb7-42be-8cde-748a3765d424.png">
 
 - Kussakin karttanäkymässä näytetään yhtä aineistoa kerrallaan selkeyden vuoksi
-- Karttanäkymiä voi lisätä kanvaasille niin monta kuin haluaa, jolloin saman aineiston tarkastelu eri visualisointivalinnoilla on mahdollista.
+- Karttanäkymiä voi lisätä kanvaasille niin monta kuin haluaa, jolloin saman aineiston tarkastelu eri visualisointivalinnoilla on mahdollista
 <img width="548" alt="image" src="https://user-images.githubusercontent.com/14890301/135270945-8173b5f3-589e-49e3-835a-ba1754e13e38.png">
 
 - Karttaikkunaan valitaan haluttu aineisto alasvetovalikosta 
