@@ -2,6 +2,19 @@
 
 ## Aineistokatalogi
 Tällä hetkellä sovelluksessa on käytössä seuraavia aineistoja:
+- Tuulituhoriski
+- MML 2m Maastomalli
+- Landsat indeksit
+- Landsat pintaheijastus vuosikuvat
+- Latvuskorkeusmalli
+- Monilähdeinventoinnin Metsävarateema
+- Myrskytuhoriskikartta
+- Sentinel-1 päivittäiset mosaiikit
+- Sentinel-1 dekadi mosaiikit
+- Sentinel-1 osakuvat
+- Sentinel-2 Global mosaic (dekadi)
+- Sentinel-2 Global mosaic (vuosi)
+- Sentinel-2 indeksimosaiikit
 
 ## Karttasovellus
 ### Yleistä
