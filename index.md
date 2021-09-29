@@ -67,6 +67,7 @@ Karttaikkunat sisältävät kanavavalitsin-työkalun, jolla on mahdollista valit
 ### Jakaminen
 
 Voit halutessasi jakaa näkymäsi linkillä jolloin valittu päivä, valitut aineistot sekä visualisointiasetukset säilyvät.
+
 <img width="294" alt="image" src="https://user-images.githubusercontent.com/14890301/135275705-4f6ec857-9180-47b8-9220-a541da390b70.png">
 
 ### Aikasarja
