@@ -1,7 +1,7 @@
 # Tuulituhohaukka
 
-## Aineistokatalogi
-Tällä hetkellä sovelluksessa on käytössä seuraavia aineistoja:
+## [Aineistokatalogi](https://s3.eu-west-1.amazonaws.com/directory.spatineo.com/tmp/tuulituhohaukka-stac/catalog/root2.json)
+Tällä hetkellä (29.9.2021) sovelluksessa on käytössä seuraavia aineistoja:
 - Tuulituhoriski (2.11.2020 - )
 - MML 2m Maastomalli (2020)
 - Landsat vuosittaiset indeksit (1984-2011)
@@ -79,20 +79,18 @@ Linssi-työkalun avulla käyttäjä voi tarkastella kiinnostavasta kohteesta kah
 - Linssin näyttämän aineiston vertailuajankohta on oletuksena valittua tuulituhohetkeä edeltävä ajankohta, mutta ajankohtaa voi myös muuttaa aikajanan avulla
 
 ### Sovelluksen käyttö ###
-- Lisää haluamasi aineistot karttanäkymään valitsemalla aineisto aineistolistasta ja asettamalla visualisointiasetukset
-Voit lisätä ja poistaa karttaikkunoita haluamasi määrän. 
+1. Lisää haluamasi aineistot karttanäkymään valitsemalla aineisto aineistolistasta ja asettamalla visualisointiasetukset.
+- Voit lisätä ja poistaa karttaikkunoita haluamasi määrän. 
 
-- Valitse haluamasi tarkastelupäivä kalenterinäkymästä:
-1. Valitaan kuukausi vuosinäkymästä
+2. Valitse haluamasi tarkastelupäivä kalenterinäkymästä:
+- Valitse kuukausi vuosinäkymästä
 -> Kalenterinäkymä päivittyy
-2. Valitaan päivä kuukausinäkymästä
+- Valitse päivä kuukausinäkymästä
 -> Tuholista päivittyy
 -> Karttojen aineistot päivittyvät 
-3. Valitaan tuhoalue tuholistasta
+- Valitse tuhoalue tuholistasta
 -> Kartat kohdentuvat alueeseen
 -> Indeksikartta näyttää alueen sijainnin
-
-Vertailuaikaa ei ole pakko valita tässä vaiheessa, tuho-alueita voi jo nyt tutkia eri kartta-aineistoilla.
 
 ## MVP
 Tällä hetkellä sovelluksesta on toteutettu MVP (minimum viable product). 
