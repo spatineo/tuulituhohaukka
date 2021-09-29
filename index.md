@@ -20,27 +20,12 @@ Tällä hetkellä sovelluksessa on käytössä seuraavia aineistoja:
 ### Yleistä
 Tässä kuvataan tavoiteltu lopputulos. Kuvaus sovelluksen MVP:stä löytyy dokumentin lopusta. Tällä hetkellä sovelluksesta on toteutettu MVP.
 
-### Sovelluksen käyttö ###
-
-Sovelluksen käyttö alkaa kalenterinäkymästä:
-1. Valitaan kuukausi vuosinäkymästä
--> Kalenterinäkymä päivittyy
-2. Valitaan päivä kuukausinäkymästä
--> Tuholista päivittyy
--> Karttojen aineistot päivittyvät 
-3. Valitaan tuhoalue tuholistasta
--> Kartat kohdentuvat alueeseen
--> Indeksikartta näyttää alueen sijainnin
-
-(Vertailuaikaa ei ole pakko valita tässä vaiheessa, tuho-alueita voi jo nyt tutkia eri kartta-aineistoilla)
-
-
 ### Kalenterinäkymä
 
 Sivupaneelin kalenterinäkymä sisältää aikavalitsimen, tuholistan ja indeksikartan. Kalenterinäkymästä voi tarkastella tuulituhoja kolmella eri tarkkuustasolla:
-- kuukausittain
-- päivittäin
-- tuhoalueittain
+1. kuukausittain
+2. päivittäin
+3. tuhoalueittain
 
 - Vuosinäkymästä voi tarkastella, minä kuukausina on arvion mukaan tapahtunut merkittävimpiä tuulituhoja: tolpan korkeus kuvaa tuulituhojen arvioitua laajuutta
 - Kuukausinäkymässä korostetaan eri värillä ne päivät, joina analyysin mukaan on merkittäviä tuhoja
@@ -56,16 +41,14 @@ Käyttäjä voi valita näkyviin eri aineistoja tarpeensa mukaan
 - Karttanäkymiä lisätään lisäysnapista ja valitsemalla haluttu aineisto aineistovalikosta
 - Karttanäkymiä voi vähentää poistettavan karttanäkymän poistonapista
 - Kussakin karttanäkymässä näytetään yhtä aineistoa kerrallaan selkeyden vuoksi
-- Poikkeuksena tuulituhoarviot (vektori) esitetään kaikissa karttanäkymissä
 
 Karttanäkymiä voi lisätä kanvaasille niin monta kuin haluaa, jolloin saman aineiston tarkastelu eri visualisointivalinnoilla on mahdollista!
 
 ### Visualisointi
 
-Karttaikkunoihin, joissa tarkastellaan Sentinel-1 ja -2 aineistoja, on käytössä kanavavalitsin-työkalu, jolla on mahdollista valita eri kanavien väriyhdistelmiä.
+Karttaikkunat sisältävät kanavavalitsin-työkalun, jolla on mahdollista valita eri kanavien väriyhdistelmiä.
 - Käyttäjä voi määrittää eri kanavien väriyhdistelmiä asettamalla punaiselle, vihreälle ja siniselle eri kanavat 
-- Valinta tapahtuu raahaamalla haluttu kanava punaisen, vihreän tai sinisen värin kohdalle
-- Värien voimakkuutta voi säätää liukukytkimellä 
+- Valinta tapahtuu valitsemalla haluttu kanava punaisen, vihreän tai sinisen värin kohdalle
 - Kanavavalitsin on aineisto- ja karttanäkymäkohtainen
 
 Kanavavalitsin avautuu Visualisointi -pudotusvalikosta.
@@ -94,6 +77,22 @@ Linssi-työkalun avulla käyttäjä voi tarkastella kiinnostavasta kohteesta kah
 - Linssi “paljastaa” alta vertailuajankohdan aineiston
 - Linssin avulla käyttäjä voi helposti vertailla esim. kahden peräkkäisen kuvausajankohdan Sentinel-2 kuvia nähdäkseen, onko merkittävää muutosta tapahtunut kuvien välillä (esim. myrskytuhoja)
 - Linssin näyttämän aineiston vertailuajankohta on oletuksena valittua tuulituhohetkeä edeltävä ajankohta, mutta ajankohtaa voi myös muuttaa aikajanan avulla
+
+### Sovelluksen käyttö ###
+- Lisää haluamasi aineistot karttanäkymään valitsemalla aineisto aineistolistasta ja asettamalla visualisointiasetukset
+Voit lisätä ja poistaa karttaikkunoita haluamasi määrän. 
+
+- Valitse haluamasi tarkastelupäivä kalenterinäkymästä:
+1. Valitaan kuukausi vuosinäkymästä
+-> Kalenterinäkymä päivittyy
+2. Valitaan päivä kuukausinäkymästä
+-> Tuholista päivittyy
+-> Karttojen aineistot päivittyvät 
+3. Valitaan tuhoalue tuholistasta
+-> Kartat kohdentuvat alueeseen
+-> Indeksikartta näyttää alueen sijainnin
+
+Vertailuaikaa ei ole pakko valita tässä vaiheessa, tuho-alueita voi jo nyt tutkia eri kartta-aineistoilla.
 
 ## MVP
 Tällä hetkellä sovelluksesta on toteutettu MVP (minimum viable product). 
