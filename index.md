@@ -39,20 +39,17 @@ Valinnan tehtyään kaikki karttanäkymät tarkentavat automaattisesti esittäm�
 ### Karttanäkymät
 
 Karttakanvaasi sisältää käyttäjän lisäämät ja visualisoimat karttanäkymät eri aineistoilla.
+<img width="548" alt="image" src="https://user-images.githubusercontent.com/14890301/135270945-8173b5f3-589e-49e3-835a-ba1754e13e38.png"> 
 
 Käyttäjä voi valita näkyviin eri aineistoja tarpeensa mukaan:
 - Karttanäkymiä lisätään karttakanvaasin lisäysnapista
-
 <img width="80" alt="image" src="https://user-images.githubusercontent.com/14890301/135270602-d434b922-b3ac-4728-9f0c-1979924cb82c.png">
 
 - Karttanäkymiä voi vähentää poistettavan karttanäkymän poistonapista
-
 <img width="81" alt="image" src="https://user-images.githubusercontent.com/14890301/135271004-a2509dd0-5fb7-42be-8cde-748a3765d424.png">
 
 - Kussakin karttanäkymässä näytetään yhtä aineistoa kerrallaan selkeyden vuoksi
 - Karttanäkymiä voi lisätä kanvaasille niin monta kuin haluaa, jolloin saman aineiston tarkastelu eri visualisointivalinnoilla on mahdollista
-<img width="548" alt="image" src="https://user-images.githubusercontent.com/14890301/135270945-8173b5f3-589e-49e3-835a-ba1754e13e38.png">
-
 - Karttaikkunaan valitaan haluttu aineisto alasvetovalikosta 
 <img width="259" alt="image" src="https://user-images.githubusercontent.com/14890301/135271908-3219b044-6e43-4414-9615-83dc1af4b3c4.png">
 
